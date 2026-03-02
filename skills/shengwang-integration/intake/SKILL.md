@@ -5,37 +5,9 @@ description: |
   the full product landscape, identifies user needs, recommends the optimal
   product combination, and routes to product-specific intake or skill.
   Use when the user mentions Shengwang, Agora, 声网, or describes any real-time
-  communication / AI use case.
-triggers:
-  - "shengwang"
-  - "agora"
-  - "声网"
-  - "i want to build"
-  - "help me build"
-  - "how do i integrate"
-  - "我想做一个"
-  - "帮我做一个"
-  - "怎么接入"
-  - "conversational ai"
-  - "convoai"
-  - "ai voice agent"
-  - "voice bot"
-  - "ai agent"
-  - "voice pipeline"
-  - "real-time voice"
-  - "voice agent"
-  - "声网对话式AI"
-  - "对话式AI"
-  - "语音AI"
-  - "AI语音助手"
-  - "video call"
-  - "视频通话"
-  - "直播"
-  - "live streaming"
-  - "chat"
-  - "聊天"
-  - "recording"
-  - "录制"
+  communication / AI use case such as voice agent, video call, live streaming,
+  chat, recording, ConvoAI, RTC, RTM, or says "我想做一个", "帮我接入".
+license: MIT
 metadata:
   author: shengwang
   version: "2.1.0"

@@ -4,18 +4,8 @@ description: |
   Guides integration of Shengwang (Agora) RTC SDK for real-time audio/video
   communication. Covers Web, Android, iOS, and other platforms.
   Use when the user asks about video calls, live streaming, voice calls,
-  or any real-time audio/video feature using Agora RTC SDK.
-triggers:
-  - "rtc sdk"
-  - "video call"
-  - "voice call"
-  - "live streaming"
-  - "视频通话"
-  - "语音通话"
-  - "直播"
-  - "实时音视频"
-  - "agora rtc"
-  - "shengwang rtc"
+  视频通话, 语音通话, 直播, or any real-time audio/video feature.
+license: MIT
 metadata:
   author: shengwang
   version: "1.0.0"

@@ -4,20 +4,8 @@ description: |
   Guides integration of Shengwang (Agora) RTM (Real-Time Messaging) SDK
   for signaling, messaging, presence, and pub/sub features.
   Use when the user asks about chat, messaging, signaling, notifications,
-  presence, or real-time data sync using Agora RTM.
-triggers:
-  - "rtm"
-  - "rtm sdk"
-  - "messaging"
-  - "signaling"
-  - "chat"
-  - "聊天"
-  - "消息"
-  - "信令"
-  - "presence"
-  - "pub sub"
-  - "agora rtm"
-  - "shengwang rtm"
+  presence, 聊天, 消息, 信令, or real-time data sync.
+license: MIT
 metadata:
   author: shengwang
   version: "1.0.0"

@@ -4,17 +4,9 @@ description: |
   Guides integration of Shengwang (Agora) ConvoAI — real-time voice AI agents.
   Handles agent lifecycle operations (create/stop/update/query/list)
   and code generation for Go, Java, and REST API (curl/Python/JS).
-triggers:
-  - "join agent"
-  - "create agent"
-  - "stop agent"
-  - "update agent"
-  - "query agent"
-  - "list agents"
-  - "agent speak"
-  - "interrupt agent"
-  - "convoai api"
-  - "convoai restapi"
+  Use when the user asks to create, stop, update, or query a ConvoAI agent,
+  or mentions convoai, voice bot, AI语音助手, 对话式AI.
+license: MIT
 metadata:
   author: shengwang
   version: "5.2.0"

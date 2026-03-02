@@ -3,22 +3,9 @@ name: shengwang-resource-downloader
 description: |
   Downloads Shengwang (Agora) SDKs, sample projects, Token Builder libraries,
   and GitHub repositories. Use when the user asks to download an SDK, clone a
-  sample project, get the Token Builder, or fetch any related resource from
-  GitHub or a direct URL.
-triggers:
-  - "shengwang download"
-  - "download sdk"
-  - "download sample"
-  - "clone repo"
-  - "get token builder"
-  - "download agora"
-  - "sample project"
-  - "demo project"
-  - "下载SDK"
-  - "下载示例"
-  - "下载demo"
-  - "下载Token Builder"
-  - "获取示例代码"
+  sample project, get the Token Builder, 下载SDK, 下载示例, or fetch any
+  related resource from GitHub or a direct URL.
+license: MIT
 metadata:
   author: shengwang
   version: "1.1.0"

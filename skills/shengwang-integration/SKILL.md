@@ -1,21 +1,17 @@
 ---
-name: shengwang-platform
+name: shengwang-integration
 description: |
-  Routes Shengwang (Agora) platform integration requests to the correct product
-  skill. Use when the user mentions Shengwang, Agora, 声网, ConvoAI, RTC, RTM, voice agent,
-  AI agent, or any Agora product integration task.
-triggers:
-  - "shengwang"
-  - "agora"
-  - "声网"
-  - "agora sdk"
-  - "agora console"
+  Integrate Shengwang (Agora) products: ConvoAI voice agents, RTC audio/video,
+  RTM messaging, Cloud Recording, and token generation. Use when the user
+  mentions Shengwang, Agora, 声网, ConvoAI, RTC, RTM, voice agent, AI agent,
+  video call, live streaming, recording, token, or any Agora product task.
+license: MIT
 metadata:
   author: shengwang
-  version: "3.1.0"
+  version: "4.0.0"
 ---
 
-# Shengwang Platform
+# Shengwang Integration
 
 ## Routing Rules
 

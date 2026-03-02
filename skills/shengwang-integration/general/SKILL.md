@@ -4,17 +4,7 @@ description: |
   Shengwang (Agora) platform general knowledge: credentials setup and
   REST API authentication patterns. Use when the user asks about AppID,
   Customer Key/Secret, App Certificate, or REST Basic Auth.
-triggers:
-  - "shengwang"
-  - "shengwang credentials"
-  - "app id"
-  - "appid"
-  - "customer key"
-  - "customer secret"
-  - "app certificate"
-  - "agora credentials"
-  - "agora auth"
-  - "agora console setup"
+license: MIT
 metadata:
   author: shengwang
   version: "1.1.0"

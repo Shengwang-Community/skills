@@ -4,16 +4,8 @@ description: |
   Guides integration of Shengwang (Agora) Cloud Recording for server-side
   recording of RTC sessions. Covers acquire/start/stop/query lifecycle.
   Use when the user asks about recording video calls, archiving sessions,
-  or server-side recording.
-triggers:
-  - "cloud recording"
-  - "recording"
-  - "录制"
-  - "存档"
-  - "record video call"
-  - "record session"
-  - "agora recording"
-  - "shengwang recording"
+  录制, 存档, or server-side recording.
+license: MIT
 metadata:
   author: shengwang
   version: "1.0.0"

@@ -77,7 +77,7 @@ TTS：             [minimax / tencent / bytedance / microsoft / cosyvoice / byte
 | TTS vendor | `bytedance` | 火山引擎 TTS |
 | LLM = 没决定 | `deepseek` | |
 
-> ASR/TTS/LLM 可选值均来自 [convoai-restapi.yaml](../../../convoai-restapi/convoai.yaml)，不可自行编造。
+> ASR/TTS/LLM 可选值均来自 [convoai-restapi.yaml](../integrate-shengwang-conversational-ai/references/convoai-restapi.yaml)，不可自行编造。
 
 ## Route After Collection
 

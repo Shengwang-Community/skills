@@ -3,27 +3,9 @@ name: implement-shengwang-token-on-server
 description: |
   Implements Shengwang (Agora) Token generation on backend servers using
   AgoraDynamicKey. Use when the user asks to generate a Token, implement a
-  token API endpoint, or set up server-side authentication for RTC, RTM, or
-  ConvoAI.
-  Use when the user mentions token生成, 实现token, 鉴权, AccessToken2,
-  AgoraDynamicKey, or server-side authentication for any Shengwang product.
-triggers:
-  - "shengwang token"
-  - "rtc token"
-  - "rtm token"
-  - "agora token"
-  - "token generation"
-  - "token server"
-  - "accesstoken2"
-  - "agoradynamickey"
-  - "token authentication"
-  - "generate token"
-  - "token endpoint"
-  - "token鉴权"
-  - "生成token"
-  - "token服务"
-  - "RTC鉴权"
-  - "RTM鉴权"
+  token API endpoint, set up server-side authentication for RTC, RTM, or
+  ConvoAI, or mentions AccessToken2, AgoraDynamicKey, token鉴权, 生成token.
+license: MIT
 metadata:
   author: shengwang
   version: "1.1.0"
