@@ -10,6 +10,14 @@ description: |
 
 Reached from [intake/SKILL.md](../SKILL.md) after ConvoAI is identified as the primary product.
 
+## Language Detection
+
+Detect the user's language from their most recent message:
+- If the user writes in **Chinese** → use the **ZH** prompts below
+- If the user writes in **English** (or any other language) → use the **EN** prompts below
+
+Maintain the detected language consistently throughout the entire intake flow.
+
 ## Prerequisites
 
 Before starting, the user should have:
@@ -27,6 +35,7 @@ Ask **one at a time** only when needed. Skip any question the user already answe
 
 ### Q1 — Credentials & App Certificate
 
+**ZH:**
 > "你有 Agora 账号和项目凭证吗？"
 >
 > 需要以下信息：
@@ -40,19 +49,39 @@ Ask **one at a time** only when needed. Skip any question the user already answe
 > - C. 有账号但还没创建项目
 > - D. 还没有账号
 
-**If A** → 记录 `证书状态 = 已开启`，后续需要生成 Token。
-提示用户：
-> "App Certificate 已开启，ConvoAI 创建 agent 时需要传入 RTC Token。
-> 我会在后续帮你生成 Token，需要用到 `AGORA_APP_CERTIFICATE` 环境变量。"
+**EN:**
+> "Do you have an Agora account and project credentials?"
+>
+> Required:
+> - `AppID` — project identifier
+> - `Customer Key` + `Customer Secret` — REST API auth
+> - `App Certificate` — is it enabled?
+>
+> Options:
+> - A. All ready, App Certificate is enabled
+> - B. All ready, App Certificate is not enabled (or unsure)
+> - C. Have an account but haven't created a project yet
+> - D. Don't have an account yet
 
-**If B** → 记录 `证书状态 = 未开启`，token 传空字符串即可。
-提示用户：
-> "如果后续在 Console 开启了 App Certificate，就需要改为传入 Token，否则 agent 会加入频道失败。"
+**If A** → Record `certificate = enabled`, token generation needed later.
 
-**If C or D** → direct to https://console.shengwang.cn/ and pause until ready.
+| | Prompt |
+|---|--------|
+| ZH | "App Certificate 已开启，ConvoAI 创建 agent 时需要传入 RTC Token。我会在后续帮你生成 Token，需要用到 `AGORA_APP_CERTIFICATE` 环境变量。" |
+| EN | "App Certificate is enabled. ConvoAI requires an RTC Token when creating an agent. I'll help you generate one later — you'll need the `AGORA_APP_CERTIFICATE` env var." |
+
+**If B** → Record `certificate = not enabled`, token = empty string.
+
+| | Prompt |
+|---|--------|
+| ZH | "如果后续在 Console 开启了 App Certificate，就需要改为传入 Token，否则 agent 会加入频道失败。" |
+| EN | "If you enable App Certificate later in Console, you'll need to start passing a Token, otherwise the agent will fail to join the channel." |
+
+**If C or D** → Direct to https://console.shengwang.cn/ and pause until ready.
 
 ### Q2 — LLM
 
+**ZH:**
 > "你打算用哪个 LLM？"
 > - A. 阿里云（aliyun）
 > - B. 字节跳动（bytedance）
@@ -60,10 +89,19 @@ Ask **one at a time** only when needed. Skip any question the user already answe
 > - D. 腾讯（tencent）
 > - E. 用默认的就行
 
+**EN:**
+> "Which LLM would you like to use?"
+> - A. Alibaba Cloud (aliyun)
+> - B. ByteDance (bytedance)
+> - C. DeepSeek (deepseek)
+> - D. Tencent (tencent)
+> - E. Use the default
+
 **Default:** deepseek
 
 ### Q3 — TTS
 
+**ZH:**
 > "你打算用哪个 TTS（语音合成）？"
 > - A. 字节跳动 / 火山引擎（bytedance）
 > - B. 微软（microsoft）
@@ -73,27 +111,47 @@ Ask **one at a time** only when needed. Skip any question the user already answe
 > - F. 阶跃星辰（stepfun）
 > - G. 用默认的就行
 
-**Default:** bytedance（火山引擎 TTS）
+**EN:**
+> "Which TTS (text-to-speech) provider would you like to use?"
+> - A. ByteDance / Volcengine (bytedance)
+> - B. Microsoft (microsoft)
+> - C. MiniMax (minimax)
+> - D. Alibaba CosyVoice (cosyvoice)
+> - E. Tencent (tencent)
+> - F. StepFun (stepfun)
+> - G. Use the default
+
+**Default:** bytedance (Volcengine TTS)
 
 ### Q4 — Development language
 
+**ZH:**
 > "你用什么语言开发服务端？"
+
+**EN:**
+> "What language are you using for the backend?"
+
+Options (same for both):
 > - A. Go
 > - B. Java
 > - C. Python / JavaScript / curl
 
-### Q5 — MCP 状态
+### Q5 — MCP Status
 
-尝试调用 MCP 工具 `search-docs {"query": "convoai"}` 来检测 MCP 是否可用。
+Try calling MCP tool `search-docs {"query": "convoai"}` to detect if MCP is available.
 
-**If MCP 调用成功** → 记录 `MCP 状态 = 已安装`，跳过此问题。
+**If MCP call succeeds** → Record `MCP = installed`, skip this question.
 
-**If MCP 调用失败或不可用** → 帮助用户安装 Agora Doc MCP Server：
+**If MCP call fails or unavailable** → Help the user install Agora Doc MCP Server:
 
-1. 告知用户：
-> "检测到你还没有安装 Agora Doc MCP Server，我来帮你配置。这个 MCP 可以获取最新的 API 文档，对后续开发很有帮助。"
+1. Inform the user:
 
-2. 读取当前工作区的 MCP 配置文件 `.kiro/settings/mcp.json`（如果存在），在 `mcpServers` 中追加以下配置（不覆盖已有的其他 server）：
+| | Prompt |
+|---|--------|
+| ZH | "检测到你还没有安装 Agora Doc MCP Server，我来帮你配置。这个 MCP 可以获取最新的 API 文档，对后续开发很有帮助。" |
+| EN | "Detected that Agora Doc MCP Server is not installed. Let me configure it for you — it provides access to the latest API docs and will be helpful for development." |
+
+2. Read the workspace MCP config file `.kiro/settings/mcp.json` (if it exists), append the following to `mcpServers` (do not overwrite existing servers):
 ```json
 {
   "mcpServers": {
@@ -105,17 +163,22 @@ Ask **one at a time** only when needed. Skip any question the user already answe
 }
 ```
 
-3. 写入配置后，提示用户：
-> "已添加 Agora Doc MCP Server 配置。MCP 会自动重连，稍等片刻即可生效。"
+3. After writing the config:
 
-4. 等待片刻后再次尝试调用 MCP 工具验证是否生效。如果仍然失败，提示用户手动检查配置或重启 IDE，然后使用本地参考文档继续。
+| | Prompt |
+|---|--------|
+| ZH | "已添加 Agora Doc MCP Server 配置。MCP 会自动重连，稍等片刻即可生效。" |
+| EN | "Agora Doc MCP Server config added. MCP will auto-reconnect shortly." |
 
-记录 MCP 状态，影响后续代码生成时的文档获取策略。
+4. Wait briefly, then retry the MCP tool call to verify. If it still fails, prompt the user to check the config or restart the IDE, then continue with local reference docs.
+
+Record MCP status — it affects the doc-fetching strategy during code generation.
 
 ---
 
 ## Output: Structured Spec
 
+**ZH:**
 ```
 ConvoAI 需求规格
 ─────────────────────────────
@@ -130,18 +193,33 @@ MCP 状态：        [已安装 / 未安装]
 ─────────────────────────────
 ```
 
+**EN:**
+```
+ConvoAI Spec
+─────────────────────────────
+Credentials:      [Ready / Need to create]
+App Certificate:  [Enabled / Not enabled]
+Token:            [Need to generate / Empty string]
+ASR:              [fengming (default) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
+LLM:              [aliyun / bytedance / deepseek / tencent]
+TTS:              [bytedance (default) / minimax / tencent / microsoft / cosyvoice / stepfun]
+Dev Language:     [Go / Java / Python/curl]
+MCP Status:       [Installed / Not installed]
+─────────────────────────────
+```
+
 ## Defaults
 
-| Field | Default | Notes |
-|-------|---------|-------|
-| App Certificate | 未开启 | 如果用户不确定，按未开启处理，提醒后续开启需改传 Token |
-| ASR vendor | `fengming` | 声网凤鸣 ASR，默认 zh-CN |
-| ASR language | `zh-CN` | 中文（支持中英混合） |
-| LLM vendor | `deepseek` | 需用户提供 LLM url (OpenAI 兼容)；如用户选 E 则使用此默认值 |
-| TTS vendor | `bytedance` | 火山引擎 TTS |
-| MCP | 未安装 | 自动帮用户安装配置，安装失败时降级到本地 OpenAPI spec + fallback URL |
+| Field | Default | Notes (ZH) | Notes (EN) |
+|-------|---------|------------|------------|
+| App Certificate | Not enabled | 如果用户不确定，按未开启处理，提醒后续开启需改传 Token | If user is unsure, treat as not enabled; remind them to pass Token if enabled later |
+| ASR vendor | `fengming` | 声网凤鸣 ASR，默认 zh-CN | Agora Fengming ASR, default zh-CN |
+| ASR language | `zh-CN` | 中文（支持中英混合） | Chinese (supports Chinese-English mix) |
+| LLM vendor | `deepseek` | 如用户选 E 则使用此默认值 | Used when user picks E (default) |
+| TTS vendor | `bytedance` | 火山引擎 TTS | Volcengine TTS |
+| MCP | Not installed | 自动帮用户安装配置，安装失败时降级到本地 OpenAPI spec + fallback URL | Auto-install config; fall back to local OpenAPI spec if install fails |
 
-> ASR/TTS/LLM 可选值均来自 [convoai-restapi.yaml](../integrate-shengwang-conversational-ai/references/convoai-restapi.yaml)，不可自行编造。
+> ASR/TTS/LLM valid values come from [convoai-restapi.yaml](../integrate-shengwang-conversational-ai/references/convoai-restapi.yaml) — do not invent values.
 
 ## Route After Collection
 
@@ -153,7 +231,7 @@ skipping questions already answered.
 | Dev = Go | ConvoAI SKILL.md → MCP `get-doc-content {"uri": "docs://default/convoai/restful/get-started/quick-start-go"}` |
 | Dev = Java | ConvoAI SKILL.md → MCP `get-doc-content {"uri": "docs://default/convoai/restful/get-started/quick-start-java"}` |
 | Dev = Python/curl | ConvoAI SKILL.md → MCP `get-doc-content {"uri": "docs://default/convoai/restful/get-started/quick-start"}` |
-| App Certificate = 已开启 | [implement-shengwang-token-on-server/SKILL.md](../implement-shengwang-token-on-server/SKILL.md) to generate RTC Token |
+| App Certificate = Enabled | [implement-shengwang-token-on-server/SKILL.md](../implement-shengwang-token-on-server/SKILL.md) to generate RTC Token |
 | Needs Go/Java SDK | [resource-downloader/SKILL.md](../resource-downloader/SKILL.md) to download REST client SDK |
 | Needs Token Builder | [resource-downloader/SKILL.md](../resource-downloader/SKILL.md) to download AgoraDynamicKey |
-| MCP = 未安装 | Use local OpenAPI spec + Generation Rules, add fallback URL in output |
+| MCP = Not installed | Use local OpenAPI spec + Generation Rules, add fallback URL in output |
