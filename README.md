@@ -33,10 +33,10 @@ Clone to your AI coding agent's skills directory:
 
 ```bash
 # Claude Code
-git clone https://github.com/AgoraIO-Community/shengwang-skills.git .claude/skills/shengwang-skills
+git clone https://github.com/HugoChaan/agent-skills.git .claude/skills/shengwang-skills
 
 # Kiro
-git clone https://github.com/AgoraIO-Community/shengwang-skills.git .kiro/skills/shengwang-skills
+git clone https://github.com/HugoChaan/agent-skills.git .kiro/skills/shengwang-skills
 ```
 
 Skills activate automatically when the agent detects relevant tasks (e.g., "build a voice agent", "integrate Agora RTC", "generate a token").

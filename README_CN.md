@@ -33,10 +33,10 @@ npx skills add HugoChaan/agent-skills
 
 ```bash
 # Claude Code
-git clone https://github.com/AgoraIO-Community/shengwang-skills.git .claude/skills/shengwang-skills
+git clone https://github.com/HugoChaan/agent-skills.git .claude/skills/shengwang-skills
 
 # Kiro
-git clone https://github.com/AgoraIO-Community/shengwang-skills.git .kiro/skills/shengwang-skills
+git clone https://github.com/HugoChaan/agent-skills.git .kiro/skills/shengwang-skills
 ```
 
 ### 2. 配置 MCP（推荐）
