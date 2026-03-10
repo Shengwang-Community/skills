@@ -1,0 +1,25 @@
+{
+  "name": "shengwang-integration",
+  "description": "Integrate Shengwang products: ConvoAI voice agents, RTC audio/video, RTM messaging, Cloud Recording, and token generation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Shengwang"
+  },
+  "homepage": "https://doc.shengwang.cn/",
+  "repository": "https://github.com/Shengwang-Community/skills",
+  "license": "MIT",
+  "keywords": [
+    "shengwang",
+    "声网",
+    "convoai",
+    "rtc",
+    "rtm",
+    "voice-agent",
+    "video-call",
+    "live-streaming",
+    "cloud-recording",
+    "token",
+    "real-time-communication"
+  ],
+  "skills": "./skills/"
+}

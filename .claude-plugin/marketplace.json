@@ -1,0 +1,16 @@
+{
+  "name": "shengwang-skills",
+  "owner": {
+    "name": "Shengwang"
+  },
+  "metadata": {
+    "description": "Skills for building real-time communication applications with Shengwang SDKs"
+  },
+  "plugins": [
+    {
+      "name": "shengwang-integration",
+      "source": "./",
+      "description": "Integrate Shengwang products: ConvoAI, RTC, RTM, Cloud Recording, and token generation."
+    }
+  ]
+}

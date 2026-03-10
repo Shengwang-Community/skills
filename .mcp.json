@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "agora-docs": {
+      "type": "streamable-http",
+      "url": "https://doc-mcp.shengwang.cn/mcp",
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
