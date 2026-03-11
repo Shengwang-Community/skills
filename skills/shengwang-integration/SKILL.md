@@ -46,7 +46,15 @@ Use a conversational flow:
 - Stop asking as soon as there is enough information to continue
 
 For product-specific preferences such as ConvoAI vendors, do not force a full configuration upfront.
-Use recommended defaults unless the user wants to customize them or they are required to unblock implementation.
+Use recommended defaults as short suggestions, but for ConvoAI the user must still explicitly
+answer or confirm all of these fields before implementation:
+- ASR
+- ASR language
+- LLM
+- TTS
+
+"Use the default" is a valid explicit confirmation.
+Collect these confirmations one at a time, not as a large form.
 
 If the user already gave enough information, do not repeat questions.
 Produce a lightweight kickoff recap, then continue automatically unless a required detail is still missing.
