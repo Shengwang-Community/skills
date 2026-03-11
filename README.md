@@ -18,27 +18,33 @@ Reusable skills for AI coding agents building with the [Shengwang (Agora)](https
 
 ## Quick Start
 
-## Installation
+### Installation Methods
 
-### Option A: Skills CLI (agentskills.io standard)
+#### Skills CLI
+
+Install with CLI:
 
 ```bash
 npx skills add Shengwang-Community/skills
 ```
 
-### Option B: Git clone
+This is the most direct installation method. After installation, restart the session or refresh the skills list according to your coding agent's instructions.
 
-Clone to your AI coding agent's skills directory:
+#### Claude Code Plugin Marketplace
+
+Run the following command in Claude Code:
 
 ```bash
-# Claude Code
-git clone https://github.com/Shengwang-Community/skills.git .claude/skills/shengwang-skills
-
-# Kiro
-git clone https://github.com/Shengwang-Community/skills.git .kiro/skills/shengwang-skills
+plugin marketplace add Shengwang-Community/skills
 ```
+#### OpenClaw
 
-Skills activate automatically when the agent detects relevant tasks (e.g., "build a voice agent", "integrate Agora RTC", "generate a token").
+Use `ClawHub install + sync` for installation and updates. Use `install` for the first setup, then `sync` for subsequent updates.
+
+```bash
+openclaw skill install <shengwang-placeholder>
+openclaw skill sync <shengwang-placeholder>
+```
 
 ### 2. Download Doc Index (Recommended)
 

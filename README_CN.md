@@ -18,24 +18,33 @@ AI coding agent 的声网平台集成技能包。帮助 agent 更准确地完成
 
 ## 快速开始
 
-## 安装
+### 安装方式
 
-### 方式 A：Skills CLI（agentskills.io 标准）
+#### Skills CLI
+
+使用 CLI 安装：
 
 ```bash
 npx skills add Shengwang-Community/skills
 ```
 
-### 方式 B：Git clone
+这是最直接的安装方式。安装完成后，再按对应 Coding Agent 的说明重启会话或刷新技能列表。
 
-将本仓库克隆到你的 AI coding agent 的 skills 目录：
+#### Claude Code Plugin Marketplace
+
+在 Claude Code 中执行下面的命令安装：
 
 ```bash
-# Claude Code
-git clone https://github.com/Shengwang-Community/skills.git .claude/skills/shengwang-skills
+plugin marketplace add Shengwang-Community/skills
+```
 
-# Kiro
-git clone https://github.com/Shengwang-Community/skills.git .kiro/skills/shengwang-skills
+##### OpenClaw
+
+通过 `ClawHub install + sync` 的方式安装和更新。首次安装使用 `install`，后续更新使用 `sync`。
+
+```bash
+openclaw skill install <shengwang-placeholder>
+openclaw skill sync <shengwang-placeholder>
 ```
 
 ### 2. 下载文档索引（推荐）
