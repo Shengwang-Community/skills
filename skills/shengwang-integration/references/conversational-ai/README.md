@@ -38,13 +38,35 @@ API endpoint index → [convoai-restapi.md](convoai-restapi.md)
 
 For reference projects and starter layouts, use [sample-repos.md](sample-repos.md).
 
-When the user wants help with web project structure or sample app organization:
+When a matching ConvoAI sample repo exists for the requested stack, it is the default implementation reference.
+
+Required workflow:
 - Pick the relevant entry from `sample-repos.md`
 - Clone the repo on demand with `git clone --depth 1 <repo-url>`
-- Inspect the current stack, folder map, key files, and env/config shape
-- Prefer the repo as the primary reference when it contains the needed implementation pattern
-- Fall back to doc fetching only when the repo does not contain useful guidance for the user's question
-- Reuse the structural patterns that fit the user's project without copying sample-specific details blindly
+- Inspect the current stack, folder map, key files, env template files, and API surface
+- Inspect the sample repo's actual env template files before coding, such as `.env.example`, `.env.local.example`, and similar sample-provided files
+- Keep the implementation aligned with the sample repo's architecture, env var names discovered from those template files, dependency choices, and API shape
+- Use Shengwang doc fetching only for missing API or product details that the sample repo does not cover
+
+Implementation modes:
+- `sample-aligned` is the default mode whenever a matching sample repo exists
+- `minimal-custom` may only be used if the user explicitly asks for a minimal demo or says not to follow the sample repo
+
+Alignment rules:
+- Preserve the sample repo's env var names from the inspected env template files unless the user explicitly asks to rename or normalize them
+- Preserve the sample repo's folder structure and backend/frontend boundaries unless the user explicitly asks for a redesign
+- Preserve the sample repo's dependency choices and API shape by default; only swap what is necessary for the user's confirmed provider choices
+- Do not invent env names from memory or from this skill's static docs when the sample repo provides template files
+
+Diff budget rule:
+- Make only the minimum necessary changes for the user's confirmed provider choices
+- Optional modules may be removed if they are not needed
+- Do not redesign env naming, folder structure, and API shape all at once unless the user explicitly asks for a custom implementation
+
+Before editing code, state:
+- which sample repo is being followed
+- which env template files were inspected
+- what exact differences will be introduced
 
 Keep repo URLs in `sample-repos.md` only so future URL changes stay centralized.
 

@@ -3,23 +3,30 @@
 Use this registry when the user needs a sample app, a reference project structure, or a known
 repository for ConvoAI integration work.
 
-Preference rule:
-- Treat the listed repo as the preferred source for current implementation patterns when it is relevant to the user's stack or requested structure.
-- Fall back to Shengwang doc fetching only when the repo does not cover the needed detail or is not useful for the user's question.
+Default rule:
+- `sample-aligned` is the default implementation mode when a listed repo matches the user's stack or requested structure.
+- `minimal-custom` may only be used if the user explicitly asks for a minimal demo or says not to follow the sample repo.
+- Fall back to Shengwang doc fetching only when the repo does not cover the needed API detail or is not useful for the user's question.
+
+Alignment rules:
+- Preserve sample env var names from the cloned repo's env template files unless the user explicitly asks to rename or normalize them.
+- Preserve the sample repo's folder structure, dependency choices, and API shape by default.
+- Apply a tight diff budget: change only what is required for the user's confirmed provider choices and requested functionality.
+- Before editing code, state which sample repo is being followed, which env template files were inspected, and list the exact planned differences.
 
 Maintenance rules:
 - Keep repo URLs here only. Other ConvoAI docs should link to this file instead of repeating URLs.
-- Store repo root URLs. If a sample later requires a specific branch or subdirectory, note it in `Notes`.
-- Keep descriptions short and stable. Do not store derived folder maps or implementation walkthroughs here.
+- Store repo root URLs only.
+- Keep descriptions short and stable. Store only the structural fields that must be preserved during implementation.
 
 Usage workflow:
 1. Pick the row that matches the user's platform or implementation goal.
 2. Clone the repo on demand with `git clone --depth 1 <repo-url>`.
-3. Inspect the repo to learn its stack, folder map, key files, env/config shape, and reusable structure patterns.
-4. Use what you learned as the primary reference for the user's project structure when it answers the question.
+3. Inspect the repo to confirm its current stack, folder map, entrypoints, env template files, and API surface.
+4. Use the cloned repo's actual env template files as the source of truth for env naming.
 5. If the repo does not answer the question, fetch Shengwang docs for the missing API or product details.
-6. Do not copy the sample blindly.
+6. Keep the implementation structurally close to the sample unless the user explicitly requests `minimal-custom`.
 
-| Sample | Repo URL | Description | Use When | Notes |
-|--------|----------|-------------|----------|-------|
-| ConvoAI web quickstart | https://github.com/AgoraIO-Community/conversational-ai-quickstart | Web quickstart sample for understanding how a ConvoAI web project is organized. | The user wants a web app structure reference, starter layout, or frontend/backend shape for ConvoAI. | Root repo; fetch on demand and inspect the current stack and folder layout. |
+| Sample | Repo URL | Default Stack | Backend Entrypoint | Frontend Entrypoint | Use When |
+|--------|----------|---------------|--------------------|---------------------|----------|
+| ConvoAI web quickstart | https://github.com/AgoraIO-Community/conversational-ai-quickstart | Monorepo with Bun scripts, `web-client` on Next.js 16 + React 19 + TypeScript, and `server-python` on FastAPI/Python | `server-python/src/server.py` | `web-client/app/page.tsx` | The user wants a ConvoAI web app structure reference, starter layout, or frontend/backend shape that stays close to the official quickstart |
