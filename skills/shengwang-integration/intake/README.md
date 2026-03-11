@@ -1,17 +1,33 @@
-# Shengwang Intake — Product Routing & Needs Analysis
+# Shengwang Intake — Kickoff Information Collection
 
-First entry point for all Agora-related requests. Understands the full
-product landscape, identifies what the user needs, and routes to the right module.
+First entry point for requests that still need a small amount of information
+before implementation can begin.
 
-> **Note:** Skip-intake logic is defined in [SKILL.md](../SKILL.md) (root router).
-> If you are here, the root router has already determined that intake is needed.
-> Do NOT second-guess the routing decision — proceed with the intake flow below.
+> **Note:** Step 0 doc-index setup is defined in [SKILL.md](../SKILL.md).
+> If you are here, Step 0 has already been handled and the root router needs
+> a lightweight kickoff summary before moving into implementation research.
 
 ---
 
-## Product Landscape
+## Goal
 
-### Core Products
+Collect only the minimum missing information needed to proceed.
+Do not run a broad discovery interview. Do not ask the user to confirm a full
+solution design before continuing.
+
+Ask only for unanswered details that materially affect routing or implementation:
+- Use case / target solution
+- Main Shengwang / Agora product
+- Platform or client stack
+- Backend language if relevant
+- Any key details already known that affect the next step
+
+Once those details are gathered, produce a short kickoff summary and continue
+to Step 2 automatically unless a required field is still missing.
+
+## Product Routing Aid
+
+Use this only to map the user's use case to the likely product set.
 
 | Product | What it does | Typical user says |
 |---------|-------------|-------------------|
@@ -20,27 +36,7 @@ product landscape, identifies what the user needs, and routes to the right modul
 | ConvoAI | AI voice agent (ASR→LLM→TTS over RTC) | "AI语音", "voice bot", "对话式AI", "AI agent" |
 | Cloud Recording | Record RTC sessions server-side | "录制", "recording", "存档" |
 
-### Product Relationships
-
-```
-                    ┌─────────────┐
-                    │   RTC SDK   │  ← foundation layer
-                    └──────┬──────┘
-                           │
-          ┌────────────────┼────────────────┐
-          │                │                │
-    ┌─────┴─────┐   ┌─────┴─────┐   ┌─────┴──────┐
-    │  ConvoAI  │   │  Cloud    │   │    RTM     │
-    │ (AI Agent)│   │ Recording │   │ (signaling)│
-    └───────────┘   └───────────┘   └────────────┘
-```
-
-Key relationships:
-- **ConvoAI depends on RTC** — the AI agent joins an RTC channel; the client needs RTC SDK
-- **Cloud Recording depends on RTC** — records what happens in an RTC channel
-- **RTM is independent** but often paired with RTC for signaling (call invitation, presence, etc.)
-
-### Common Product Combinations
+### Common combinations
 
 | Use case | Products needed |
 |----------|----------------|
@@ -52,99 +48,76 @@ Key relationships:
 | Chat / messaging only | RTM |
 | Record AI conversations | ConvoAI + RTC SDK + Cloud Recording |
 
----
-
-## Doc Index Setup
-
-Before routing to any product module, ensure the local documentation index is available.
-
-Check if `skills/shengwang-integration/references/docs.txt` exists.
-
-**If it exists** → Proceed. The doc index is ready for use.
-
-**If it does not exist** → Download it:
-
-| | Prompt |
-|---|--------|
-| ZH | "正在下载声网文档索引，用于后续获取最新 API 文档。" |
-| EN | "Downloading Shengwang doc index for fetching latest API docs." |
-
-Run:
-```bash
-bash skills/shengwang-integration/scripts/fetch-docs.sh
-```
-
-If the download fails (network issue), proceed with local reference docs and fallback URLs in each product module. Inform the user:
-
-| | Prompt |
-|---|--------|
-| ZH | "文档索引下载失败，将使用本地参考文档。如需最新文档，请稍后手动运行 `bash skills/shengwang-integration/scripts/fetch-docs.sh`。" |
-| EN | "Doc index download failed. Using local reference docs. Run `bash skills/shengwang-integration/scripts/fetch-docs.sh` manually later for latest docs." |
-
----
-
 ## Intake Flow
 
-### Step 1: Understand the Use Case
+### Step 1: Ask only for missing kickoff details
 
-If the user's intent is not immediately clear, ask:
+Start from the user's existing message. Do not repeat information they already gave.
 
-> ZH: "你想实现什么功能？请描述一下场景。"
-> EN: "What are you trying to build? Describe your use case."
+Use the shortest set of questions needed to fill the gaps.
 
-Listen for keywords and map to products using the Product Landscape table above.
+Typical kickoff questions:
 
-### Step 2: Identify Products
+- Use case:
+  - ZH: "你想实现什么功能？请描述一下场景。"
+  - EN: "What are you trying to build? Describe the use case."
+- Main product:
+  - ZH: "你主要想用哪个声网产品？如果不确定，我可以帮你判断。"
+  - EN: "Which Shengwang product do you mainly want to use? If you're not sure, I can infer it."
+- Platform / client stack:
+  - ZH: "你做的是哪个平台或客户端？例如 Web、iOS、Android、小程序。"
+  - EN: "Which platform or client stack are you targeting, such as Web, iOS, Android, or mini program?"
+- Backend language, when relevant:
+  - ZH: "服务端准备用什么语言？例如 Go、Java、Python、Node.js。"
+  - EN: "What backend language are you using, such as Go, Java, Python, or Node.js?"
 
-Based on the user's description, determine:
+Ask follow-up only when a missing detail affects routing or implementation.
 
-1. **Primary product** — the main capability they need
-2. **Supporting products** — additional products required by the primary, or that enhance the use case
-3. **Optional products** — nice-to-haves the user may not have thought of
+### Step 2: Determine product mapping
 
-Use the Product Relationships and Common Combinations to make this determination.
+From the user's answers, determine:
+- Primary product
+- Supporting products, if required
+- Any remaining gaps that block implementation
 
-**Example analysis:**
+Use the routing aid above to infer combinations.
 
-> User: "我想做一个AI客服，用户打电话进来，AI自动接听回答问题"
->
-> - Primary: ConvoAI (AI voice agent)
-> - Supporting: RTC SDK (client-side for user to join channel)
-> - Optional: Cloud Recording (record conversations for QA), RTM (send chat transcript)
+### Step 3: Produce kickoff summary
 
-### Step 3: Confirm with User
-
-Present your analysis (match the user's language):
+Present a short summary in the user's language:
 
 **ZH:**
-```
-需求分析：
+```text
+项目启动信息
 ─────────────────────────────
-场景：          [用户描述的场景]
+场景：          [use case]
 主要产品：      [primary product]
-配套产品：      [supporting products]
-可选增强：      [optional products]
+配套产品：      [supporting products / 无]
+平台：          [platform / client stack]
+服务端语言：    [backend language / 不涉及]
+剩余缺口：      [none / missing details]
 ─────────────────────────────
-
-这个方案合适吗？有需要调整的吗？
 ```
 
 **EN:**
-```
-Needs Analysis:
+```text
+Kickoff Summary
 ─────────────────────────────
-Use case:       [user's description]
+Use case:       [use case]
 Primary:        [primary product]
-Supporting:     [supporting products]
-Optional:       [optional products]
+Supporting:     [supporting products / none]
+Platform:       [platform / client stack]
+Backend:        [backend language / not needed]
+Gaps:           [none / missing details]
 ─────────────────────────────
-
-Does this look right? Anything to adjust?
 ```
 
-Wait for user confirmation before proceeding.
+Do not stop for a separate confirmation step.
 
-### Step 4: Route to Product Module
+- If no required detail is missing → continue automatically to Step 2 in the root workflow.
+- If a required detail is still missing → ask only for that blocker, then continue.
+
+### Step 4: Route onward
 
 For each identified product, route to its detail collection:
 
@@ -158,7 +131,7 @@ For each identified product, route to its detail collection:
 | Token generation | — | [token-server](../references/token-server/README.md) |
 
 > Products without a detail intake (marked "—") go directly to the product module.
-> The module itself will collect any missing info (credentials, platform, language) as needed.
+> The module itself should only collect product-specific missing details.
 
 When multiple products are needed, run the primary product's intake first,
 then address supporting products in order.

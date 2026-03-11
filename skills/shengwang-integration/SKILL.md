@@ -13,7 +13,7 @@ metadata:
 
 # Shengwang Integration
 
-## Routing Rules
+## Workflow
 
 ### Step 0: Ensure doc index exists (MANDATORY)
 
@@ -27,28 +27,28 @@ This file is the documentation index — all doc lookups depend on it.
 Do NOT proceed to Step 1 until this file exists or the download has been attempted.
 If download fails, proceed with local reference docs and fallback URLs.
 
-### Step 1: Check if intake can be skipped
+### Step 1: Collect kickoff information
 
-Skip [intake](intake/README.md) and route directly ONLY when ALL of these are true:
-- User names a specific operation (e.g. "stop agent xxx", "generate a token", "download SDK")
-- User provides enough technical details to act immediately (channel name, agent ID, language, etc.)
-- The request maps unambiguously to exactly one module in the table below
+Use [intake](intake/README.md) to collect only the minimum missing information needed to begin.
+Ask only for details the user has not already provided.
 
-Examples that SKIP intake:
-- "帮我停掉 agent_abc123" → [conversational-ai](references/conversational-ai/README.md)
-- "生成一个 RTC token，Go 语言" → [token-server](references/token-server/README.md)
-- "error 403 是什么意思" → [conversational-ai/troubleshooting](references/conversational-ai/common-errors.md)
-- "下载 ConvoAI Go SDK" → route to the relevant product module (each has Demo Projects / download links)
+Mandatory kickoff details:
+- User's use case / target solution
+- Main Shengwang / Agora product
+- Platform or client stack
+- Backend language if relevant
+- Any key technical details already known that affect routing or implementation
 
-Examples that MUST go through intake:
-- "我想做一个 AI 客服" → needs analysis, go to intake
-- "帮我接入 ConvoAI" → product identified but details missing, go to intake
-- "我想做视频通话 + AI 助手" → multi-product, go to intake
-- "voice bot" / "AI agent" → vague, go to intake
+If the user already gave enough of this information, do not repeat questions.
+Produce a short kickoff summary, then continue automatically unless a required detail is still missing.
 
-### Step 2: Route
+### Step 2: Start with local references
 
-| User intent | Route to |
+Use the kickoff summary plus the route table below to select the correct local reference module.
+If the available information is sufficient, begin implementation immediately using the existing local docs
+under `references/`.
+
+| Purpose | Route to |
 |-------------|----------|
 | New request, vague, or missing details | [intake](intake/README.md) |
 | Credentials, AppID, REST auth | [general](references/general/credentials-and-auth.md) |
@@ -58,6 +58,21 @@ Examples that MUST go through intake:
 | RTC SDK integration | [rtc](references/rtc/README.md) |
 | RTM messaging / signaling | [rtm](references/rtm/README.md) |
 | Cloud Recording | [cloud-recording](references/cloud-recording/README.md) |
+
+If Step 2 provides enough information for implementation, proceed.
+If essential information is still missing or the local references are not enough, continue to Step 3.
+
+### Step 3: Research with doc fetching
+
+Use [references/doc-fetching.md](references/doc-fetching.md) to fetch more comprehensive documentation.
+Do this only after Step 2, when the local references are insufficient for the requested implementation.
+
+Research order:
+1. Local references in this skill
+2. Fetched docs via the doc-fetching workflow
+3. Fallback web search only if needed after doc fetching
+
+Once Step 3 provides enough information, proceed with implementation.
 
 ## Download Rules
 

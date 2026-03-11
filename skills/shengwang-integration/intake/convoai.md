@@ -1,6 +1,7 @@
 # ConvoAI Detail Collection
 
 Reached from [intake](README.md) after ConvoAI is identified as the primary product.
+This file is for ConvoAI-specific follow-up only.
 
 ## Language Detection
 
@@ -13,13 +14,15 @@ Maintain the detected language consistently throughout the entire intake flow.
 ## Prerequisites
 
 Before starting, the user should have:
-- Confirmed ConvoAI is the right product (via main intake)
+- Completed the main kickoff intake
 - A clear use case description
+- Platform / client-stack context already collected if relevant
+- Backend language already collected if relevant
 
 ## Questions
 
 **Fast-path rule:** If the user's initial description already contains 3+ of the following
-(credentials status, LLM choice, TTS choice, dev language), skip individual questions.
+(credentials status, LLM choice, TTS choice, ASR preference), skip individual questions.
 Instead, generate the structured spec directly from what they said, fill defaults for anything
 missing, and present it for confirmation.
 
@@ -166,19 +169,6 @@ Otherwise ask:
 
 **Default:** zh-CN
 
-### Q6 — Development language
-
-**ZH:**
-> "你用什么语言开发服务端？"
-
-**EN:**
-> "What language are you using for the backend?"
-
-Options (same for both):
-> - A. Go
-> - B. Java
-> - C. Python / JavaScript / curl
-
 ---
 
 ## Output: Structured Spec
@@ -194,7 +184,6 @@ ASR：             [fengming (default) / tencent / microsoft / xfyun / xfyun_big
 ASR 语言：        [zh-CN / en-US / ja-JP / ko-KR / ...]
 LLM：             [aliyun / bytedance / deepseek / tencent / openai]
 TTS：             [bytedance (default) / minimax / tencent / microsoft / cosyvoice / stepfun]
-开发语言：        [Go / Java / Python/curl]
 ─────────────────────────────
 ```
 
@@ -209,9 +198,10 @@ ASR:              [fengming (default) / tencent / microsoft / xfyun / xfyun_bigm
 ASR Language:     [zh-CN / en-US / ja-JP / ko-KR / ...]
 LLM:              [aliyun / bytedance / deepseek / tencent / openai]
 TTS:              [bytedance (default) / minimax / tencent / microsoft / cosyvoice / stepfun]
-Dev Language:     [Go / Java / Python/curl]
 ─────────────────────────────
 ```
+
+The backend language should come from the main kickoff summary rather than this file.
 
 ## Defaults
 

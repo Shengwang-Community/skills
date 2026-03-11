@@ -8,7 +8,7 @@
 #
 # The doc_uri is the part after ?uri= in doc-mcp URLs found in docs.txt.
 
-set -euo pipefail
+set -uo pipefail
 
 if [ $# -lt 1 ]; then
   echo "Usage: $0 <doc_uri>" >&2
@@ -20,11 +20,8 @@ DOC_URI="$1"
 BASE_URL="https://doc-mcp.shengwang.cn/doc-content-by-uri"
 FULL_URL="${BASE_URL}?uri=${DOC_URI}"
 
-curl -fSL --max-time 30 --retry 2 "$FULL_URL" 2>/dev/null
-
-EXIT_CODE=$?
-if [ $EXIT_CODE -ne 0 ]; then
-  echo "ERROR: Failed to fetch doc (exit code: ${EXIT_CODE})" >&2
+if ! curl -fSL --max-time 30 --retry 2 "$FULL_URL" 2>/dev/null; then
+  echo "ERROR: Failed to fetch doc" >&2
   echo "URL: ${FULL_URL}" >&2
   echo "" >&2
   echo "Fallback: try the doc site URL instead:" >&2

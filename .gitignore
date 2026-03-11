@@ -8,4 +8,7 @@
 # Local testing
 *.local.md
 
+# Doc index (downloaded at runtime, not committed)
+skills/shengwang-integration/references/docs.txt
+
 # To update the doc index, run: bash skills/shengwang-integration/scripts/fetch-docs.sh

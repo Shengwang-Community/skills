@@ -38,7 +38,7 @@ npx skills add Shengwang-Community/skills
 plugin marketplace add Shengwang-Community/skills
 ```
 
-##### OpenClaw
+#### OpenClaw
 
 通过 `ClawHub install + sync` 的方式安装和更新。首次安装使用 `install`，后续更新使用 `sync`。
 
