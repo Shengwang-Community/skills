@@ -40,8 +40,9 @@ Mandatory kickoff details — ALL of these must be explicitly stated or confirme
 - Any key technical details already known that affect routing or implementation
 
 > **HARD RULE — Do NOT infer, assume, or fill defaults for product-specific configuration fields.**
-> For ConvoAI: the user must explicitly choose or confirm their ASR, LLM, and TTS providers.
+> For ConvoAI: the user must explicitly choose or confirm their ASR, ASR language, LLM, and TTS providers.
 > "Use the default" is a valid explicit answer — but silence is not.
+> Collect these confirmations one at a time, not as a large form.
 > Do NOT begin implementation until these fields are confirmed.
 
 If the user already gave enough of this information, do not repeat questions.
