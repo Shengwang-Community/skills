@@ -72,6 +72,7 @@ Priority order:
 - Use case
 - Main product, if unclear
 - Platform / client stack, if relevant
+- Implementation mode, when a matching ConvoAI sample repo exists
 - Backend language, if relevant
 - One additional blocker only if it materially affects implementation
 
@@ -86,6 +87,9 @@ Short prompt examples:
 - Platform / client stack:
   - ZH: "目标平台是什么，比如 Web、iOS、Android？"
   - EN: "What platform are you targeting, such as Web, iOS, or Android?"
+- Implementation mode, when a matching ConvoAI sample repo exists:
+  - ZH: "你想基于官方 quickstart 结构，还是做一个最小化自定义实现？"
+  - EN: "Do you want this based on the official quickstart structure, or a minimal custom implementation?"
 - Backend language, when relevant:
   - ZH: "服务端准备用什么语言？"
   - EN: "What backend language are you using?"
