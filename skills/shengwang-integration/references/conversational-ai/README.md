@@ -22,13 +22,15 @@ User Device ◄── audio ── RTC Channel ◄── ConvoAI Agent
   - App Certificate enabled → generate via [token-server](../token-server/README.md)
 - Credentials → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 
-## Quick Start Docs (MCP)
+## Quick Start Docs
 
-| Language | URI |
+| Language | URL |
 |----------|-----|
-| Python / JS / curl | `docs://default/convoai/restful/get-started/quick-start` |
-| Go | `docs://default/convoai/restful/get-started/quick-start-go` |
-| Java | `docs://default/convoai/restful/get-started/quick-start-java` |
+| Python / JS / curl | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start` |
+| Go | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start-go` |
+| Java | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start-java` |
+
+Fetch the URL directly using web fetch to get Markdown content.
 
 API endpoint index → [convoai-restapi.md](convoai-restapi.md)
 
@@ -71,4 +73,4 @@ Stable constraints that do NOT change with API updates. Always apply when genera
 
 ## Docs Fallback
 
-If MCP is unavailable: https://doc.shengwang.cn/doc/convoai/restful/get-started/quick-start
+If fetch fails: https://doc.shengwang.cn/doc/convoai/restful/get-started/quick-start

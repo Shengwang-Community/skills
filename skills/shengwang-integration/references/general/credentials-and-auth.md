@@ -52,18 +52,18 @@ curl -H "Authorization: Basic $AUTH" \
      https://api.agora.io/...
 ```
 
-For language-specific auth patterns (Go, Java, Python, Node.js), refer to the MCP quick start docs for each product.
+For language-specific auth patterns (Go, Java, Python, Node.js), fetch the quick start docs for each product (see URLs in product module READMEs).
 
 ## RTC / RTM Token
 
 Token generation is separate from REST auth. See [token-server](../token-server/README.md).
 
-## MCP Docs
+## Docs
 
-| Topic | MCP URI |
-|-------|---------|
-| Token authentication overview | `docs://default/rtc/android/basic-features/token-authentication` |
+| Topic | URL |
+|-------|-----|
+| Token authentication overview | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtc/android/basic-features/token-authentication` |
 
 ## Docs Fallback
 
-If MCP is unavailable: https://doc.shengwang.cn/doc/rtc/android/basic-features/token-authentication
+If fetch fails: https://doc.shengwang.cn/doc/rtc/android/basic-features/token-authentication

@@ -59,7 +59,7 @@ For each case:
 ### R-07: RTC request routes to RTC module
 
 - User Input: "How do I implement a video call on Web"
-- Expected Behavior: Route to rtc, call MCP to get Web quick start
+- Expected Behavior: Route to rtc, fetch Web quick start doc
 - Pass Criteria: Model provides integration guidance based on RTC Web SDK
 - Result: ___
 
@@ -109,11 +109,11 @@ For each case:
 - Pass Criteria: Provides both solutions
 - Result: ___
 
-### C-06: MCP doc fetching
+### C-06: Doc fetching
 
 - User Input: "Integrate ConvoAI in Go"
-- Expected Behavior: Model calls `get-doc-content` to fetch Go quick start
-- Pass Criteria: Uses URI `docs://default/convoai/restful/get-started/quick-start-go`
+- Expected Behavior: Model fetches Go quick start doc URL
+- Pass Criteria: Fetches content from `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start-go`
 - Result: ___
 
 ---
@@ -152,12 +152,12 @@ For each case:
 - Pass Criteria: Does not fail silently or fabricate content
 - Result: ___
 
-### F-02: MCP unavailable fallback
+### F-02: Doc fetch unavailable fallback
 
-- Scenario: MCP server unreachable
+- Scenario: HTTP doc fetch fails
 - User Input: "Integrate ConvoAI in Python"
 - Expected Behavior: Use Generation Rules + fallback URL to generate code, prompt user to verify
-- Pass Criteria: Informs user MCP is unavailable, provides fallback URL
+- Pass Criteria: Informs user doc fetch failed, provides fallback URL
 - Result: ___
 
 ### F-03: Missing credentials guidance

@@ -113,10 +113,11 @@ Agent is RUNNING but not responding to user speech:
 
 ## Additional Error Lookup
 
-For errors not covered here, use MCP to fetch the relevant endpoint doc
-for response schemas, or use MCP for broader doc search:
+For errors not covered here, fetch the relevant endpoint doc URL from
+[convoai-restapi.md](convoai-restapi.md) for response schemas, or search
+`references/docs.txt` for broader doc lookup:
 
 ```
-search-docs {"query": "convoai error codes"}
-→ get-doc-content {"uri": "<uri>"}
+1. Search docs.txt for relevant doc URL
+2. Fetch the URL to get full doc content
 ```

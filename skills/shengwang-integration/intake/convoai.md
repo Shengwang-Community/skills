@@ -24,7 +24,7 @@ Instead, generate the structured spec directly from what they said, fill default
 missing, and present it for confirmation.
 
 Ask **one at a time** only when needed. Skip any question the user already answered during main intake.
-MCP status is already determined by the main intake — do not re-check here.
+Doc index status is already determined by the main intake — do not re-check here.
 
 ### Q1 — Credentials & App Certificate
 
@@ -118,7 +118,35 @@ MCP status is already determined by the main intake — do not re-check here.
 
 **Default:** bytedance (Volcengine TTS)
 
-### Q4 — ASR Language
+### Q4 — ASR Vendor
+
+Most users should use the default (Agora Fengming). Only ask if the user mentions a specific ASR preference.
+
+**ZH:**
+> "你想用哪个 ASR（语音识别）？"
+> - A. 声网凤鸣（fengming）— 默认
+> - B. 腾讯（tencent）
+> - C. 微软（microsoft）
+> - D. 科大讯飞（xfyun）
+> - E. 科大讯飞大模型（xfyun_bigmodel）
+> - F. 科大讯飞方言（xfyun_dialect）
+> - G. 用默认的就行
+
+**EN:**
+> "Which ASR (speech recognition) provider would you like to use?"
+> - A. Agora Fengming (fengming) — default
+> - B. Tencent (tencent)
+> - C. Microsoft (microsoft)
+> - D. iFlytek (xfyun)
+> - E. iFlytek BigModel (xfyun_bigmodel)
+> - F. iFlytek Dialect (xfyun_dialect)
+> - G. Use the default
+
+**Default:** fengming
+
+> Unless the user explicitly asks for a different ASR vendor, skip this question and use the default.
+
+### Q5 — ASR Language
 
 If the user's use case clearly involves a specific language (e.g. "英文客服", "English support bot"), infer the ASR language automatically and skip this question.
 
@@ -138,7 +166,7 @@ Otherwise ask:
 
 **Default:** zh-CN
 
-### Q5 — Development language
+### Q6 — Development language
 
 **ZH:**
 > "你用什么语言开发服务端？"
@@ -167,7 +195,6 @@ ASR 语言：        [zh-CN / en-US / ja-JP / ko-KR / ...]
 LLM：             [aliyun / bytedance / deepseek / tencent / openai]
 TTS：             [bytedance (default) / minimax / tencent / microsoft / cosyvoice / stepfun]
 开发语言：        [Go / Java / Python/curl]
-MCP 状态：        [已安装 / 未安装]
 ─────────────────────────────
 ```
 
@@ -183,7 +210,6 @@ ASR Language:     [zh-CN / en-US / ja-JP / ko-KR / ...]
 LLM:              [aliyun / bytedance / deepseek / tencent / openai]
 TTS:              [bytedance (default) / minimax / tencent / microsoft / cosyvoice / stepfun]
 Dev Language:     [Go / Java / Python/curl]
-MCP Status:       [Installed / Not installed]
 ─────────────────────────────
 ```
 
@@ -197,16 +223,16 @@ MCP Status:       [Installed / Not installed]
 | LLM vendor | `deepseek` | 如用户选默认则使用此值 | Used when user picks default |
 | TTS vendor | `bytedance` | 火山引擎 TTS | Volcengine TTS |
 
-> ASR/TTS/LLM valid values come from MCP API docs — use `get-doc-content {"uri": "docs://default/convoai/restful/convoai/operations/start-agent"}` for the /join schema, or `search-docs {"query": "convoai vendor"}` for vendor params. Do not invent values.
+> ASR/TTS/LLM valid values come from the /join API docs — fetch `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/start-agent` for the /join schema and vendor params. Do not invent values.
 
 ## Route After Collection
 
 Pass the structured spec to [conversational-ai](../references/conversational-ai/README.md).
-The product module will use the spec to fetch the right MCP docs and generate code.
+The product module will use the spec to fetch the right docs and generate code.
 
 Key routing hints:
-- Dev = Go → MCP URI `docs://default/convoai/restful/get-started/quick-start-go`
-- Dev = Java → MCP URI `docs://default/convoai/restful/get-started/quick-start-java`
-- Dev = Python/curl → MCP URI `docs://default/convoai/restful/get-started/quick-start`
+- Dev = Go → fetch `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start-go`
+- Dev = Java → fetch `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start-java`
+- Dev = Python/curl → fetch `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start`
 - App Certificate = Enabled → also run [token-server](../references/token-server/README.md)
-- MCP = Not installed → use Generation Rules + fallback URL
+- If fetch fails → use Generation Rules + fallback URL

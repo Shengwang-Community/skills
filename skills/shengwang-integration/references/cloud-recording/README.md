@@ -27,11 +27,13 @@ acquire → start → stop
 - Cloud Recording service must be enabled in [Shengwang Console](https://console.shengwang.cn/)
 - Credentials & auth → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 
-## Quick Start Docs (MCP)
+## Quick Start Docs
 
-| Topic | MCP URI |
-|-------|---------|
-| Quick Start | `docs://default/cloud-recording/restful/get-started/quick-start` |
+| Topic | URL |
+|-------|-----|
+| Quick Start | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/cloud-recording/restful/get-started/quick-start` |
+
+Fetch the URL directly using web fetch to get Markdown content.
 
 ## Key Errors
 
@@ -44,4 +46,4 @@ acquire → start → stop
 
 ## Docs Fallback
 
-If MCP is unavailable: https://doc.shengwang.cn/doc/cloud-recording/restful/get-started/quick-start
+If fetch fails: https://doc.shengwang.cn/doc/cloud-recording/restful/get-started/quick-start

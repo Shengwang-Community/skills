@@ -40,24 +40,17 @@ git clone https://github.com/Shengwang-Community/skills.git .kiro/skills/shengwa
 
 Skills activate automatically when the agent detects relevant tasks (e.g., "build a voice agent", "integrate Agora RTC", "generate a token").
 
-### 2. Configure MCP (Recommended)
+### 2. Download Doc Index (Recommended)
 
-These skills are designed to work alongside the [Agora Doc MCP Server](https://doc-mcp.shengwang.cn). Skills provide behavioral guidance and workflow; MCP provides up-to-date API documentation.
+Download the documentation index for fetching latest API docs during development:
 
-Add to your MCP configuration:
-
-```json
-{
-  "mcpServers": {
-    "agora-docs": {
-      "type": "sse",
-      "url": "https://doc-mcp.shengwang.cn/mcp"
-    }
-  }
-}
+```bash
+bash skills/shengwang-integration/scripts/fetch-docs.sh
 ```
 
-> Skills work without MCP too — they fall back to local reference docs and external doc links.
+This saves the doc index to `skills/shengwang-integration/references/docs.txt`. Skills use it to look up and fetch documentation directly via HTTP — no external server process needed.
+
+> Skills work without the doc index too — they fall back to local reference docs and external doc links.
 
 ### 3. Start Using
 
@@ -88,7 +81,7 @@ The entry point (`skills/shengwang-integration/SKILL.md`) determines whether the
 - Clear and actionable → route directly to the matching product module
 - Vague or missing details → run intake to collect requirements first, then route
 
-Each product module follows a consistent workflow: confirm credentials → fetch latest docs via MCP → generate code → validate.
+Each product module follows a consistent workflow: confirm credentials → fetch latest docs → generate code → validate.
 
 ## Repository Structure
 
@@ -107,19 +100,19 @@ shengwang-skills/
         ├── SKILL.md               # Entry point and router (only SKILL.md)
         ├── intake/                # Needs analysis and product routing
         └── references/            # All product modules and shared knowledge
-            ├── mcp-tools.md           # MCP tool usage guide
+            ├── doc-fetching.md        # Doc fetching guide
+            ├── docs.txt               # Local doc index
             ├── general/               # Credentials, REST auth
-            ├── conversational-ai/                  # ConvoAI
-            ├── rtc/                               # RTC SDK
-            ├── rtm/                               # RTM
-            ├── cloud-recording/                   # Cloud Recording
-            ├── token-server/                      # Token generation
-            └── mcp-tools.md               # MCP tool usage guide
+            ├── conversational-ai/     # ConvoAI
+            ├── rtc/                   # RTC SDK
+            ├── rtm/                   # RTM
+            ├── cloud-recording/       # Cloud Recording
+            └── token-server/          # Token generation
 ```
 
 ## Design Philosophy
 
-- Behavior over knowledge: skills teach agents *how to approach* integration; MCP provides *specific APIs*
+- Behavior over knowledge: skills teach agents *how to approach* integration; doc fetching provides *specific APIs*
 - Single responsibility: each module does one thing
 - Progressive disclosure: SKILL.md serves as navigation; detailed content lives in `references/` and module `README.md` files
 - Explicit failure paths: every module defines error handling

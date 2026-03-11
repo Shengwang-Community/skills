@@ -1,6 +1,6 @@
 # ConvoAI REST API Reference
 
-Endpoint index with MCP URIs. For full request/response schemas, fetch via MCP.
+Endpoint index with documentation URLs. For full request/response schemas, fetch the URL directly.
 
 ## Base URL
 
@@ -14,18 +14,18 @@ HTTP Basic Auth — see [README.md](README.md#auth) and [general/credentials-and
 
 ## Endpoints
 
-| Method | Path | MCP URI |
+| Method | Path | Doc URL |
 |--------|------|---------|
-| POST | `/join` | `docs://default/convoai/restful/convoai/operations/start-agent` |
-| POST | `/agents/{agentId}/leave` | `docs://default/convoai/restful/convoai/operations/stop-agent` |
-| POST | `/agents/{agentId}/update` | `docs://default/convoai/restful/convoai/operations/agent-update` |
-| GET | `/agents/{agentId}` | `docs://default/convoai/restful/convoai/operations/query-agent-status` |
-| GET | `/agents` | `docs://default/convoai/restful/convoai/operations/get-agent-list` |
-| POST | `/agents/{agentId}/speak` | `docs://default/convoai/restful/convoai/operations/agent-speak` |
-| POST | `/agents/{agentId}/interrupt` | `docs://default/convoai/restful/convoai/operations/agent-interrupt` |
-| GET | `/agents/{agentId}/history` | `docs://default/convoai/restful/convoai/operations/get-history` |
+| POST | `/join` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/start-agent` |
+| POST | `/agents/{agentId}/leave` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/stop-agent` |
+| POST | `/agents/{agentId}/update` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/agent-update` |
+| GET | `/agents/{agentId}` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/query-agent-status` |
+| GET | `/agents` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/get-agent-list` |
+| POST | `/agents/{agentId}/speak` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/agent-speak` |
+| POST | `/agents/{agentId}/interrupt` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/agent-interrupt` |
+| GET | `/agents/{agentId}/history` | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations/get-history` |
 
-All endpoints index: `docs://default/convoai/restful/convoai/operations`
+All endpoints index: `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/convoai/operations`
 
 ## Error Response Format
 
@@ -39,7 +39,7 @@ All non-200 responses:
 
 Error diagnosis → [common-errors.md](common-errors.md)
 
-## MCP Fallback
+## Docs Fallback
 
-When MCP is unavailable, use README.md Generation Rules + ask the user to verify against:
+If fetch fails, use README.md Generation Rules + ask the user to verify against:
 https://doc.shengwang.cn/doc/convoai/restful/get-started/quick-start

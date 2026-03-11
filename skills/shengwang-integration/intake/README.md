@@ -54,45 +54,32 @@ Key relationships:
 
 ---
 
-## MCP Detection
+## Doc Index Setup
 
-Before routing to any product module, check if Agora Doc MCP is available.
+Before routing to any product module, ensure the local documentation index is available.
 
-Try calling MCP tool `search-docs {"query": "shengwang"}`.
+Check if `skills/shengwang-integration/references/docs.txt` exists.
 
-**If MCP call succeeds** → Record `MCP = installed`, proceed.
+**If it exists** → Proceed. The doc index is ready for use.
 
-**If MCP call fails or unavailable** → Help the user install Agora Doc MCP Server:
-
-1. Inform the user:
+**If it does not exist** → Download it:
 
 | | Prompt |
 |---|--------|
-| ZH | "检测到你还没有安装 Agora Doc MCP Server，我来帮你配置。这个 MCP 可以获取最新的 API 文档，对后续开发很有帮助。" |
-| EN | "Detected that Agora Doc MCP Server is not installed. Let me configure it for you — it provides access to the latest API docs and will be helpful for development." |
+| ZH | "正在下载声网文档索引，用于后续获取最新 API 文档。" |
+| EN | "Downloading Shengwang doc index for fetching latest API docs." |
 
-2. Read the workspace MCP config file `.kiro/settings/mcp.json` (if it exists), append the following to `mcpServers` (do not overwrite existing servers):
-```json
-{
-  "mcpServers": {
-    "agora-docs": {
-      "type": "sse",
-      "url": "https://doc-mcp.shengwang.cn/mcp"
-    }
-  }
-}
+Run:
+```bash
+bash skills/shengwang-integration/scripts/fetch-docs.sh
 ```
 
-3. After writing the config:
+If the download fails (network issue), proceed with local reference docs and fallback URLs in each product module. Inform the user:
 
 | | Prompt |
 |---|--------|
-| ZH | "已添加 Agora Doc MCP Server 配置。MCP 会自动重连，稍等片刻即可生效。" |
-| EN | "Agora Doc MCP Server config added. MCP will auto-reconnect shortly." |
-
-4. Wait briefly, then retry the MCP tool call to verify. If it still fails, prompt the user to check the config or restart the IDE, then continue with local reference docs.
-
-Record MCP status — it affects the doc-fetching strategy during code generation.
+| ZH | "文档索引下载失败，将使用本地参考文档。如需最新文档，请稍后手动运行 `bash skills/shengwang-integration/scripts/fetch-docs.sh`。" |
+| EN | "Doc index download failed. Using local reference docs. Run `bash skills/shengwang-integration/scripts/fetch-docs.sh` manually later for latest docs." |
 
 ---
 

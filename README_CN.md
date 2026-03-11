@@ -38,24 +38,17 @@ git clone https://github.com/Shengwang-Community/skills.git .claude/skills/sheng
 git clone https://github.com/Shengwang-Community/skills.git .kiro/skills/shengwang-skills
 ```
 
-### 2. 配置 MCP（推荐）
+### 2. 下载文档索引（推荐）
 
-Skills 设计为配合 [Agora Doc MCP Server](https://doc-mcp.shengwang.cn) 使用。MCP 提供实时文档内容，skills 提供行为指导和工作流。
+下载文档索引，用于开发过程中获取最新 API 文档：
 
-在你的 MCP 配置中添加：
-
-```json
-{
-  "mcpServers": {
-    "agora-docs": {
-      "type": "sse",
-      "url": "https://doc-mcp.shengwang.cn/mcp"
-    }
-  }
-}
+```bash
+bash skills/shengwang-integration/scripts/fetch-docs.sh
 ```
 
-> 没有 MCP 也能用，skills 会降级到本地参考文档 + 外部文档链接。
+文档索引保存到 `skills/shengwang-integration/references/docs.txt`。Skills 通过它查找并直接 HTTP 获取文档内容，无需额外的服务进程。
+
+> 没有文档索引也能用，skills 会降级到本地参考文档 + 外部文档链接。
 
 ### 3. 开始使用
 
@@ -86,7 +79,7 @@ skills/shengwang-integration/SKILL.md (入口)
 - 明确的 → 直接路由到对应产品模块
 - 模糊的 → 先走 intake 收集需求，再路由
 
-每个产品模块遵循统一工作流：确认凭证 → 通过 MCP 获取最新文档 → 生成代码 → 验证。
+每个产品模块遵循统一工作流：确认凭证 → 获取最新文档 → 生成代码 → 验证。
 
 ## 仓库结构
 
@@ -106,19 +99,19 @@ shengwang-skills/
         ├── SKILL.md               # 入口和路由（唯一的 SKILL.md）
         ├── intake/                # 需求分析与产品路由
         └── references/            # 所有产品模块和共享知识
-            ├── mcp-tools.md           # MCP 工具使用指南
+            ├── doc-fetching.md        # 文档获取指南
+            ├── docs.txt               # 本地文档索引
             ├── general/               # 凭证、REST 认证
-            ├── conversational-ai/                  # ConvoAI
-            ├── rtc/                               # RTC SDK
-            ├── rtm/                               # RTM
-            ├── cloud-recording/                   # Cloud Recording
-            ├── token-server/                      # Token 生成
-            └── mcp-tools.md               # MCP 工具使用指南
+            ├── conversational-ai/     # ConvoAI
+            ├── rtc/                   # RTC SDK
+            ├── rtm/                   # RTM
+            ├── cloud-recording/       # Cloud Recording
+            └── token-server/          # Token 生成
 ```
 
 ## 设计原则
 
-- 行为指导优先于 API 知识：skills 教 agent "怎么做"，MCP 提供"具体 API"
+- 行为指导优先于 API 知识：skills 教 agent "怎么做"，文档获取提供"具体 API"
 - 单一职责：每个模块只做一件事
 - 渐进式披露：SKILL.md 做导航，详细内容在 references/ 和各模块 README.md 中
 - 失败路径显式定义：每个模块都有错误处理表

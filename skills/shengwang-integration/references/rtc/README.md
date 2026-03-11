@@ -23,16 +23,18 @@ Real-time audio/video communication SDK. Foundation layer for most Agora product
 - If App Certificate enabled → need RTC token from server, see [token-server](../token-server/README.md)
 - Credentials setup → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 
-## Quick Start Docs (MCP)
+## Quick Start Docs
 
-| Platform | MCP URI |
-|----------|---------|
-| Web (JS) | `docs://default/rtc/javascript/get-started/quick-start` |
-| Android | `docs://default/rtc/android/get-started/quick-start` |
-| iOS | `docs://default/rtc/ios/get-started/quick-start` |
-| Flutter | `docs://default/rtc/flutter/get-started/quick-start` |
-| React Native | `docs://default/rtc/react-native/get-started/quick-start` |
-| Electron | `docs://default/rtc/electron/get-started/quick-start` |
+| Platform | URL |
+|----------|-----|
+| Web (JS) | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtc/javascript/get-started/quick-start` |
+| Android | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtc/android/get-started/quick-start` |
+| iOS | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtc/ios/get-started/quick-start` |
+| Flutter | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtc/flutter/get-started/quick-start` |
+| React Native | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtc/react-native/get-started/quick-start` |
+| Electron | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtc/electron/get-started/quick-start` |
+
+Fetch the URL directly using web fetch to get Markdown content.
 
 ## Demo Projects
 
@@ -43,4 +45,4 @@ Real-time audio/video communication SDK. Foundation layer for most Agora product
 
 ## Docs Fallback
 
-If MCP is unavailable: https://doc.shengwang.cn/doc/rtc/javascript/get-started/quick-start
+If fetch fails: https://doc.shengwang.cn/doc/rtc/javascript/get-started/quick-start

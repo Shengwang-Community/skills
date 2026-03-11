@@ -15,6 +15,16 @@ metadata:
 
 ## Routing Rules
 
+### Step 0: Ensure doc index exists
+
+Before doing anything else, check if `references/docs.txt` exists.
+If not, download it:
+```bash
+bash skills/shengwang-integration/scripts/fetch-docs.sh
+```
+This file is the documentation index — all doc lookups depend on it.
+If download fails, proceed with local reference docs and fallback URLs.
+
 ### Step 1: Check if intake can be skipped
 
 Skip [intake](intake/README.md) and route directly ONLY when ALL of these are true:

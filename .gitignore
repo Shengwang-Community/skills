@@ -7,3 +7,5 @@
 
 # Local testing
 *.local.md
+
+# To update the doc index, run: bash skills/shengwang-integration/scripts/fetch-docs.sh

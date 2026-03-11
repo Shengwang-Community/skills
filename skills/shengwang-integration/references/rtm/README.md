@@ -34,14 +34,16 @@ Both in the same AgoraDynamicKey library. See [token-server](../token-server/REA
 
 - Credentials setup → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 
-## Quick Start Docs (MCP)
+## Quick Start Docs
 
-| Platform | MCP URI |
-|----------|---------|
-| Web (JS) | `docs://default/rtm2/javascript/get-started/quick-start` |
-| Android | `docs://default/rtm2/android/get-started/quick-start` |
-| iOS | `docs://default/rtm2/ios/get-started/quick-start` |
+| Platform | URL |
+|----------|-----|
+| Web (JS) | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtm2/javascript/get-started/quick-start` |
+| Android | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtm2/android/get-started/quick-start` |
+| iOS | `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/rtm2/ios/get-started/quick-start` |
+
+Fetch the URL directly using web fetch to get Markdown content.
 
 ## Docs Fallback
 
-If MCP is unavailable: https://doc.shengwang.cn/doc/rtm2/javascript/get-started/quick-start
+If fetch fails: https://doc.shengwang.cn/doc/rtm2/javascript/get-started/quick-start

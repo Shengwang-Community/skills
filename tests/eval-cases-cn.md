@@ -59,7 +59,7 @@
 ### R-07: RTC 请求路由到 RTC 模块
 
 - 用户输入: "Web 端怎么实现视频通话"
-- 期望行为: 路由到 rtc，调用 MCP 获取 Web quick start
+- 期望行为: 路由到 rtc，获取 Web quick start 文档
 - 判定标准: 模型基于 RTC Web SDK 给出集成指导
 - 结果: ___
 
@@ -109,11 +109,11 @@
 - 判定标准: 给出两种解决方案
 - 结果: ___
 
-### C-06: MCP 文档获取
+### C-06: 文档获取
 
 - 用户输入: "用 Go 接入 ConvoAI"
-- 期望行为: 模型调用 `get-doc-content` 获取 Go quick start
-- 判定标准: 使用 URI `docs://default/convoai/restful/get-started/quick-start-go`
+- 期望行为: 模型 fetch Go quick start 文档 URL
+- 判定标准: 获取 `https://doc-mcp.shengwang.cn/doc-content-by-uri?uri=docs://default/convoai/restful/get-started/quick-start-go` 的内容
 - 结果: ___
 
 ---
@@ -152,12 +152,12 @@
 - 判定标准: 不是静默失败或编造内容
 - 结果: ___
 
-### F-02: MCP 不可用时的降级
+### F-02: 文档获取失败时的降级
 
-- 场景: MCP server 无法连接
+- 场景: HTTP fetch 文档失败
 - 用户输入: "用 Python 接入 ConvoAI"
 - 期望行为: 使用 Generation Rules + fallback URL 生成代码，并提示用户验证
-- 判定标准: 告知用户 MCP 不可用，给出 fallback URL
+- 判定标准: 告知用户文档获取失败，给出 fallback URL
 - 结果: ___
 
 ### F-03: 缺少凭证时的引导
