@@ -86,29 +86,27 @@ Doc index status is already determined by the main intake — do not re-check he
 ### Q2 — LLM
 
 **ZH:**
-> "LLM 先用默认的 DeepSeek 可以吗？如果你想指定别的，我再切换。这个字段需要你确认一下。"
+> "LLM 先用默认的 DeepSeek 可以吗？也可以指定其他供应商。"
 > - A. 阿里云（aliyun）
 > - B. 字节跳动（bytedance）
 > - C. 深度求索（deepseek）
 > - D. 腾讯（tencent）
-> - E. OpenAI（openai）
-> - F. 用默认的就行（deepseek）
+> - E. 用默认的就行（deepseek）
 
 **EN:**
-> "Is it okay to start with the default LLM, DeepSeek? If you want a different one, I can switch. I need your confirmation for this field."
+> "Is it okay to start with the default LLM, DeepSeek? You can also choose another provider."
 > - A. Alibaba Cloud (aliyun)
 > - B. ByteDance (bytedance)
 > - C. DeepSeek (deepseek)
 > - D. Tencent (tencent)
-> - E. OpenAI (openai)
-> - F. Use the default (deepseek)
+> - E. Use the default (deepseek)
 
 **Default:** deepseek
 
 ### Q3 — TTS
 
 **ZH:**
-> "TTS 先用默认的火山引擎可以吗？如果你有指定供应商，我再改。这个字段需要你确认一下。"
+> "TTS 先用默认的火山引擎可以吗？也可以指定其他供应商。"
 > - A. 字节跳动 / 火山引擎（bytedance）
 > - B. 微软（microsoft）
 > - C. MiniMax（minimax）
@@ -118,7 +116,7 @@ Doc index status is already determined by the main intake — do not re-check he
 > - G. 用默认的就行（bytedance）
 
 **EN:**
-> "Is it okay to start with the default TTS, ByteDance? If you prefer another provider, I can change it. I need your confirmation for this field."
+> "Is it okay to start with the default TTS, ByteDance? You can also choose another provider."
 > - A. ByteDance / Volcengine (bytedance)
 > - B. Microsoft (microsoft)
 > - C. MiniMax (minimax)
@@ -132,7 +130,7 @@ Doc index status is already determined by the main intake — do not re-check he
 ### Q4 — ASR Vendor
 
 **ZH:**
-> "ASR 先用默认的凤鸣可以吗？如果你想指定别的，我再切换。这个字段需要你确认一下。"
+> "ASR 先用默认的凤鸣可以吗？也可以指定其他供应商。"
 > - A. 声网凤鸣（fengming）— 默认
 > - B. 腾讯（tencent）
 > - C. 微软（microsoft）
@@ -142,7 +140,7 @@ Doc index status is already determined by the main intake — do not re-check he
 > - G. 用默认的就行（fengming）
 
 **EN:**
-> "Is it okay to start with the default ASR, Fengming? If you want a different one, I can switch. I need your confirmation for this field."
+> "Is it okay to start with the default ASR, Fengming? You can also choose another provider."
 > - A. Agora Fengming (fengming) — default
 > - B. Tencent (tencent)
 > - C. Microsoft (microsoft)
@@ -162,14 +160,14 @@ Use the recommended default from the use case:
 Even when the recommended value is obvious, the user must still confirm or override it.
 
 **ZH:**
-> "识别语言先用默认的 [zh-CN / en-US] 可以吗？如果你想换成别的语言，我再改。这个字段需要你确认一下。"
+> "识别语言先用默认的 [zh-CN / en-US] 可以吗？也可以指定其他语言。"
 > - A. 中文（zh-CN，支持中英混合）
 > - B. 英文（en-US）
 > - C. 其他（请说明）
 > - D. 用默认的就行
 
 **EN:**
-> "Is it okay to start with the default recognition language, [zh-CN / en-US]? If you want another language, I can change it. I need your confirmation for this field."
+> "Is it okay to start with the default recognition language, [zh-CN / en-US]? You can also choose another language."
 > - A. Chinese (zh-CN, supports Chinese-English mix)
 > - B. English (en-US)
 > - C. Other (please specify)
@@ -190,7 +188,7 @@ App Certificate： [已开启 / 未开启]
 Token：           [需要生成 / 空字符串]
 ASR：             [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR 语言：        [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
-LLM：             [aliyun / bytedance / deepseek (default applied) / tencent / openai]
+LLM：             [aliyun / bytedance / deepseek (default applied) / tencent]
 TTS：             [bytedance (default applied) / minimax / tencent / microsoft / cosyvoice / stepfun]
 ─────────────────────────────
 ```
@@ -204,7 +202,7 @@ App Certificate:  [Enabled / Not enabled]
 Token:            [Need to generate / Empty string]
 ASR:              [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR Language:     [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
-LLM:              [aliyun / bytedance / deepseek (default applied) / tencent / openai]
+LLM:              [aliyun / bytedance / deepseek (default applied) / tencent]
 TTS:              [bytedance (default applied) / minimax / tencent / microsoft / cosyvoice / stepfun]
 ─────────────────────────────
 ```
