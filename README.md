@@ -146,4 +146,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Key requirements:
 
 - [Shengwang Console](https://console.shengwang.cn/)
 - [Agora Docs (CN)](https://doc.shengwang.cn/)
-- [GitHub](https://github.com/AgoraIO-Community)
+- [GitHub](https://github.com/Shengwang-Community)

@@ -11,7 +11,9 @@ description: "更新指定运行中智能体的部分参数配置。"
 
 ## 鉴权
 
-- Basic Auth
+任选其一：
+- RTC Token：`Authorization: agora token="{RTC_TOKEN}"`
+- Basic Auth：`Authorization: Basic base64("{AGORA_CUSTOMER_KEY}:{AGORA_CUSTOMER_SECRET}")`
 
 ## 参数
 

@@ -10,7 +10,11 @@ https://api.agora.io/cn/api/conversational-ai-agent/v2/projects/{AGORA_APP_ID}
 
 ## Authentication
 
-HTTP Basic Auth — see [README.md](README.md#auth) and [general/credentials-and-auth.md](../general/credentials-and-auth.md).
+支持两种鉴权方式（任选其一）：
+- **RTC Token**：`Authorization: agora token="{RTC_TOKEN}"`
+- **Basic Auth**：`Authorization: Basic base64("{AGORA_CUSTOMER_KEY}:{AGORA_CUSTOMER_SECRET}")`
+
+详见 [README.md](README.md#auth) 和 [general/credentials-and-auth.md](../general/credentials-and-auth.md)。
 
 ## Endpoints
 

@@ -100,4 +100,4 @@ Once Step 3 provides enough information, proceed with implementation.
 
 - Console: https://console.shengwang.cn/
 - Docs (CN): https://doc.shengwang.cn/
-- GitHub: https://github.com/AgoraIO-Community
+- GitHub: https://github.com/Shengwang-Community

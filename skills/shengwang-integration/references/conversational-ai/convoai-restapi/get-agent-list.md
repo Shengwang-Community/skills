@@ -11,7 +11,9 @@ description: "检索符合指定条件的智能体列表。"
 
 ## 鉴权
 
-- Basic Auth
+任选其一：
+- RTC Token：`Authorization: agora token="{RTC_TOKEN}"`
+- Basic Auth：`Authorization: Basic base64("{AGORA_CUSTOMER_KEY}:{AGORA_CUSTOMER_SECRET}")`
 
 ## 参数
 

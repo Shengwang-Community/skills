@@ -11,7 +11,9 @@ description: "查询指定智能体实例的当前运行状态。"
 
 ## 鉴权
 
-- Basic Auth
+任选其一：
+- RTC Token：`Authorization: agora token="{RTC_TOKEN}"`
+- Basic Auth：`Authorization: Basic base64("{AGORA_CUSTOMER_KEY}:{AGORA_CUSTOMER_SECRET}")`
 
 ## 参数
 

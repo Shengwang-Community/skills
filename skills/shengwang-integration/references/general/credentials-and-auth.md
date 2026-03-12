@@ -38,7 +38,28 @@ Some products require extra activation in Console beyond having credentials:
 
 ## REST API Authentication
 
-All Agora REST APIs (ConvoAI, Cloud Recording, etc.) use HTTP Basic Auth:
+Agora REST APIs support two authentication methods (choose one):
+
+### Option 1: RTC Token (supported by ConvoAI and other products)
+
+Use an RTC Token from your Agora project for authentication:
+
+```
+Authorization: agora token="007abcxxxxxxx123"
+```
+
+**curl example:**
+```bash
+curl -H "Authorization: agora token=\"$RTC_TOKEN\"" \
+     -H "Content-Type: application/json" \
+     https://api.agora.io/...
+```
+
+How to obtain a token:
+- Testing: Generate a temporary token (valid for 24 hours) from [Shengwang Console](https://console.shengwang.cn/)
+- Production: Deploy a [token-server](../token-server/README.md) to generate tokens
+
+### Option 2: Basic Auth
 
 ```
 Authorization: Basic base64("{AGORA_CUSTOMER_KEY}:{AGORA_CUSTOMER_SECRET}")
@@ -51,6 +72,8 @@ curl -H "Authorization: Basic $AUTH" \
      -H "Content-Type: application/json" \
      https://api.agora.io/...
 ```
+
+> **Note:** Not all products support Token authentication. Cloud Recording and some other products only support Basic Auth. Refer to each product module's documentation for details.
 
 For language-specific auth patterns (Go, Java, Python, Node.js), fetch the quick start docs for each product (see URLs in product module READMEs).
 

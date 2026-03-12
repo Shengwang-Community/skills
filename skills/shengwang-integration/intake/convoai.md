@@ -54,8 +54,8 @@ Doc index status is already determined by the main intake — do not re-check he
 >
 > 需要以下信息：
 > - `AppID` — 项目标识
-> - `Customer Key` + `Customer Secret` — REST API 认证
 > - `App Certificate` — 是否已开启？
+> - `Customer Key` + `Customer Secret` — 仅在使用 Basic Auth 鉴权时需要（ConvoAI 也支持 RTC Token 鉴权，此时不需要）
 >
 > 选择：
 > - A. 都准备好了，App Certificate 已开启
@@ -68,8 +68,8 @@ Doc index status is already determined by the main intake — do not re-check he
 >
 > Required:
 > - `AppID` — project identifier
-> - `Customer Key` + `Customer Secret` — REST API auth
 > - `App Certificate` — is it enabled?
+> - `Customer Key` + `Customer Secret` — only needed for Basic Auth (ConvoAI also supports RTC Token auth, which doesn't require these)
 >
 > Options:
 > - A. All ready, App Certificate is enabled

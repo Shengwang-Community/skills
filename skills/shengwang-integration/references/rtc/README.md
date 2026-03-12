@@ -41,7 +41,7 @@ Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.
 | Platform | Repo |
 |----------|------|
 | Web | https://github.com/AgoraIO/API-Examples-Web |
-| Android / iOS | https://github.com/AgoraIO/API-Examples |
+| Android / iOS | https://gitee.com/agoraio-community/API-Examples |
 
 ## Docs Fallback
 
