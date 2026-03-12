@@ -42,8 +42,8 @@ plugin marketplace add Shengwang-Community/skills
 Use `ClawHub install + sync` for installation and updates. Use `install` for the first setup, then `sync` for subsequent updates.
 
 ```bash
-openclaw skill install <shengwang-placeholder>
-openclaw skill sync <shengwang-placeholder>
+openclaw skill install shengwang-integration
+openclaw skill sync shengwang-integration
 ```
 
 ### 2. Download Doc Index (Recommended)

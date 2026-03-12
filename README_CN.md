@@ -43,8 +43,8 @@ plugin marketplace add Shengwang-Community/skills
 通过 `ClawHub install + sync` 的方式安装和更新。首次安装使用 `install`，后续更新使用 `sync`。
 
 ```bash
-openclaw skill install <shengwang-placeholder>
-openclaw skill sync <shengwang-placeholder>
+openclaw skill install shengwang-integration
+openclaw skill sync shengwang-integration
 ```
 
 ### 2. 下载文档索引（推荐）
