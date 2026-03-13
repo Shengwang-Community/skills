@@ -8,13 +8,13 @@ Reusable skills for AI coding agents building with the [Shengwang (Agora)](https
 
 | Skill | Product | Description |
 |-------|---------|-------------|
-| [conversational-ai](skills/shengwang-integration/references/conversational-ai/README.md) | ConvoAI | AI voice agent lifecycle: create/stop/update/query. Supports Go, Java, Python |
-| [rtc](skills/shengwang-integration/references/rtc/README.md) | RTC SDK | Real-time audio/video calls. Web, Android, iOS, Flutter, and more |
-| [rtm](skills/shengwang-integration/references/rtm/README.md) | RTM | Real-time messaging, signaling, presence |
-| [cloud-recording](skills/shengwang-integration/references/cloud-recording/README.md) | Cloud Recording | Server-side recording of RTC sessions |
-| [token-server](skills/shengwang-integration/references/token-server/README.md) | Token Server | Server-side token generation (AccessToken2) |
-| [general](skills/shengwang-integration/references/general/credentials-and-auth.md) | General | Credential management, REST auth patterns |
-| [intake](skills/shengwang-integration/intake/README.md) | Routing | Needs analysis → product recommendation → route to product module |
+| [conversational-ai](skills/voice-ai-integration/references/conversational-ai/README.md) | ConvoAI | AI voice agent lifecycle: create/stop/update/query. Supports Go, Java, Python |
+| [rtc](skills/voice-ai-integration/references/rtc/README.md) | RTC SDK | Real-time audio/video calls. Web, Android, iOS, Flutter, and more |
+| [rtm](skills/voice-ai-integration/references/rtm/README.md) | RTM | Real-time messaging, signaling, presence |
+| [cloud-recording](skills/voice-ai-integration/references/cloud-recording/README.md) | Cloud Recording | Server-side recording of RTC sessions |
+| [token-server](skills/voice-ai-integration/references/token-server/README.md) | Token Server | Server-side token generation (AccessToken2) |
+| [general](skills/voice-ai-integration/references/general/credentials-and-auth.md) | General | Credential management, REST auth patterns |
+| [intake](skills/voice-ai-integration/intake/README.md) | Routing | Needs analysis → product recommendation → route to product module |
 
 ## Quick Start
 
@@ -42,8 +42,8 @@ plugin marketplace add Shengwang-Community/skills
 Use `ClawHub install + sync` for installation and updates. Use `install` for the first setup, then `sync` for subsequent updates.
 
 ```bash
-openclaw skill install shengwang-integration
-openclaw skill sync shengwang-integration
+openclaw skill install voice-ai-integration
+openclaw skill sync voice-ai-integration
 ```
 
 ### 2. Download Doc Index (Recommended)
@@ -51,10 +51,10 @@ openclaw skill sync shengwang-integration
 Download the documentation index for fetching latest API docs during development:
 
 ```bash
-bash skills/shengwang-integration/scripts/fetch-docs.sh
+bash skills/voice-ai-integration/scripts/fetch-docs.sh
 ```
 
-This saves the doc index to `skills/shengwang-integration/references/docs.txt`. Skills use it to look up and fetch documentation directly via HTTP — no external server process needed.
+This saves the doc index to `skills/voice-ai-integration/references/docs.txt`. Skills use it to look up and fetch documentation directly via HTTP — no external server process needed.
 
 > Skills work without the doc index too — they fall back to local reference docs and external doc links.
 
@@ -73,7 +73,7 @@ Describe your needs to the agent — skills trigger automatically:
 User Request
    │
    ▼
-skills/shengwang-integration/SKILL.md (entry point)
+skills/voice-ai-integration/SKILL.md (entry point)
    │
    ├─ Vague request → intake (needs analysis → product recommendation)
    │                      │
@@ -83,7 +83,7 @@ skills/shengwang-integration/SKILL.md (entry point)
    └─ Clear request → Route directly to product module
 ```
 
-The entry point (`skills/shengwang-integration/SKILL.md`) determines whether the request is specific enough:
+The entry point (`skills/voice-ai-integration/SKILL.md`) determines whether the request is specific enough:
 - Clear and actionable → route directly to the matching product module
 - Vague or missing details → run intake to collect requirements first, then route
 
@@ -102,7 +102,7 @@ shengwang-skills/
 ├── tests/
 │   └── eval-cases.md          # Evaluation test cases
 └── skills/
-    └── shengwang-integration/     # The skill (agentskills.io standard)
+    └── voice-ai-integration/     # The skill (agentskills.io standard)
         ├── SKILL.md               # Entry point and router (only SKILL.md)
         ├── intake/                # Needs analysis and product routing
         └── references/            # All product modules and shared knowledge

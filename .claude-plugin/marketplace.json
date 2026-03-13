@@ -8,7 +8,7 @@
   },
   "plugins": [
     {
-      "name": "shengwang-integration",
+      "name": "voice-ai-integration",
       "source": "./",
       "description": "Integrate Shengwang products: ConvoAI, RTC, RTM, Cloud Recording, and token generation."
     }

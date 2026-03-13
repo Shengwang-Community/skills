@@ -237,8 +237,8 @@ Pass the structured spec to [conversational-ai](../references/conversational-ai/
 The product module will use the spec to fetch the right docs and generate code.
 
 Key routing hints:
-- Dev = Go → run `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
-- Dev = Java → run `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"`
-- Dev = Python/curl → run `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"`
+- Dev = Go → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
+- Dev = Java → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"`
+- Dev = Python/curl → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"`
 - App Certificate = Enabled → also run [token-server](../references/token-server/README.md)
 - If fetch fails → use Generation Rules + fallback URL

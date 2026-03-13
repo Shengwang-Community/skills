@@ -113,7 +113,7 @@
 
 - 用户输入: "用 Go 接入 ConvoAI"
 - 期望行为: 模型 fetch Go quick start 文档 URL
-- 判定标准: 通过运行 `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` 获取内容
+- 判定标准: 通过运行 `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` 获取内容
 - 结果: ___
 
 ---

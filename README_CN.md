@@ -8,13 +8,13 @@ AI coding agent 的声网平台集成技能包。帮助 agent 更准确地完成
 
 | Skill | 产品 | 说明 |
 |-------|------|------|
-| [conversational-ai](skills/shengwang-integration/references/conversational-ai/README.md) | ConvoAI | AI 语音 agent 全流程：创建/停止/更新/查询，支持 Go/Java/Python |
-| [rtc](skills/shengwang-integration/references/rtc/README.md) | RTC SDK | 实时音视频通话，支持 Web/Android/iOS/Flutter 等 |
-| [rtm](skills/shengwang-integration/references/rtm/README.md) | RTM | 实时消息、信令、Presence |
-| [cloud-recording](skills/shengwang-integration/references/cloud-recording/README.md) | Cloud Recording | 服务端录制 RTC 会话 |
-| [token-server](skills/shengwang-integration/references/token-server/README.md) | Token Server | 服务端 Token 生成（AccessToken2） |
-| [general](skills/shengwang-integration/references/general/credentials-and-auth.md) | 通用 | 凭证管理、REST 认证模式 |
-| [intake](skills/shengwang-integration/intake/README.md) | 路由 | 需求分析 → 产品推荐 → 路由到具体模块 |
+| [conversational-ai](skills/voice-ai-integration/references/conversational-ai/README.md) | ConvoAI | AI 语音 agent 全流程：创建/停止/更新/查询，支持 Go/Java/Python |
+| [rtc](skills/voice-ai-integration/references/rtc/README.md) | RTC SDK | 实时音视频通话，支持 Web/Android/iOS/Flutter 等 |
+| [rtm](skills/voice-ai-integration/references/rtm/README.md) | RTM | 实时消息、信令、Presence |
+| [cloud-recording](skills/voice-ai-integration/references/cloud-recording/README.md) | Cloud Recording | 服务端录制 RTC 会话 |
+| [token-server](skills/voice-ai-integration/references/token-server/README.md) | Token Server | 服务端 Token 生成（AccessToken2） |
+| [general](skills/voice-ai-integration/references/general/credentials-and-auth.md) | 通用 | 凭证管理、REST 认证模式 |
+| [intake](skills/voice-ai-integration/intake/README.md) | 路由 | 需求分析 → 产品推荐 → 路由到具体模块 |
 
 ## 快速开始
 
@@ -43,8 +43,8 @@ plugin marketplace add Shengwang-Community/skills
 通过 `ClawHub install + sync` 的方式安装和更新。首次安装使用 `install`，后续更新使用 `sync`。
 
 ```bash
-openclaw skill install shengwang-integration
-openclaw skill sync shengwang-integration
+openclaw skill install voice-ai-integration
+openclaw skill sync voice-ai-integration
 ```
 
 ### 2. 下载文档索引（推荐）
@@ -52,10 +52,10 @@ openclaw skill sync shengwang-integration
 下载文档索引，用于开发过程中获取最新 API 文档：
 
 ```bash
-bash skills/shengwang-integration/scripts/fetch-docs.sh
+bash skills/voice-ai-integration/scripts/fetch-docs.sh
 ```
 
-文档索引保存到 `skills/shengwang-integration/references/docs.txt`。Skills 通过它查找并直接 HTTP 获取文档内容，无需额外的服务进程。
+文档索引保存到 `skills/voice-ai-integration/references/docs.txt`。Skills 通过它查找并直接 HTTP 获取文档内容，无需额外的服务进程。
 
 > 没有文档索引也能用，skills 会降级到本地参考文档 + 外部文档链接。
 
@@ -74,7 +74,7 @@ bash skills/shengwang-integration/scripts/fetch-docs.sh
 用户请求
    │
    ▼
-skills/shengwang-integration/SKILL.md (入口)
+skills/voice-ai-integration/SKILL.md (入口)
    │
    ├─ 模糊请求 → intake (需求分析 → 产品推荐)
    │                 │
@@ -84,7 +84,7 @@ skills/shengwang-integration/SKILL.md (入口)
    └─ 明确请求 → 直接路由到产品模块
 ```
 
-入口 (`skills/shengwang-integration/SKILL.md`) 判断请求是否足够明确：
+入口 (`skills/voice-ai-integration/SKILL.md`) 判断请求是否足够明确：
 - 明确的 → 直接路由到对应产品模块
 - 模糊的 → 先走 intake 收集需求，再路由
 
@@ -104,7 +104,7 @@ shengwang-skills/
 ├── tests/
 │   └── eval-cases.md          # 评测用例
 └── skills/
-    └── shengwang-integration/     # Skill 本体（agentskills.io 标准）
+    └── voice-ai-integration/     # Skill 本体（agentskills.io 标准）
         ├── SKILL.md               # 入口和路由（唯一的 SKILL.md）
         ├── intake/                # 需求分析与产品路由
         └── references/            # 所有产品模块和共享知识

@@ -1,10 +1,10 @@
 #!/bin/bash
 # Fetch a single Shengwang doc by URI and output Markdown content to stdout.
-# Usage: bash skills/shengwang-integration/scripts/fetch-doc-content.sh <doc_uri>
+# Usage: bash skills/voice-ai-integration/scripts/fetch-doc-content.sh <doc_uri>
 #
 # Examples:
-#   bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"
-#   bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/javascript/get-started/quick-start"
+#   bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"
+#   bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/javascript/get-started/quick-start"
 #
 # The doc_uri is the part after ?uri= in doc-mcp URLs found in docs.txt.
 

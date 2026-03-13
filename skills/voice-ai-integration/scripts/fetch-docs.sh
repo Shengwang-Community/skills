@@ -1,6 +1,6 @@
 #!/bin/bash
 # Download Shengwang documentation index to local cache
-# Usage: bash skills/shengwang-integration/scripts/fetch-docs.sh
+# Usage: bash skills/voice-ai-integration/scripts/fetch-docs.sh
 
 set -euo pipefail
 

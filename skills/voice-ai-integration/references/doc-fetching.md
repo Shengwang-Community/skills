@@ -8,7 +8,7 @@ Shengwang docs are fetched via HTTP. The doc index (`references/docs.txt`) maps 
 
 Check if `references/docs.txt` exists. If not, download it:
 ```bash
-bash skills/shengwang-integration/scripts/fetch-docs.sh
+bash skills/voice-ai-integration/scripts/fetch-docs.sh
 ```
 
 ## Step 2: Find the document URI
@@ -25,8 +25,8 @@ Extract the `docs://...` URI part for use in Step 3.
 Use the fetch script to get Markdown content:
 
 ```bash
-bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"
-bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/javascript/get-started/quick-start"
+bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"
+bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/javascript/get-started/quick-start"
 ```
 
 The script handles the query parameter internally via curl, which works in environments

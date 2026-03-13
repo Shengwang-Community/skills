@@ -29,12 +29,12 @@ Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.
 
 | Platform | Command |
 |----------|---------|
-| Web (JS) | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/javascript/get-started/quick-start"` |
-| Android | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/android/get-started/quick-start"` |
-| iOS | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/ios/get-started/quick-start"` |
-| Flutter | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/flutter/get-started/quick-start"` |
-| React Native | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/react-native/get-started/quick-start"` |
-| Electron | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/electron/get-started/quick-start"` |
+| Web (JS) | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/javascript/get-started/quick-start"` |
+| Android | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/android/get-started/quick-start"` |
+| iOS | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/ios/get-started/quick-start"` |
+| Flutter | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/flutter/get-started/quick-start"` |
+| React Native | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/react-native/get-started/quick-start"` |
+| Electron | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/electron/get-started/quick-start"` |
 
 ## Demo Projects
 

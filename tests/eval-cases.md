@@ -113,7 +113,7 @@ For each case:
 
 - User Input: "Integrate ConvoAI in Go"
 - Expected Behavior: Model fetches Go quick start doc URL
-- Pass Criteria: Fetches content by running `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
+- Pass Criteria: Fetches content by running `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
 - Result: ___
 
 ---

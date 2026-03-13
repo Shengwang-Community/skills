@@ -87,7 +87,7 @@ Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.
 
 | Topic | Command |
 |-------|---------|
-| Token authentication overview | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtc/android/basic-features/token-authentication"` |
+| Token authentication overview | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/android/basic-features/token-authentication"` |
 
 ## Docs Fallback
 

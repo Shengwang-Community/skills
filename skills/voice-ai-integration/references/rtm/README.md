@@ -40,9 +40,9 @@ Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.
 
 | Platform | Command |
 |----------|---------|
-| Web (JS) | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtm2/javascript/get-started/quick-start"` |
-| Android | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtm2/android/get-started/quick-start"` |
-| iOS | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/rtm2/ios/get-started/quick-start"` |
+| Web (JS) | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtm2/javascript/get-started/quick-start"` |
+| Android | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtm2/android/get-started/quick-start"` |
+| iOS | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtm2/ios/get-started/quick-start"` |
 
 ## Docs Fallback
 

@@ -33,7 +33,7 @@ Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.
 
 | Topic | Command |
 |-------|---------|
-| Quick Start | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/cloud-recording/restful/get-started/quick-start"` |
+| Quick Start | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/cloud-recording/restful/get-started/quick-start"` |
 
 ## Key Errors
 

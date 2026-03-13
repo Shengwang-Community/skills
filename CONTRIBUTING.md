@@ -8,7 +8,7 @@ Changes should improve routing accuracy, execution quality, and maintainability.
 
 ## Required Rules
 
-1. All skill content lives under `skills/shengwang-integration/`.
+1. All skill content lives under `skills/voice-ai-integration/`.
 2. The root skill directory has one `SKILL.md` entrypoint with YAML frontmatter.
 3. Sub-module directories use `README.md` (no YAML frontmatter needed).
 4. The root `SKILL.md` must include YAML frontmatter with:
@@ -30,7 +30,7 @@ Changes should improve routing accuracy, execution quality, and maintainability.
 
 ## Pull Request Checklist
 
-- [ ] Routing logic is still correct from `skills/shengwang-integration/SKILL.md`.
+- [ ] Routing logic is still correct from `skills/voice-ai-integration/SKILL.md`.
 - [ ] New or changed links are valid.
 - [ ] No duplicate skill names.
 - [ ] No orphaned files left behind.

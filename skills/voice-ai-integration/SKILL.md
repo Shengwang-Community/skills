@@ -1,5 +1,5 @@
 ---
-name: shengwang-integration
+name: voice-ai-integration
 description: |
   Integrate Shengwang (Agora) products: ConvoAI voice agents, RTC audio/video,
   RTM messaging, Cloud Recording, and token generation. Use when the user
@@ -21,7 +21,7 @@ metadata:
 
 Check if `references/docs.txt` exists. If not (or if this is a fresh project), download it immediately:
 ```bash
-bash skills/shengwang-integration/scripts/fetch-docs.sh
+bash skills/voice-ai-integration/scripts/fetch-docs.sh
 ```
 This file is the documentation index — all doc lookups depend on it.
 Do NOT proceed to Step 1 until this file exists or the download has been attempted.

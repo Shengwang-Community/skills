@@ -39,9 +39,9 @@ Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.
 
 | Language | Command |
 |----------|---------|
-| Python / JS / curl | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"` |
-| Go | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` |
-| Java | `bash skills/shengwang-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"` |
+| Python / JS / curl | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"` |
+| Go | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` |
+| Java | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"` |
 
 API endpoint index → [convoai-restapi.md](convoai-restapi.md)
 

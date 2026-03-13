@@ -1,5 +1,5 @@
 {
-  "name": "shengwang-integration",
+  "name": "voice-ai-integration",
   "description": "Integrate Shengwang products: ConvoAI voice agents, RTC audio/video, RTM messaging, Cloud Recording, and token generation.",
   "version": "1.0.0",
   "author": {
