@@ -40,11 +40,11 @@ plugin marketplace add Shengwang-Community/skills
 
 #### OpenClaw
 
-通过 `ClawHub install + sync` 的方式安装和更新。首次安装使用 `install`，后续更新使用 `sync`。
+通过 `ClawHub` 安装。首次安装使用 `install`，后续更新使用 `update`。
 
 ```bash
-openclaw skill install voice-ai-integration
-openclaw skill sync voice-ai-integration
+clawhub install voice-ai-integration
+clawhub update voice-ai-integration
 ```
 
 ### 2. 下载文档索引（推荐）
