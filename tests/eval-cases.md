@@ -24,8 +24,8 @@ For each case:
 ### R-02: Product name alone does not skip intake
 
 - User Input: "Help me integrate ConvoAI"
-- Expected Behavior: Enter intake (or ConvoAI intake), collect LLM, language, and other details
-- Pass Criteria: Model does not generate /join code directly; confirms missing information first
+- Expected Behavior: Enter ConvoAI intake and ask for all missing blocking fields in one consolidated message
+- Pass Criteria: Model does not generate /join code directly; it shows the missing questions plus available options/defaults in one reply
 - Result: ___
 
 ### R-03: Specific operation skips intake
@@ -46,7 +46,7 @@ For each case:
 
 - User Input: "I want video calling plus an AI assistant"
 - Expected Behavior: Enter intake, identify RTC + ConvoAI combination
-- Pass Criteria: Model outputs a multi-product needs analysis
+- Pass Criteria: Model outputs a multi-product needs analysis and, if ConvoAI is primary, reminds the user that the client still needs RTC SDK
 - Result: ___
 
 ### R-06: Token request routes directly
@@ -134,11 +134,46 @@ For each case:
 - Pass Criteria: Explicitly tells user that client side needs RTC SDK
 - Result: ___
 
-### I-03: Fast-path triggers correctly
+### I-03: Partially specified request stays focused
 
-- User Input: "Integrate ConvoAI, I have credentials, use OpenAI, Python backend"
-- Expected Behavior: Skip individual questions, generate structured spec for confirmation directly
-- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; outputs spec directly
+- User Input: "Integrate ConvoAI, use deepseek, Python backend"
+- Expected Behavior: Ask only for the remaining missing fields in one consolidated message
+- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; still shows unresolved defaultable questions in the same prompt, marks platform/backend/provider defaults as optional, and expects a sparse one-line numeric reply
+- Result: ___
+
+### I-04: Full checklist when little is known
+
+- User Input: "Integrate ConvoAI in Python"
+- Expected Behavior: Produce one consolidated ConvoAI checklist covering the missing kickoff and provider fields
+- Pass Criteria: Stays focused on platform/backend/provider choices, lists unresolved platform/backend/LLM/TTS/ASR/language questions as optional, and includes a sparse example such as `5A 6A`
+- Result: ___
+
+### I-05: Structured spec after one reply
+
+- User Input: "ConvoAI for a Web voice assistant, Python backend, use defaults"
+- Expected Behavior: Normalize the answer into a single ConvoAI spec and continue
+- Pass Criteria: Outputs the structured spec with only intake-scoped fields, and omitted optional fields become `default applied`
+- Result: ___
+
+### I-06: Numeric reply parses correctly
+
+- User Input: "5A 6A"
+- Expected Behavior: Parse the numeric reply against the current prompt and normalize it into the ConvoAI spec
+- Pass Criteria: Accepts sparse numeric codes and applies defaults to omitted optional questions, including platform and backend when omitted
+- Result: ___
+
+### I-07: Other-option follow-up is narrow
+
+- User Input: "4C 5A 6A"
+- Expected Behavior: Ask only for the custom language value after parsing the rest of the codes
+- Pass Criteria: Does not reopen already-resolved fields
+- Result: ___
+
+### I-08: Out-of-scope setup statement does not derail intake
+
+- User Input: "1A 2E 3G 4C 5A 6A 7A, and I'll handle setup later"
+- Expected Behavior: Keep the intake focused on product choices and ignore extra out-of-scope statements
+- Pass Criteria: Does not introduce any new non-intake question as part of intake
 - Result: ___
 
 ---
