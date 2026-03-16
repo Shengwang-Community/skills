@@ -22,10 +22,10 @@ Before starting, the user should have:
 ## Questions
 
 Use a friendly but explicit follow-up flow:
-- Ask for all missing blocking fields in one consolidated message
+- Ask for all unresolved required fields plus unresolved optional-default fields in one consolidated message
 - Keep the message short enough to scan, but complete enough to finish intake in one reply
 - Skip anything the user already answered
-- Show the available options and recommended default for each missing field
+- Show the available options and recommended default for each unresolved field shown in the prompt
 - If the user leaves a blocker unresolved, ask only a narrow repair follow-up for that field
 
 Defaults policy:
@@ -43,21 +43,21 @@ Blocking rule:
 For defaultable fields, omission counts as explicit confirmation to use the default.
 Do not reopen credentials, account setup, or App Certificate during intake unless the user explicitly makes that the topic.
 
-Ask the full missing-fields checklist first. Skip any question the user already answered during main intake
+Ask the full unresolved-fields checklist first. Skip any question the user already answered during main intake
 or in the user's initial request.
 Doc index status is already determined by the main intake — do not re-check here.
 
 ## Consolidated Intake Message
 
-When ConvoAI is the clear primary product, combine the missing kickoff fields and
-the missing ConvoAI-specific questions into one message.
+When ConvoAI is the clear primary product, combine the unresolved kickoff fields and
+the unresolved ConvoAI-specific questions into one message.
 
 Message requirements:
 - Use the user's language consistently
 - Start with a one-line recap that ConvoAI requires RTC SDK on the client side
-- Ask only for missing fields
-- Under each missing field, show the supported options inline to reduce prompt height
-- Number only the currently visible missing fields, starting from `1`
+- Ask only about unresolved fields, including optional-default fields that are still unresolved
+- Under each unresolved field, show the supported options inline to reduce prompt height
+- Number only the currently visible unresolved fields, starting from `1`
 - Mark fields with defaults as optional
 - Ask the user to reply once with numeric codes such as `1A 4B 6A`
 - Do not mix this with a `key=value` quick-reply example in the same prompt
@@ -71,6 +71,7 @@ Numbering rules:
 - Do not use stable global IDs across turns
 - If a field is already known, omit it and do not reserve its number
 - Platform and backend should also be numbered whenever they are missing
+- LLM, TTS, ASR, and ASR language should still be shown whenever they are unresolved, even though they are optional
 - If a visible field has a default, its number may be omitted from the reply
 
 Parsing rules:

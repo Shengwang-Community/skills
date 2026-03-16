@@ -27,8 +27,8 @@ to Step 2 automatically unless a required field is still missing.
 
 When ConvoAI is clearly the primary product, replace turn-by-turn kickoff with
 the consolidated ConvoAI intake in [convoai.md](convoai.md). In that mode, the
-assistant should gather the missing kickoff fields and ConvoAI provider choices
-in one message, then convert the reply into the structured spec.
+assistant should gather unresolved kickoff fields and unresolved ConvoAI provider
+choices in one message, then convert the reply into the structured spec.
 
 ## Interaction Style
 
@@ -37,7 +37,7 @@ The intake should stay concise and targeted.
 - Prefer natural wording over an interview script
 - Ask only for missing information
 - For non-ConvoAI flows, ask in priority order and stop early once there is enough information
-- For ConvoAI-primary flows, send one consolidated checklist covering all missing blocking fields
+- For ConvoAI-primary flows, send one consolidated checklist covering all unresolved required fields plus unresolved optional-default provider fields
 - Do not ask "nice to have" questions during kickoff
 - If a detail is obvious from the user's message, infer it instead of asking again
 - After each answer, decide whether to continue or route onward
@@ -83,7 +83,7 @@ Priority order:
 
 ConvoAI exception:
 - If ConvoAI is clearly the primary product, do not stretch kickoff across multiple turns
-- Route immediately to [convoai.md](convoai.md) and ask for all missing blocking fields in one checklist-style message
+- Route immediately to [convoai.md](convoai.md) and ask for all unresolved required fields plus unresolved optional-default provider fields in one checklist-style message
 - Include kickoff fields only if still missing, such as use case, platform, backend language, or implementation mode
 - Mention RTC SDK as the client-side companion when ConvoAI is the primary product
 

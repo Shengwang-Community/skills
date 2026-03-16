@@ -138,14 +138,14 @@ For each case:
 
 - User Input: "Integrate ConvoAI, I have credentials, use deepseek, Python backend"
 - Expected Behavior: Ask only for the remaining missing fields in one consolidated message
-- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; marks defaultable questions optional, keeps required ones explicit, and expects a sparse one-line numeric reply
+- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; still shows unresolved defaultable questions in the same prompt, marks them optional, keeps required ones explicit, and expects a sparse one-line numeric reply
 - Result: ___
 
 ### I-04: Full checklist when little is known
 
 - User Input: "Integrate ConvoAI in Python"
 - Expected Behavior: Produce one consolidated ConvoAI checklist covering the missing kickoff and provider fields
-- Pass Criteria: Does not ask about account or App Certificate; marks LLM/TTS/ASR/language optional, keeps platform/backend required, and includes a sparse example such as `5A 6A`
+- Pass Criteria: Does not ask about account or App Certificate; still lists unresolved LLM/TTS/ASR/language questions as optional, keeps platform/backend required, and includes a sparse example such as `5A 6A`
 - Result: ___
 
 ### I-05: Structured spec after one reply
