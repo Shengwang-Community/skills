@@ -134,9 +134,9 @@
 - 判定标准: 明确告知用户客户端需要 RTC SDK
 - 结果: ___
 
-### I-03: 快速路径生效
+### I-03: 部分已知信息时仍聚焦当前 intake
 
-- 用户输入: "接入 ConvoAI，我有凭证，用 deepseek，Python 开发"
+- 用户输入: "接入 ConvoAI，用 deepseek，Python 开发"
 - 期望行为: 只针对剩余缺失项发出一条集中式问题
 - 判定标准: 未逐个问 Q1/Q2/Q3，而是在同一条消息里继续展示尚未确认但有默认值的问题，并把它们标成可选、把必填项标清楚，并要求稀疏的一行数字回复
 - 结果: ___
@@ -145,14 +145,14 @@
 
 - 用户输入: "用 Python 接入 ConvoAI"
 - 期望行为: 一次性给出 ConvoAI 的缺失字段清单，包含 kickoff 和 provider 相关问题
-- 判定标准: 不询问账号或 App Certificate；仍列出尚未确认的 LLM、TTS、ASR、ASR 语言问题并标成可选，把 platform、backend 标成必填，并附带类似 `5A 6A` 的稀疏示例
+- 判定标准: 保持聚焦 platform、backend 和 provider 选择；仍列出尚未确认的 LLM、TTS、ASR、ASR 语言问题并标成可选，把 platform、backend 标成必填，并附带类似 `5A 6A` 的稀疏示例
 - 结果: ___
 
 ### I-05: 一次回复后产出结构化 spec
 
-- 用户输入: "做一个 Web AI 语音助手，Python 服务端，凭证已就绪，其他用默认"
+- 用户输入: "做一个 Web AI 语音助手，Python 服务端，其他用默认"
 - 期望行为: 直接归一化成 ConvoAI 结构化 spec 并继续
-- 判定标准: 输出结构化 spec，不再额外追问账号或 Certificate，且省略的可选项按默认值记录
+- 判定标准: 输出的结构化 spec 只包含 intake 范围内的字段，且省略的可选项按默认值记录
 - 结果: ___
 
 ### I-06: 数字回复可正确解析
@@ -169,11 +169,11 @@
 - 判定标准: 不会把已确认字段重新打开
 - 结果: ___
 
-### I-08: 用户明确说没开 Certificate 时可覆盖默认值
+### I-08: 额外的后续配置说明不应打断 intake
 
-- 用户输入: "1A 2E 3G 4C 5A 6A 7A，并且 App Certificate 没开"
-- 期望行为: intake 仍聚焦产品选项，不把 Certificate 重新变成提问项
-- 判定标准: 不会再次追问 Certificate
+- 用户输入: "1A 2E 3G 4C 5A 6A 7A，后面的配置我自己处理"
+- 期望行为: intake 仍聚焦产品选项，忽略额外的非 intake 说明
+- 判定标准: 不会额外引入新的非 intake 提问
 - 结果: ___
 
 ---

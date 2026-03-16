@@ -57,8 +57,6 @@ For ConvoAI, the user must still explicitly answer or confirm all blocking field
 
 For unresolved ConvoAI fields with defaults, keep them visible and treat omission as an explicit default confirmation.
 If the first consolidated reply is incomplete, ask only a narrow follow-up for the unresolved mandatory blocker.
-Do not ask about account creation, project creation, or App Certificate during ConvoAI intake.
-Handle credentials and token setup later only if implementation is blocked or the user explicitly asks.
 
 If the user already gave enough information, do not repeat questions.
 Produce a lightweight kickoff recap, then continue automatically unless a required detail is still missing.

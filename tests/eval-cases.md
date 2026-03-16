@@ -134,9 +134,9 @@ For each case:
 - Pass Criteria: Explicitly tells user that client side needs RTC SDK
 - Result: ___
 
-### I-03: Fast-path triggers correctly
+### I-03: Partially specified request stays focused
 
-- User Input: "Integrate ConvoAI, I have credentials, use deepseek, Python backend"
+- User Input: "Integrate ConvoAI, use deepseek, Python backend"
 - Expected Behavior: Ask only for the remaining missing fields in one consolidated message
 - Pass Criteria: Does not ask Q1/Q2/Q3 one by one; still shows unresolved defaultable questions in the same prompt, marks them optional, keeps required ones explicit, and expects a sparse one-line numeric reply
 - Result: ___
@@ -145,14 +145,14 @@ For each case:
 
 - User Input: "Integrate ConvoAI in Python"
 - Expected Behavior: Produce one consolidated ConvoAI checklist covering the missing kickoff and provider fields
-- Pass Criteria: Does not ask about account or App Certificate; still lists unresolved LLM/TTS/ASR/language questions as optional, keeps platform/backend required, and includes a sparse example such as `5A 6A`
+- Pass Criteria: Stays focused on platform/backend/provider choices, still lists unresolved LLM/TTS/ASR/language questions as optional, keeps platform/backend required, and includes a sparse example such as `5A 6A`
 - Result: ___
 
 ### I-05: Structured spec after one reply
 
-- User Input: "ConvoAI for a Web voice assistant, Python backend, credentials ready, use defaults"
+- User Input: "ConvoAI for a Web voice assistant, Python backend, use defaults"
 - Expected Behavior: Normalize the answer into a single ConvoAI spec and continue
-- Pass Criteria: Outputs the structured spec without reopening account or certificate questions, and omitted optional fields become `default applied`
+- Pass Criteria: Outputs the structured spec with only intake-scoped fields, and omitted optional fields become `default applied`
 - Result: ___
 
 ### I-06: Numeric reply parses correctly
@@ -169,11 +169,11 @@ For each case:
 - Pass Criteria: Does not reopen already-resolved fields
 - Result: ___
 
-### I-08: Explicit certificate-off override works
+### I-08: Out-of-scope setup statement does not derail intake
 
-- User Input: "1A 2E 3G 4C 5A 6A 7A, and App Certificate is off"
-- Expected Behavior: Keep the intake focused on product choices and avoid reopening certificate handling
-- Pass Criteria: Does not ask a certificate question as part of intake
+- User Input: "1A 2E 3G 4C 5A 6A 7A, and I'll handle setup later"
+- Expected Behavior: Keep the intake focused on product choices and ignore extra out-of-scope statements
+- Pass Criteria: Does not introduce any new non-intake question as part of intake
 - Result: ___
 
 ---

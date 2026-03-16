@@ -41,7 +41,6 @@ Blocking rule:
 - LLM / TTS / ASR / ASR language are optional when shown with defaults
 
 For defaultable fields, omission counts as explicit confirmation to use the default.
-Do not reopen credentials, account setup, or App Certificate during intake unless the user explicitly makes that the topic.
 
 Ask the full unresolved-fields checklist first. Skip any question the user already answered during main intake
 or in the user's initial request.
@@ -61,7 +60,6 @@ Message requirements:
 - Mark fields with defaults as optional
 - Ask the user to reply once with numeric codes such as `1A 4B 6A`
 - Do not mix this with a `key=value` quick-reply example in the same prompt
-- Do not ask about account status, project creation, Customer Key/Secret, or App Certificate in this intake
 
 If the user already provided enough detail for some fields, do not restate those
 questions. Keep the option list only for the unresolved fields.
@@ -81,7 +79,6 @@ Parsing rules:
 - If a visible mandatory field is omitted, ask only for that field
 - If a selected option is `Other`, ask a narrow follow-up only for that field
 - If a code is invalid or incomplete, ask only for the unresolved item
-- Ignore certificate/account setup during intake unless the user explicitly makes it the topic
 
 Suggested shape:
 
@@ -239,8 +236,6 @@ ConvoAI 需求规格
 平台：            [platform / client stack]
 实现方式：        [sample-aligned / minimal-custom / 未指定]
 服务端语言：      [backend language / 不涉及]
-凭证状态：        [后续确认 / 用户已说明]
-Token：           [后续确认]
 ASR：             [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR 语言：        [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
 LLM：             [aliyun / bytedance / deepseek (default applied) / tencent]
@@ -258,8 +253,6 @@ Supporting:       [RTC SDK / RTC SDK + RTM / RTC SDK + Cloud Recording / none]
 Platform:         [platform / client stack]
 Implementation:   [sample-aligned / minimal-custom / unspecified]
 Backend:          [backend language / not needed]
-Credentials:      [confirm later / user specified]
-Token:            [confirm later]
 ASR:              [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR Language:     [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
 LLM:              [aliyun / bytedance / deepseek (default applied) / tencent]
@@ -288,5 +281,4 @@ Key routing hints:
 - Dev = Go → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
 - Dev = Java → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"`
 - Dev = Python/curl → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"`
-- Credentials and token setup → confirm later only if implementation is blocked or the user explicitly asks
 - If fetch fails → use Generation Rules + fallback URL
