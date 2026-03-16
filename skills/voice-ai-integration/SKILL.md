@@ -1,10 +1,10 @@
 ---
 name: voice-ai-integration
 description: |
-  Integrate Shengwang (Agora) products: ConvoAI voice agents, RTC audio/video,
+  Integrate Shengwang products: ConvoAI voice agents, RTC audio/video,
   RTM messaging, Cloud Recording, and token generation. Use when the user
-  mentions Shengwang, Agora, 声网, ConvoAI, RTC, RTM, voice agent, AI agent,
-  video call, live streaming, recording, token, or any Agora product task.
+  mentions Shengwang, 声网, ConvoAI, RTC, RTM, voice agent, AI agent,
+  video call, live streaming, recording, token, or any Shengwang product task.
 license: MIT
 metadata:
   author: shengwang
@@ -34,7 +34,7 @@ Ask only for details the user has not already provided.
 
 Collect only the details needed to remove implementation blockers:
 - User's use case / target solution
-- Main Shengwang / Agora product
+- Main Shengwang product
 - Platform or client stack
 - Backend language if relevant
 - Any key technical details already known that affect routing or implementation

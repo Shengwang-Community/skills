@@ -1,25 +1,25 @@
-# Agora Credentials & Authentication
+# Shengwang Credentials & Authentication
 
-Cross-product knowledge shared by all Agora products.
+Cross-product knowledge shared by all Shengwang products.
 
 ## Credentials
 
 | Credential | Where to find | Used for |
 |------------|--------------|---------|
-| `AGORA_APP_ID` | Console → Project Overview | All API calls and SDK init |
-| `AGORA_CUSTOMER_KEY` | Console → Settings → RESTful API | REST API Basic Auth username |
-| `AGORA_CUSTOMER_SECRET` | Console → Settings → RESTful API | REST API Basic Auth password |
-| `AGORA_APP_CERTIFICATE` | Console → Project Overview | Token generation (only if enabled) |
+| `SHENGWANG_APP_ID` | Console → Project Overview | All API calls and SDK init |
+| `SHENGWANG_CUSTOMER_KEY` | Console → Settings → RESTful API | REST API Basic Auth username |
+| `SHENGWANG_CUSTOMER_SECRET` | Console → Settings → RESTful API | REST API Basic Auth password |
+| `SHENGWANG_APP_CERTIFICATE` | Console → Project Overview | Token generation (only if enabled) |
 
 Console: https://console.shengwang.cn/
 
 ### Environment Variables
 
 ```bash
-AGORA_APP_ID=your_app_id
-AGORA_CUSTOMER_KEY=your_customer_key
-AGORA_CUSTOMER_SECRET=your_customer_secret
-AGORA_APP_CERTIFICATE=your_app_certificate   # only if App Certificate enabled
+SHENGWANG_APP_ID=your_app_id
+SHENGWANG_CUSTOMER_KEY=your_customer_key
+SHENGWANG_CUSTOMER_SECRET=your_customer_secret
+SHENGWANG_APP_CERTIFICATE=your_app_certificate   # only if App Certificate enabled
 ```
 
 - ALWAYS read from env vars — never hardcode
@@ -38,11 +38,11 @@ Some products require extra activation in Console beyond having credentials:
 
 ## REST API Authentication
 
-Agora REST APIs support two authentication methods (choose one):
+Shengwang REST APIs support two authentication methods (choose one):
 
 ### Option 1: RTC Token (supported by ConvoAI and other products)
 
-Use an RTC Token from your Agora project for authentication:
+Use an RTC Token from your Shengwang project for authentication:
 
 ```
 Authorization: agora token="007abcxxxxxxx123"
@@ -62,12 +62,12 @@ How to obtain a token:
 ### Option 2: Basic Auth
 
 ```
-Authorization: Basic base64("{AGORA_CUSTOMER_KEY}:{AGORA_CUSTOMER_SECRET}")
+Authorization: Basic base64("{Shengwang_CUSTOMER_KEY}:{Shengwang_CUSTOMER_SECRET}")
 ```
 
 **curl example:**
 ```bash
-AUTH=$(echo -n "$AGORA_CUSTOMER_KEY:$AGORA_CUSTOMER_SECRET" | base64)
+AUTH=$(echo -n "$Shengwang_CUSTOMER_KEY:$Shengwang_CUSTOMER_SECRET" | base64)
 curl -H "Authorization: Basic $AUTH" \
      -H "Content-Type: application/json" \
      https://api.agora.io/...

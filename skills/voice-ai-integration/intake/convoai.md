@@ -156,7 +156,7 @@ Include this question only if the ASR provider has not already been confirmed.
 **EN:**
 > "ASR (optional, blank=default fengming)"
 > Options (inline):
-> A. Agora Fengming (fengming)  B. Tencent (tencent)  C. Microsoft (microsoft)  D. iFlytek (xfyun)  E. iFlytek BigModel (xfyun_bigmodel)  F. iFlytek Dialect (xfyun_dialect)  G. Use the default (fengming)
+> A. Shengwang Fengming (fengming)  B. Tencent (tencent)  C. Microsoft (microsoft)  D. iFlytek (xfyun)  E. iFlytek BigModel (xfyun_bigmodel)  F. iFlytek Dialect (xfyun_dialect)  G. Use the default (fengming)
 
 **Default:** fengming
 

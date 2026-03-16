@@ -5,14 +5,14 @@ Endpoint index with local documentation. For the full API overview, see [convoai
 ## Base URL
 
 ```
-https://api.agora.io/cn/api/conversational-ai-agent/v2/projects/{AGORA_APP_ID}
+https://api.agora.io/cn/api/conversational-ai-agent/v2/projects/{SHENGWANG_APP_ID}
 ```
 
 ## Authentication
 
 支持两种鉴权方式（任选其一）：
 - **RTC Token**：`Authorization: agora token="{RTC_TOKEN}"`
-- **Basic Auth**：`Authorization: Basic base64("{AGORA_CUSTOMER_KEY}:{AGORA_CUSTOMER_SECRET}")`
+- **Basic Auth**：`Authorization: Basic base64("{SHENGWANG_CUSTOMER_KEY}:{SHENGWANG_CUSTOMER_SECRET}")`
 
 详见 [README.md](README.md#auth) 和 [general/credentials-and-auth.md](../general/credentials-and-auth.md)。
 

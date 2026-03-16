@@ -5,7 +5,7 @@ Server-side Token generation using the AgoraDynamicKey library.
 ## Overview
 
 Agora uses **AccessToken2** (HMAC-SHA256) for channel authentication.
-- Requires `AGORA_APP_ID` + `AGORA_APP_CERTIFICATE` (server-side only)
+- Requires `SHENGWANG_APP_ID` + `SHENGWANG_APP_CERTIFICATE` (server-side only)
 - Uses the open-source [AgoraDynamicKey](https://github.com/AgoraIO/Tools) library
 - NEVER expose `APP_CERTIFICATE` to clients
 
@@ -13,7 +13,7 @@ Agora uses **AccessToken2** (HMAC-SHA256) for channel authentication.
 
 ### Step 1: Confirm Credentials
 
-Need `AGORA_APP_ID` and `AGORA_APP_CERTIFICATE` from [Shengwang Console](https://console.shengwang.cn/).
+Need `SHENGWANG_APP_ID` and `SHENGWANG_APP_CERTIFICATE` from [Shengwang Console](https://console.shengwang.cn/).
 Missing? → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 
 ### Step 2: Get AgoraDynamicKey
@@ -59,8 +59,8 @@ Create a `GET /api/agora/token` endpoint.
 **Environment variables:**
 
 ```bash
-AGORA_APP_ID=your_app_id
-AGORA_APP_CERTIFICATE=your_app_certificate
+SHENGWANG_APP_ID=your_app_id
+SHENGWANG_APP_CERTIFICATE=your_app_certificate
 ```
 
 **Response:** Plain text token string.
@@ -81,7 +81,7 @@ curl "http://localhost:8080/api/agora/token?channelName=test&uid=12345&role=publ
 
 - Local: add to `.env`
 - Production: configure in deployment environment
-- NEVER commit `AGORA_APP_CERTIFICATE` to version control
+- NEVER commit `SHENGWANG_APP_CERTIFICATE` to version control
 
 ---
 

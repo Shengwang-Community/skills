@@ -1,6 +1,6 @@
 # Shengwang RTC SDK
 
-Real-time audio/video communication SDK. Foundation layer for most Agora products.
+Real-time audio/video communication SDK. Foundation layer for most Shengwang products.
 
 ## What It Does
 
@@ -11,7 +11,7 @@ Real-time audio/video communication SDK. Foundation layer for most Agora product
 
 ## Core Flow
 
-1. Initialize Agora engine with `AGORA_APP_ID`
+1. Initialize SHENGWANG engine with `SHENGWANG_APP_ID`
 2. Join channel with token (or empty string if no App Certificate)
 3. Publish local audio/video tracks
 4. Subscribe to remote tracks
@@ -19,7 +19,7 @@ Real-time audio/video communication SDK. Foundation layer for most Agora product
 
 ## Auth
 
-- `AGORA_APP_ID` required
+- `SHENGWANG_APP_ID` required
 - If App Certificate enabled → need RTC token from server, see [token-server](../token-server/README.md)
 - Credentials setup → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 

@@ -14,7 +14,7 @@ Cross-platform: Web, Android, iOS, macOS, Windows, Flutter, React Native, Electr
 
 ## Core Flow
 
-1. Create RTM client with `AGORA_APP_ID`
+1. Create RTM client with `SHENGWANG_APP_ID`
 2. Login with RTM token and user ID
 3. Subscribe to channels / topics
 4. Publish messages, handle incoming via event listeners
@@ -22,7 +22,7 @@ Cross-platform: Web, Android, iOS, macOS, Windows, Flutter, React Native, Electr
 
 ## Auth
 
-- `AGORA_APP_ID` + `AGORA_APP_CERTIFICATE` required (RTM always requires token)
+- `SHENGWANG_APP_ID` + `SHENGWANG_APP_CERTIFICATE` required (RTM always requires token)
 - RTM uses a different token builder than RTC:
 
 | Product | Builder | Method |

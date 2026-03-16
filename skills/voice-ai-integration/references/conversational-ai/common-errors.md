@@ -32,9 +32,9 @@ Most common causes:
 
 ### 403 — Forbidden
 
-1. ConvoAI service not enabled → Agora Console → enable ConvoAI for your project
-2. Wrong `AGORA_CUSTOMER_KEY` or `AGORA_CUSTOMER_SECRET` → regenerate in Console
-3. `AGORA_APP_ID` in URL doesn't match the credentials project
+1. ConvoAI service not enabled → Shengwang Console → enable ConvoAI for your project
+2. Wrong `SHENGWANG_CUSTOMER_KEY` or `SHENGWANG_CUSTOMER_SECRET` → regenerate in Console
+3. `SHENGWANG_APP_ID` in URL doesn't match the credentials project
 
 ### 404 — Agent Not Found
 
@@ -62,7 +62,7 @@ Agent with same `name` already exists in this project.
 
 Concurrent agent limit reached. Options:
 1. Stop idle agents via `POST /agents/{agentId}/leave`
-2. Request quota increase in Agora Console
+2. Request quota increase in Shengwang Console
 
 ### 502 / 503 / 504 — Gateway / Timeout
 
@@ -107,7 +107,7 @@ Agent is RUNNING but not responding to user speech:
 2. Confirm `remote_rtc_uids` includes the user's UID (or is `["*"]`)
 3. Check ASR language matches user's spoken language
 4. Check `idle_timeout` — if too short, agent may have stopped
-5. Check LLM endpoint is reachable from Agora's servers (not localhost)
+5. Check LLM endpoint is reachable from Shengwang's servers (not localhost)
 
 ---
 

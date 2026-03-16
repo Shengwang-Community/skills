@@ -2,7 +2,7 @@
 
 ## Scope
 
-This repository stores AI agent skills for Shengwang (Agora) workflows,
+This repository stores AI agent skills for Shengwang workflows,
 following the [Agent Skills](https://agentskills.io) open standard.
 Changes should improve routing accuracy, execution quality, and maintainability.
 
