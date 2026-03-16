@@ -17,7 +17,7 @@ the user to confirm a full solution design before continuing.
 
 Ask only for unanswered details that materially affect routing or implementation:
 - Use case / target solution
-- Main Shengwang / Agora product
+- Main Shengwang product
 - Platform or client stack
 - Backend language if relevant
 - Any key details already known that affect the next step

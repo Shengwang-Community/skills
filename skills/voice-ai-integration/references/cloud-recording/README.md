@@ -23,7 +23,7 @@ acquire → start → stop
 
 ## Auth
 
-- HTTP Basic Auth: `AGORA_CUSTOMER_KEY` + `AGORA_CUSTOMER_SECRET`
+- HTTP Basic Auth: `SHENGWANG_CUSTOMER_KEY` + `SHENGWANG_CUSTOMER_SECRET`
 - Cloud Recording service must be enabled in [Shengwang Console](https://console.shengwang.cn/)
 - Credentials & auth → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 

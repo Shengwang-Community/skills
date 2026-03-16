@@ -50,7 +50,7 @@ Doc index status is already determined by the main intake — do not re-check he
 ### Q1 — Credentials & App Certificate
 
 **ZH:**
-> "你有 Agora 账号和项目凭证吗？"
+> "你有声网账号和项目凭证吗？"
 >
 > 需要以下信息：
 > - `AppID` — 项目标识
@@ -64,7 +64,7 @@ Doc index status is already determined by the main intake — do not re-check he
 > - D. 还没有账号
 
 **EN:**
-> "Do you have an Agora account and project credentials?"
+> "Do you have an Shengwang account and project credentials?"
 >
 > Required:
 > - `AppID` — project identifier
@@ -81,8 +81,8 @@ Doc index status is already determined by the main intake — do not re-check he
 
 | | Prompt |
 |---|--------|
-| ZH | "App Certificate 已开启，ConvoAI 创建 agent 时需要传入 RTC Token。我会在后续帮你生成 Token，需要用到 `AGORA_APP_CERTIFICATE` 环境变量。" |
-| EN | "App Certificate is enabled. ConvoAI requires an RTC Token when creating an agent. I'll help you generate one later — you'll need the `AGORA_APP_CERTIFICATE` env var." |
+| ZH | "App Certificate 已开启，ConvoAI 创建 agent 时需要传入 RTC Token。我会在后续帮你生成 Token，需要用到 `SHENGWANG_APP_CERTIFICATE` 环境变量。" |
+| EN | "App Certificate is enabled. ConvoAI requires an RTC Token when creating an agent. I'll help you generate one later — you'll need the `SHENGWANG_APP_CERTIFICATE` env var." |
 
 **If B** → Record `certificate = not enabled`, token = empty string.
 
@@ -151,7 +151,7 @@ Doc index status is already determined by the main intake — do not re-check he
 
 **EN:**
 > "Is it okay to start with the default ASR, Fengming? You can also choose another provider."
-> - A. Agora Fengming (fengming) — default
+> - A. Shengwang Fengming (fengming) — default
 > - B. Tencent (tencent)
 > - C. Microsoft (microsoft)
 > - D. iFlytek (xfyun)

@@ -1,8 +1,8 @@
-# Shengwang (Agora) Skills
+# Shengwang Skills
 
 [![中文](https://img.shields.io/badge/lang-中文-red.svg)](README_CN.md)
 
-Reusable skills for AI coding agents building with the [Shengwang (Agora)](https://shengwang.cn/) platform. These skills help agents accurately integrate, configure, and debug Agora products.
+Reusable skills for AI coding agents building with the [Shengwang](https://shengwang.cn/) platform. These skills help agents accurately integrate, configure, and debug Shengwang products.
 
 ## Available Skills
 
@@ -145,5 +145,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Key requirements:
 ## Links
 
 - [Shengwang Console](https://console.shengwang.cn/)
-- [Agora Docs (CN)](https://doc.shengwang.cn/)
+- [Shengwang Docs (CN)](https://doc.shengwang.cn/)
 - [GitHub](https://github.com/Shengwang-Community)

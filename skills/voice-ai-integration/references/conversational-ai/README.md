@@ -22,7 +22,7 @@ ConvoAI REST API 支持两种鉴权方式（任选其一）：
    - 测试环境：从[声网控制台](https://console.shengwang.cn/)生成临时 Token（有效期 24 小时）
    - 生产环境：部署 [token-server](../token-server/README.md) 生成 Token
 
-2. **Basic Auth**：使用 `AGORA_CUSTOMER_KEY` + `AGORA_CUSTOMER_SECRET` 生成 Base64 编码
+2. **Basic Auth**：使用 `SHENGWANG_CUSTOMER_KEY` + `SHENGWANG_CUSTOMER_SECRET` 生成 Base64 编码
    - 传参示例：`Authorization: Basic NDI1OTQ3N2I4MzYy...YwZjA=`
    - 参考[实现 HTTP 安全认证](https://doc.shengwang.cn/doc/convoai/restful/user-guides/http-basic-auth)
 

@@ -1,4 +1,4 @@
-# Shengwang (Agora) Skills
+# Shengwang Skills
 
 [![English](https://img.shields.io/badge/lang-English-blue.svg)](README.md)
 

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository contains AI agent skills for Shengwang (Agora) platform integration,
+This repository contains AI agent skills for Shengwang platform integration,
 following the [Agent Skills](https://agentskills.io) open standard.
 
 ## How to Use
