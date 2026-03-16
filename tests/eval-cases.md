@@ -24,8 +24,8 @@ For each case:
 ### R-02: Product name alone does not skip intake
 
 - User Input: "Help me integrate ConvoAI"
-- Expected Behavior: Enter intake (or ConvoAI intake), collect LLM, language, and other details
-- Pass Criteria: Model does not generate /join code directly; confirms missing information first
+- Expected Behavior: Enter ConvoAI intake and ask for all missing blocking fields in one consolidated message
+- Pass Criteria: Model does not generate /join code directly; it shows the missing questions plus available options/defaults in one reply
 - Result: ___
 
 ### R-03: Specific operation skips intake
@@ -46,7 +46,7 @@ For each case:
 
 - User Input: "I want video calling plus an AI assistant"
 - Expected Behavior: Enter intake, identify RTC + ConvoAI combination
-- Pass Criteria: Model outputs a multi-product needs analysis
+- Pass Criteria: Model outputs a multi-product needs analysis and, if ConvoAI is primary, reminds the user that the client still needs RTC SDK
 - Result: ___
 
 ### R-06: Token request routes directly
@@ -136,9 +136,23 @@ For each case:
 
 ### I-03: Fast-path triggers correctly
 
-- User Input: "Integrate ConvoAI, I have credentials, use OpenAI, Python backend"
-- Expected Behavior: Skip individual questions, generate structured spec for confirmation directly
-- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; outputs spec directly
+- User Input: "Integrate ConvoAI, I have credentials, use deepseek, Python backend"
+- Expected Behavior: Ask only for the remaining missing fields in one consolidated message
+- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; includes explicit options/defaults for the unresolved fields only
+- Result: ___
+
+### I-04: Full checklist when little is known
+
+- User Input: "Integrate ConvoAI in Python"
+- Expected Behavior: Produce one consolidated ConvoAI checklist covering the missing kickoff and provider fields
+- Pass Criteria: Shows credentials, App Certificate, ASR, ASR language, LLM, and TTS options in one reply rather than separate turns
+- Result: ___
+
+### I-05: Structured spec after one reply
+
+- User Input: "ConvoAI for a Web voice assistant, Python backend, credentials ready, App Certificate off, use defaults"
+- Expected Behavior: Normalize the answer into a single ConvoAI spec and continue
+- Pass Criteria: Outputs the structured spec without asking another confirmation question
 - Result: ___
 
 ---

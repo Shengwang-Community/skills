@@ -40,21 +40,26 @@ Collect only the details needed to remove implementation blockers:
 - Any key technical details already known that affect routing or implementation
 
 Use a conversational flow:
-- Ask one short question at a time
 - Infer obvious context from the user's request when it is safe to do so
-- Ask only for the next most useful missing detail
+- Ask only for missing details that block routing or implementation
 - Stop asking as soon as there is enough information to continue
 
-For product-specific preferences such as ConvoAI vendors, do not force a full configuration upfront.
-Use recommended defaults as short suggestions, but for ConvoAI the user must still explicitly
-answer or confirm all of these fields before implementation:
+ConvoAI has a special intake mode:
+- If ConvoAI is clearly the primary product, switch to the consolidated ConvoAI intake in [intake/convoai.md](intake/convoai.md)
+- Ask for all missing kickoff and ConvoAI-specific blocking fields in one message
+- Show the available options and recommended defaults for each missing field
+- Do not repeat fields the user already answered
+
+For ConvoAI, the user must still explicitly answer or confirm all blocking fields before implementation:
+- Credentials status
+- App Certificate state
 - ASR
 - ASR language
 - LLM
 - TTS
 
 "Use the default" is a valid explicit confirmation.
-Collect these confirmations one at a time, not as a large form.
+If the first consolidated reply is incomplete, ask only a narrow follow-up for the unresolved blocker.
 
 If the user already gave enough information, do not repeat questions.
 Produce a lightweight kickoff recap, then continue automatically unless a required detail is still missing.

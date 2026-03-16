@@ -22,10 +22,11 @@ Before starting, the user should have:
 ## Questions
 
 Use a friendly but explicit follow-up flow:
-- Ask one question at a time
-- Keep prompts short
+- Ask for all missing blocking fields in one consolidated message
+- Keep the message short enough to scan, but complete enough to finish intake in one reply
 - Skip anything the user already answered
-- Do not group provider choices into a large form
+- Show the available options and recommended default for each missing field
+- If the user leaves a blocker unresolved, ask only a narrow repair follow-up for that field
 
 Defaults policy:
 - ASR vendor recommended default: `fengming`
@@ -43,11 +44,61 @@ Blocking rule:
 "Use the default" counts as an explicit answer.
 Silence, omission, or inference does NOT.
 
-Ask **one at a time** only when needed. Skip any question the user already answered during main intake
+Ask the full missing-fields checklist first. Skip any question the user already answered during main intake
 or in the user's initial request.
 Doc index status is already determined by the main intake — do not re-check here.
 
+## Consolidated Intake Message
+
+When ConvoAI is the clear primary product, combine the missing kickoff fields and
+the missing ConvoAI-specific questions into one message.
+
+Message requirements:
+- Use the user's language consistently
+- Start with a one-line recap that ConvoAI requires RTC SDK on the client side
+- Ask only for missing fields
+- Under each missing field, show the supported options and the recommended default
+- Ask the user to reply once with all answers, or to say "use the default" for any field
+- Do not force the user to fill a rigid template if a natural-language reply is enough
+
+If the user already provided enough detail for some fields, do not restate those
+questions. Keep the option list only for the unresolved fields.
+
+Suggested shape:
+
+**ZH:**
+```text
+我还缺这几项信息，确认完我就可以继续：
+- [field 1]
+  选项: ...
+  默认: ...
+- [field 2]
+  选项: ...
+  默认: ...
+
+补充说明：
+- ConvoAI 服务端通过 REST 管理，客户端仍需要 RTC SDK 入会
+- 你可以一次性回复全部答案；某项如果接受默认值，直接写“用默认的”即可
+```
+
+**EN:**
+```text
+I still need these details before I continue:
+- [field 1]
+  Options: ...
+  Default: ...
+- [field 2]
+  Options: ...
+  Default: ...
+
+Notes:
+- ConvoAI is managed by REST on the server side, and the client still needs RTC SDK to join the channel
+- You can answer everything in one reply; for any field, "use the default" is enough
+```
+
 ### Q1 — Credentials & App Certificate
+
+Include this question whenever credentials status or App Certificate state is still missing.
 
 **ZH:**
 > "你有 Agora 账号和项目凭证吗？"
@@ -95,6 +146,8 @@ Doc index status is already determined by the main intake — do not re-check he
 
 ### Q2 — LLM
 
+Include this question only if the LLM provider has not already been confirmed.
+
 **ZH:**
 > "LLM 先用默认的 DeepSeek 可以吗？也可以指定其他供应商。"
 > - A. 阿里云（aliyun）
@@ -114,6 +167,8 @@ Doc index status is already determined by the main intake — do not re-check he
 **Default:** deepseek
 
 ### Q3 — TTS
+
+Include this question only if the TTS provider has not already been confirmed.
 
 **ZH:**
 > "TTS 先用默认的火山引擎可以吗？也可以指定其他供应商。"
@@ -139,6 +194,8 @@ Doc index status is already determined by the main intake — do not re-check he
 
 ### Q4 — ASR Vendor
 
+Include this question only if the ASR provider has not already been confirmed.
+
 **ZH:**
 > "ASR 先用默认的凤鸣可以吗？也可以指定其他供应商。"
 > - A. 声网凤鸣（fengming）— 默认
@@ -162,6 +219,8 @@ Doc index status is already determined by the main intake — do not re-check he
 **Default:** fengming
 
 ### Q5 — ASR Language
+
+Include this question only if the ASR language has not already been confirmed.
 
 Choose the recommended default from the use case:
 - English use case -> `en-US`
@@ -189,10 +248,19 @@ Even when the recommended value is obvious, the user must still confirm or overr
 
 ## Output: Structured Spec
 
+After the user replies, normalize the answers immediately into this spec. Do not
+ask for a separate confirmation turn if every blocking field is resolved.
+
 **ZH:**
 ```
 ConvoAI 需求规格
 ─────────────────────────────
+场景：            [use case]
+主要产品：        [ConvoAI]
+配套产品：        [RTC SDK / RTC SDK + RTM / RTC SDK + Cloud Recording / 无]
+平台：            [platform / client stack]
+实现方式：        [sample-aligned / minimal-custom / 未指定]
+服务端语言：      [backend language / 不涉及]
 凭证状态：        [已就绪 / 需先创建]
 App Certificate： [已开启 / 未开启]
 Token：           [需要生成 / 空字符串]
@@ -207,6 +275,12 @@ TTS：             [bytedance (default applied) / minimax / tencent / microsoft 
 ```
 ConvoAI Spec
 ─────────────────────────────
+Use case:         [use case]
+Primary:          [ConvoAI]
+Supporting:       [RTC SDK / RTC SDK + RTM / RTC SDK + Cloud Recording / none]
+Platform:         [platform / client stack]
+Implementation:   [sample-aligned / minimal-custom / unspecified]
+Backend:          [backend language / not needed]
 Credentials:      [Ready / Need to create]
 App Certificate:  [Enabled / Not enabled]
 Token:            [Need to generate / Empty string]
@@ -217,13 +291,15 @@ TTS:              [bytedance (default applied) / minimax / tencent / microsoft /
 ─────────────────────────────
 ```
 
-The backend language should come from the main kickoff summary rather than this file.
+If credentials status is `Need to create`, pause and direct the user to
+https://console.shengwang.cn/ before moving on.
 
 ## Defaults
 
 | Field | Default | Notes (ZH) | Notes (EN) |
 |-------|---------|------------|------------|
 | App Certificate | Not enabled | 如果用户不确定，按未开启处理，提醒后续开启需改传 Token | If user is unsure, treat as not enabled; remind them to pass Token if enabled later |
+| Supporting product | `RTC SDK` | ConvoAI 默认需要 RTC SDK 作为客户端配套，除非用户已明确是纯服务端讨论 | ConvoAI normally needs RTC SDK as the client-side companion unless the user is discussing a server-only topic |
 | ASR vendor | `fengming` | 推荐默认值，需由用户确认后才按 `default applied` 记录 | Recommended default; only record as `default applied` after user confirmation |
 | ASR language | `zh-CN` / `en-US` | 推荐默认值，英文场景优先 `en-US`，其他场景优先 `zh-CN`；需用户确认 | Recommended default; prefer `en-US` for clearly English use cases, otherwise `zh-CN`; requires user confirmation |
 | LLM vendor | `deepseek` | 推荐默认值，需由用户确认后才按 `default applied` 记录 | Recommended default; only record as `default applied` after user confirmation |
