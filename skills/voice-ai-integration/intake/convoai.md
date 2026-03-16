@@ -35,14 +35,13 @@ Defaults policy:
 - TTS recommended default: `bytedance`
 
 Blocking rule:
-- Credentials status (Q1) must be explicitly answered or confirmed
-- ASR vendor (Q4) must be explicitly answered or confirmed
-- ASR language (Q5) must be explicitly answered or confirmed
-- LLM provider (Q2) must be explicitly answered or confirmed
-- TTS provider (Q3) must be explicitly answered or confirmed
+- Platform must be explicitly answered if it is missing
+- Backend must be explicitly answered if it is missing
+- Any selected `Other` value must be clarified in a narrow follow-up
+- LLM / TTS / ASR / ASR language are optional when shown with defaults
 
-"Use the default" counts as an explicit answer.
-Silence, omission, or inference does NOT.
+For defaultable fields, omission counts as explicit confirmation to use the default.
+Do not reopen credentials, account setup, or App Certificate during intake unless the user explicitly makes that the topic.
 
 Ask the full missing-fields checklist first. Skip any question the user already answered during main intake
 or in the user's initial request.
@@ -84,8 +83,6 @@ Parsing rules:
 - Ignore certificate/account setup during intake unless the user explicitly makes it the topic
 
 Suggested shape:
-
-Include this question whenever credentials status or App Certificate state is still missing.
 
 **ZH:**
 ```text
@@ -173,7 +170,7 @@ Choose the recommended default from the use case:
 - English use case -> `en-US`
 - Chinese or unspecified use case -> `zh-CN`
 
-Even when the recommended value is obvious, the user must still confirm or override it.
+If the question is shown and the user omits it, apply the recommended default automatically.
 
 **ZH:**
 > "ASR 语言（可选，留空=默认 [zh-CN / en-US]）"
@@ -269,18 +266,15 @@ TTS:              [bytedance (default applied) / minimax / tencent / microsoft /
 ─────────────────────────────
 ```
 
-If credentials status is `Need to create`, pause and direct the user to
-https://console.shengwang.cn/ before moving on.
-
 ## Defaults
 
 | Field | Default | Notes (ZH) | Notes (EN) |
 |-------|---------|------------|------------|
 | Supporting product | `RTC SDK` | ConvoAI 默认需要 RTC SDK 作为客户端配套，除非用户已明确是纯服务端讨论 | ConvoAI normally needs RTC SDK as the client-side companion unless the user is discussing a server-only topic |
-| ASR vendor | `fengming` | 推荐默认值，需由用户确认后才按 `default applied` 记录 | Recommended default; only record as `default applied` after user confirmation |
-| ASR language | `zh-CN` / `en-US` | 推荐默认值，英文场景优先 `en-US`，其他场景优先 `zh-CN`；需用户确认 | Recommended default; prefer `en-US` for clearly English use cases, otherwise `zh-CN`; requires user confirmation |
-| LLM vendor | `deepseek` | 推荐默认值，需由用户确认后才按 `default applied` 记录 | Recommended default; only record as `default applied` after user confirmation |
-| TTS vendor | `bytedance` | 推荐默认值，需由用户确认后才按 `default applied` 记录 | Recommended default; only record as `default applied` after user confirmation |
+| ASR vendor | `fengming` | 推荐默认值；如果用户省略该可选题，则按 `default applied` 记录 | Recommended default; if the user skips this optional question, record it as `default applied` |
+| ASR language | `zh-CN` / `en-US` | 推荐默认值；英文场景优先 `en-US`，其他场景优先 `zh-CN`；省略时按默认记录 | Recommended default; prefer `en-US` for clearly English use cases, otherwise `zh-CN`; apply it when omitted |
+| LLM vendor | `deepseek` | 推荐默认值；如果用户省略该可选题，则按 `default applied` 记录 | Recommended default; if the user skips this optional question, record it as `default applied` |
+| TTS vendor | `bytedance` | 推荐默认值；如果用户省略该可选题，则按 `default applied` 记录 | Recommended default; if the user skips this optional question, record it as `default applied` |
 
 > ASR/TTS/LLM valid values come from the /join API docs — see [convoai-restapi/start-agent.md](../references/conversational-ai/convoai-restapi/start-agent.md) for the /join schema and vendor params. Do not invent values.
 
