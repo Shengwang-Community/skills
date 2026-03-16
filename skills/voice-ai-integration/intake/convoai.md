@@ -57,112 +57,79 @@ Message requirements:
 - Use the user's language consistently
 - Start with a one-line recap that ConvoAI requires RTC SDK on the client side
 - Ask only for missing fields
-- Under each missing field, show the supported options and the recommended default
-- Ask the user to reply once with all answers, or to say "use the default" for any field
-- Do not force the user to fill a rigid template if a natural-language reply is enough
+- Under each missing field, show the supported options inline to reduce prompt height
+- Number only the currently visible missing fields, starting from `1`
+- Mark fields with defaults as optional
+- Ask the user to reply once with numeric codes such as `1A 4B 6A`
+- Do not mix this with a `key=value` quick-reply example in the same prompt
+- Do not ask about account status, project creation, Customer Key/Secret, or App Certificate in this intake
 
 If the user already provided enough detail for some fields, do not restate those
 questions. Keep the option list only for the unresolved fields.
 
+Numbering rules:
+- Renumber based only on the fields shown in the current prompt
+- Do not use stable global IDs across turns
+- If a field is already known, omit it and do not reserve its number
+- Platform and backend should also be numbered whenever they are missing
+- If a visible field has a default, its number may be omitted from the reply
+
+Parsing rules:
+- Parse numeric answers against the current prompt's visible numbering
+- Accept sparse one-line replies such as `1A 4B 6A`
+- If a visible optional field is omitted, apply its default automatically
+- If a visible mandatory field is omitted, ask only for that field
+- If a selected option is `Other`, ask a narrow follow-up only for that field
+- If a code is invalid or incomplete, ask only for the unresolved item
+- Ignore certificate/account setup during intake unless the user explicitly makes it the topic
+
 Suggested shape:
+
+Include this question whenever credentials status or App Certificate state is still missing.
 
 **ZH:**
 ```text
 我还缺这几项信息，确认完我就可以继续：
-- [field 1]
-  选项: ...
-  默认: ...
-- [field 2]
-  选项: ...
-  默认: ...
+1. [field 1]（可选，留空=默认）
+   A. ...  B. ...  C. 用默认（...）
+2. [field 2]
+   A. ...  B. ...  C. 其他，直接写代码
 
 补充说明：
 - ConvoAI 服务端通过 REST 管理，客户端仍需要 RTC SDK 入会
-- 你可以一次性回复全部答案；某项如果接受默认值，直接写“用默认的”即可
+- 可选题如果不写，就自动用默认值
+- 你回一行就行，例如：2B 4A；没写出来的可选题会自动用默认
+- 如果你的目标不是 Web，而是 iOS / Android / Electron，也一起按编号回复
 ```
 
 **EN:**
 ```text
 I still need these details before I continue:
-- [field 1]
-  Options: ...
-  Default: ...
-- [field 2]
-  Options: ...
-  Default: ...
+1. [field 1] (optional, blank=default)
+   A. ...  B. ...  C. Use default (...)
+2. [field 2]
+   A. ...  B. ...  C. Other, specify the code
 
 Notes:
 - ConvoAI is managed by REST on the server side, and the client still needs RTC SDK to join the channel
-- You can answer everything in one reply; for any field, "use the default" is enough
+- If you omit an optional question, I will apply its default automatically
+- Reply in one line, for example: `2B 4A`; omitted optional numbers will use defaults
+- If your target is not Web, but iOS / Android / Electron, include that choice by number as well
 ```
-
-### Q1 — Credentials & App Certificate
-
-Include this question whenever credentials status or App Certificate state is still missing.
-
-**ZH:**
-> "你有 Agora 账号和项目凭证吗？"
->
-> 需要以下信息：
-> - `AppID` — 项目标识
-> - `App Certificate` — 是否已开启？
-> - `Customer Key` + `Customer Secret` — 仅在使用 Basic Auth 鉴权时需要（ConvoAI 也支持 RTC Token 鉴权，此时不需要）
->
-> 选择：
-> - A. 都准备好了，App Certificate 已开启
-> - B. 都准备好了，App Certificate 未开启（或不确定）
-> - C. 有账号但还没创建项目
-> - D. 还没有账号
-
-**EN:**
-> "Do you have an Agora account and project credentials?"
->
-> Required:
-> - `AppID` — project identifier
-> - `App Certificate` — is it enabled?
-> - `Customer Key` + `Customer Secret` — only needed for Basic Auth (ConvoAI also supports RTC Token auth, which doesn't require these)
->
-> Options:
-> - A. All ready, App Certificate is enabled
-> - B. All ready, App Certificate is not enabled (or unsure)
-> - C. Have an account but haven't created a project yet
-> - D. Don't have an account yet
-
-**If A** → Record `certificate = enabled`, token generation needed later.
-
-| | Prompt |
-|---|--------|
-| ZH | "App Certificate 已开启，ConvoAI 创建 agent 时需要传入 RTC Token。我会在后续帮你生成 Token，需要用到 `AGORA_APP_CERTIFICATE` 环境变量。" |
-| EN | "App Certificate is enabled. ConvoAI requires an RTC Token when creating an agent. I'll help you generate one later — you'll need the `AGORA_APP_CERTIFICATE` env var." |
-
-**If B** → Record `certificate = not enabled`, token = empty string.
-
-| | Prompt |
-|---|--------|
-| ZH | "如果后续在 Console 开启了 App Certificate，就需要改为传入 Token，否则 agent 会加入频道失败。" |
-| EN | "If you enable App Certificate later in Console, you'll need to start passing a Token, otherwise the agent will fail to join the channel." |
-
-**If C or D** → Direct to https://console.shengwang.cn/ and pause until ready.
 
 ### Q2 — LLM
 
 Include this question only if the LLM provider has not already been confirmed.
 
 **ZH:**
-> "LLM 先用默认的 DeepSeek 可以吗？也可以指定其他供应商。"
-> - A. 阿里云（aliyun）
-> - B. 字节跳动（bytedance）
-> - C. 深度求索（deepseek）
-> - D. 腾讯（tencent）
-> - E. 用默认的就行（deepseek）
+> "LLM（可选，留空=默认 DeepSeek）"
+> 选项（内联展示）：
+> A. 阿里云（aliyun）  B. 字节跳动（bytedance）  C. 深度求索（deepseek）  D. 腾讯（tencent）  E. 用默认的就行（deepseek）
 
 **EN:**
-> "Is it okay to start with the default LLM, DeepSeek? You can also choose another provider."
-> - A. Alibaba Cloud (aliyun)
-> - B. ByteDance (bytedance)
-> - C. DeepSeek (deepseek)
-> - D. Tencent (tencent)
-> - E. Use the default (deepseek)
+> "LLM (optional, blank=default DeepSeek)"
+> Options (inline):
+> A. Alibaba Cloud (aliyun)  B. ByteDance (bytedance)  C. DeepSeek (deepseek)  D. Tencent (tencent)  E. Use the default (deepseek)
 
 **Default:** deepseek
 
@@ -171,24 +138,14 @@ Include this question only if the LLM provider has not already been confirmed.
 Include this question only if the TTS provider has not already been confirmed.
 
 **ZH:**
-> "TTS 先用默认的火山引擎可以吗？也可以指定其他供应商。"
-> - A. 字节跳动 / 火山引擎（bytedance）
-> - B. 微软（microsoft）
-> - C. MiniMax（minimax）
-> - D. 阿里 CosyVoice（cosyvoice）
-> - E. 腾讯（tencent）
-> - F. 阶跃星辰（stepfun）
-> - G. 用默认的就行（bytedance）
+> "TTS（可选，留空=默认 bytedance）"
+> 选项（内联展示）：
+> A. 字节跳动 / 火山引擎（bytedance）  B. 微软（microsoft）  C. MiniMax（minimax）  D. 阿里 CosyVoice（cosyvoice）  E. 腾讯（tencent）  F. 阶跃星辰（stepfun）  G. 用默认的就行（bytedance）
 
 **EN:**
-> "Is it okay to start with the default TTS, ByteDance? You can also choose another provider."
-> - A. ByteDance / Volcengine (bytedance)
-> - B. Microsoft (microsoft)
-> - C. MiniMax (minimax)
-> - D. Alibaba CosyVoice (cosyvoice)
-> - E. Tencent (tencent)
-> - F. StepFun (stepfun)
-> - G. Use the default (bytedance)
+> "TTS (optional, blank=default bytedance)"
+> Options (inline):
+> A. ByteDance / Volcengine (bytedance)  B. Microsoft (microsoft)  C. MiniMax (minimax)  D. Alibaba CosyVoice (cosyvoice)  E. Tencent (tencent)  F. StepFun (stepfun)  G. Use the default (bytedance)
 
 **Default:** bytedance (Volcengine TTS)
 
@@ -197,24 +154,14 @@ Include this question only if the TTS provider has not already been confirmed.
 Include this question only if the ASR provider has not already been confirmed.
 
 **ZH:**
-> "ASR 先用默认的凤鸣可以吗？也可以指定其他供应商。"
-> - A. 声网凤鸣（fengming）— 默认
-> - B. 腾讯（tencent）
-> - C. 微软（microsoft）
-> - D. 科大讯飞（xfyun）
-> - E. 科大讯飞大模型（xfyun_bigmodel）
-> - F. 科大讯飞方言（xfyun_dialect）
-> - G. 用默认的就行（fengming）
+> "ASR（可选，留空=默认 fengming）"
+> 选项（内联展示）：
+> A. 声网凤鸣（fengming）  B. 腾讯（tencent）  C. 微软（microsoft）  D. 科大讯飞（xfyun）  E. 科大讯飞大模型（xfyun_bigmodel）  F. 科大讯飞方言（xfyun_dialect）  G. 用默认的就行（fengming）
 
 **EN:**
-> "Is it okay to start with the default ASR, Fengming? You can also choose another provider."
-> - A. Agora Fengming (fengming) — default
-> - B. Tencent (tencent)
-> - C. Microsoft (microsoft)
-> - D. iFlytek (xfyun)
-> - E. iFlytek BigModel (xfyun_bigmodel)
-> - F. iFlytek Dialect (xfyun_dialect)
-> - G. Use the default (fengming)
+> "ASR (optional, blank=default fengming)"
+> Options (inline):
+> A. Agora Fengming (fengming)  B. Tencent (tencent)  C. Microsoft (microsoft)  D. iFlytek (xfyun)  E. iFlytek BigModel (xfyun_bigmodel)  F. iFlytek Dialect (xfyun_dialect)  G. Use the default (fengming)
 
 **Default:** fengming
 
@@ -229,20 +176,53 @@ Choose the recommended default from the use case:
 Even when the recommended value is obvious, the user must still confirm or override it.
 
 **ZH:**
-> "识别语言先用默认的 [zh-CN / en-US] 可以吗？也可以指定其他语言。"
-> - A. 中文（zh-CN，支持中英混合）
-> - B. 英文（en-US）
-> - C. 其他（请说明）
-> - D. 用默认的就行
+> "ASR 语言（可选，留空=默认 [zh-CN / en-US]）"
+> 选项（内联展示）：
+> A. 中文（zh-CN，支持中英混合）  B. 英文（en-US）  C. 其他，直接写代码  D. 用默认的就行
 
 **EN:**
-> "Is it okay to start with the default recognition language, [zh-CN / en-US]? You can also choose another language."
-> - A. Chinese (zh-CN, supports Chinese-English mix)
-> - B. English (en-US)
-> - C. Other (please specify)
-> - D. Use the default
+> "ASR language (optional, blank=default [zh-CN / en-US])"
+> Options (inline):
+> A. Chinese (zh-CN, supports Chinese-English mix)  B. English (en-US)  C. Other, specify the code  D. Use the default
 
 **Default:** `en-US` for clearly English scenarios, otherwise `zh-CN`
+
+Prompt rendering rule:
+- In the actual user-facing prompt, render each visible question as two lines only:
+  - line 1: question number + field name
+  - line 2: all options inline, separated by two spaces
+- Example:
+  - `2. LLM（可选，留空=默认）`
+  - `   A. aliyun  B. bytedance  C. deepseek  D. tencent  E. 用默认（deepseek）`
+- Keep the detailed reference blocks below in vertical form; only the emitted prompt should be compact
+
+### Platform Question
+
+Include this question whenever platform is still missing.
+
+**ZH:**
+> "目标平台是什么？（必填）"
+> 选项（内联展示）：
+> A. Web  B. iOS  C. Android  D. Electron  E. 其他，直接写平台
+
+**EN:**
+> "What is the target platform? (required)"
+> Options (inline):
+> A. Web  B. iOS  C. Android  D. Electron  E. Other, specify the platform
+
+### Backend Question
+
+Include this question whenever backend language is still missing.
+
+**ZH:**
+> "服务端准备用什么语言？（必填）"
+> 选项（内联展示）：
+> A. Python  B. Go  C. Java  D. Node.js  E. 其他，直接写语言
+
+**EN:**
+> "What backend language are you using? (required)"
+> Options (inline):
+> A. Python  B. Go  C. Java  D. Node.js  E. Other, specify the language
 
 ---
 
@@ -261,9 +241,8 @@ ConvoAI 需求规格
 平台：            [platform / client stack]
 实现方式：        [sample-aligned / minimal-custom / 未指定]
 服务端语言：      [backend language / 不涉及]
-凭证状态：        [已就绪 / 需先创建]
-App Certificate： [已开启 / 未开启]
-Token：           [需要生成 / 空字符串]
+凭证状态：        [后续确认 / 用户已说明]
+Token：           [后续确认]
 ASR：             [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR 语言：        [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
 LLM：             [aliyun / bytedance / deepseek (default applied) / tencent]
@@ -281,9 +260,8 @@ Supporting:       [RTC SDK / RTC SDK + RTM / RTC SDK + Cloud Recording / none]
 Platform:         [platform / client stack]
 Implementation:   [sample-aligned / minimal-custom / unspecified]
 Backend:          [backend language / not needed]
-Credentials:      [Ready / Need to create]
-App Certificate:  [Enabled / Not enabled]
-Token:            [Need to generate / Empty string]
+Credentials:      [confirm later / user specified]
+Token:            [confirm later]
 ASR:              [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR Language:     [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
 LLM:              [aliyun / bytedance / deepseek (default applied) / tencent]
@@ -298,7 +276,6 @@ https://console.shengwang.cn/ before moving on.
 
 | Field | Default | Notes (ZH) | Notes (EN) |
 |-------|---------|------------|------------|
-| App Certificate | Not enabled | 如果用户不确定，按未开启处理，提醒后续开启需改传 Token | If user is unsure, treat as not enabled; remind them to pass Token if enabled later |
 | Supporting product | `RTC SDK` | ConvoAI 默认需要 RTC SDK 作为客户端配套，除非用户已明确是纯服务端讨论 | ConvoAI normally needs RTC SDK as the client-side companion unless the user is discussing a server-only topic |
 | ASR vendor | `fengming` | 推荐默认值，需由用户确认后才按 `default applied` 记录 | Recommended default; only record as `default applied` after user confirmation |
 | ASR language | `zh-CN` / `en-US` | 推荐默认值，英文场景优先 `en-US`，其他场景优先 `zh-CN`；需用户确认 | Recommended default; prefer `en-US` for clearly English use cases, otherwise `zh-CN`; requires user confirmation |
@@ -316,5 +293,5 @@ Key routing hints:
 - Dev = Go → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
 - Dev = Java → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"`
 - Dev = Python/curl → run `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"`
-- App Certificate = Enabled → also run [token-server](../references/token-server/README.md)
+- Credentials and token setup → confirm later only if implementation is blocked or the user explicitly asks
 - If fetch fails → use Generation Rules + fallback URL

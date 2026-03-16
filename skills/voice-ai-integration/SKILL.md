@@ -47,19 +47,18 @@ Use a conversational flow:
 ConvoAI has a special intake mode:
 - If ConvoAI is clearly the primary product, switch to the consolidated ConvoAI intake in [intake/convoai.md](intake/convoai.md)
 - Ask for all missing kickoff and ConvoAI-specific blocking fields in one message
-- Show the available options and recommended defaults for each missing field
+- Show numbered choices for each missing field and ask for a one-line numeric reply
 - Do not repeat fields the user already answered
 
 For ConvoAI, the user must still explicitly answer or confirm all blocking fields before implementation:
-- Credentials status
-- App Certificate state
-- ASR
-- ASR language
-- LLM
-- TTS
+- Platform if missing
+- Backend if missing
+- Any `Other` follow-up value
 
-"Use the default" is a valid explicit confirmation.
-If the first consolidated reply is incomplete, ask only a narrow follow-up for the unresolved blocker.
+For ConvoAI fields with defaults, treat omission as an explicit default confirmation.
+If the first consolidated reply is incomplete, ask only a narrow follow-up for the unresolved mandatory blocker.
+Do not ask about account creation, project creation, or App Certificate during ConvoAI intake.
+Handle credentials and token setup later only if implementation is blocked or the user explicitly asks.
 
 If the user already gave enough information, do not repeat questions.
 Produce a lightweight kickoff recap, then continue automatically unless a required detail is still missing.

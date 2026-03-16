@@ -138,21 +138,42 @@ For each case:
 
 - User Input: "Integrate ConvoAI, I have credentials, use deepseek, Python backend"
 - Expected Behavior: Ask only for the remaining missing fields in one consolidated message
-- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; includes explicit options/defaults for the unresolved fields only
+- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; marks defaultable questions optional, keeps required ones explicit, and expects a sparse one-line numeric reply
 - Result: ___
 
 ### I-04: Full checklist when little is known
 
 - User Input: "Integrate ConvoAI in Python"
 - Expected Behavior: Produce one consolidated ConvoAI checklist covering the missing kickoff and provider fields
-- Pass Criteria: Shows credentials, App Certificate, ASR, ASR language, LLM, and TTS options in one reply rather than separate turns
+- Pass Criteria: Does not ask about account or App Certificate; marks LLM/TTS/ASR/language optional, keeps platform/backend required, and includes a sparse example such as `5A 6A`
 - Result: ___
 
 ### I-05: Structured spec after one reply
 
-- User Input: "ConvoAI for a Web voice assistant, Python backend, credentials ready, App Certificate off, use defaults"
+- User Input: "ConvoAI for a Web voice assistant, Python backend, credentials ready, use defaults"
 - Expected Behavior: Normalize the answer into a single ConvoAI spec and continue
-- Pass Criteria: Outputs the structured spec without asking another confirmation question
+- Pass Criteria: Outputs the structured spec without reopening account or certificate questions, and omitted optional fields become `default applied`
+- Result: ___
+
+### I-06: Numeric reply parses correctly
+
+- User Input: "5A 6A"
+- Expected Behavior: Parse the numeric reply against the current prompt and normalize it into the ConvoAI spec
+- Pass Criteria: Accepts sparse numeric codes and applies defaults to omitted optional questions
+- Result: ___
+
+### I-07: Other-option follow-up is narrow
+
+- User Input: "4C 5A 6A"
+- Expected Behavior: Ask only for the custom language value after parsing the rest of the codes
+- Pass Criteria: Does not reopen already-resolved fields
+- Result: ___
+
+### I-08: Explicit certificate-off override works
+
+- User Input: "1A 2E 3G 4C 5A 6A 7A, and App Certificate is off"
+- Expected Behavior: Keep the intake focused on product choices and avoid reopening certificate handling
+- Pass Criteria: Does not ask a certificate question as part of intake
 - Result: ___
 
 ---
