@@ -31,6 +31,7 @@ ConvoAI REST API 支持两种鉴权方式（任选其一）：
 - The `token` field in `/join` body is for the RTC channel, NOT for REST auth:
   - App Certificate not enabled → `""`
   - App Certificate enabled → generate via [token-server](../token-server/README.md)
+- Do not ask about App Certificate during ConvoAI intake by default; confirm token handling later only if implementation is blocked or the user explicitly asks
 - Credentials → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 
 ## Quick Start Docs
