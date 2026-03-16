@@ -50,12 +50,9 @@ ConvoAI has a special intake mode:
 - Show numbered choices for each unresolved field and ask for a one-line numeric reply
 - Do not repeat fields the user already answered
 
-For ConvoAI, the user must still explicitly answer or confirm all blocking fields before implementation:
-- Platform if missing
-- Backend if missing
-- Any `Other` follow-up value
+For ConvoAI, the user must still explicitly answer or confirm any unresolved `Other` follow-up value before implementation.
 
-For unresolved ConvoAI fields with defaults, keep them visible and treat omission as an explicit default confirmation.
+For unresolved ConvoAI fields with defaults, keep them visible and treat omission as an explicit default confirmation. This includes `Platform = Web` and `Backend = Python`.
 If the first consolidated reply is incomplete, ask only a narrow follow-up for the unresolved mandatory blocker.
 
 If the user already gave enough information, do not repeat questions.

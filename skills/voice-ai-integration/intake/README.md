@@ -37,7 +37,7 @@ The intake should stay concise and targeted.
 - Prefer natural wording over an interview script
 - Ask only for missing information
 - For non-ConvoAI flows, ask in priority order and stop early once there is enough information
-- For ConvoAI-primary flows, send one consolidated checklist covering all unresolved required fields plus unresolved optional-default provider fields
+- For ConvoAI-primary flows, send one consolidated checklist covering unresolved fields, including kickoff fields and optional-default provider fields
 - Do not ask "nice to have" questions during kickoff
 - If a detail is obvious from the user's message, infer it instead of asking again
 - After each answer, decide whether to continue or route onward
@@ -83,7 +83,7 @@ Priority order:
 
 ConvoAI exception:
 - If ConvoAI is clearly the primary product, do not stretch kickoff across multiple turns
-- Route immediately to [convoai.md](convoai.md) and ask for all unresolved required fields plus unresolved optional-default provider fields in one checklist-style message
+- Route immediately to [convoai.md](convoai.md) and ask for all unresolved kickoff and ConvoAI provider fields in one checklist-style message
 - Include kickoff fields only if still missing, such as use case, platform, backend language, or implementation mode
 - Mention RTC SDK as the client-side companion when ConvoAI is the primary product
 

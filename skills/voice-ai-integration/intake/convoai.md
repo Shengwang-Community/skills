@@ -29,16 +29,16 @@ Use a friendly but explicit follow-up flow:
 - If the user leaves a blocker unresolved, ask only a narrow repair follow-up for that field
 
 Defaults policy:
+- Platform recommended default: `Web`
+- Backend recommended default: `Python`
 - ASR vendor recommended default: `fengming`
 - ASR language recommended default: `en-US` for clearly English scenarios, otherwise `zh-CN`
 - LLM recommended default: `deepseek`
 - TTS recommended default: `bytedance`
 
 Blocking rule:
-- Platform must be explicitly answered if it is missing
-- Backend must be explicitly answered if it is missing
 - Any selected `Other` value must be clarified in a narrow follow-up
-- LLM / TTS / ASR / ASR language are optional when shown with defaults
+- Platform / Backend / LLM / TTS / ASR / ASR language are optional when shown with defaults
 
 For defaultable fields, omission counts as explicit confirmation to use the default.
 
@@ -68,7 +68,7 @@ Numbering rules:
 - Renumber based only on the fields shown in the current prompt
 - Do not use stable global IDs across turns
 - If a field is already known, omit it and do not reserve its number
-- Platform and backend should also be numbered whenever they are missing
+- Platform and backend should also be shown whenever they are unresolved, even though they are optional
 - LLM, TTS, ASR, and ASR language should still be shown whenever they are unresolved, even though they are optional
 - If a visible field has a default, its number may be omitted from the reply
 
@@ -196,28 +196,32 @@ Prompt rendering rule:
 Include this question whenever platform is still missing.
 
 **ZH:**
-> "目标平台是什么？（必填）"
+> "目标平台是什么？（可选，留空=默认 Web）"
 > 选项（内联展示）：
-> A. Web  B. iOS  C. Android  D. Electron  E. 其他，直接写平台
+> A. Web  B. iOS  C. Android  D. Electron  E. 其他，直接写平台  F. 用默认的就行（Web）
 
 **EN:**
-> "What is the target platform? (required)"
+> "What is the target platform? (optional, blank=default Web)"
 > Options (inline):
-> A. Web  B. iOS  C. Android  D. Electron  E. Other, specify the platform
+> A. Web  B. iOS  C. Android  D. Electron  E. Other, specify the platform  F. Use the default (Web)
+
+**Default:** Web
 
 ### Backend Question
 
 Include this question whenever backend language is still missing.
 
 **ZH:**
-> "服务端准备用什么语言？（必填）"
+> "服务端准备用什么语言？（可选，留空=默认 Python）"
 > 选项（内联展示）：
-> A. Python  B. Go  C. Java  D. Node.js  E. 其他，直接写语言
+> A. Python  B. Go  C. Java  D. Node.js  E. 其他，直接写语言  F. 用默认的就行（Python）
 
 **EN:**
-> "What backend language are you using? (required)"
+> "What backend language are you using? (optional, blank=default Python)"
 > Options (inline):
-> A. Python  B. Go  C. Java  D. Node.js  E. Other, specify the language
+> A. Python  B. Go  C. Java  D. Node.js  E. Other, specify the language  F. Use the default (Python)
+
+**Default:** Python
 
 ---
 
@@ -233,9 +237,9 @@ ConvoAI 需求规格
 场景：            [use case]
 主要产品：        [ConvoAI]
 配套产品：        [RTC SDK / RTC SDK + RTM / RTC SDK + Cloud Recording / 无]
-平台：            [platform / client stack]
+平台：            [Web (default applied) / iOS / Android / Electron / other platform]
 实现方式：        [sample-aligned / minimal-custom / 未指定]
-服务端语言：      [backend language / 不涉及]
+服务端语言：      [Python (default applied) / Go / Java / Node.js / other backend / 不涉及]
 ASR：             [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR 语言：        [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
 LLM：             [aliyun / bytedance / deepseek (default applied) / tencent]
@@ -250,9 +254,9 @@ ConvoAI Spec
 Use case:         [use case]
 Primary:          [ConvoAI]
 Supporting:       [RTC SDK / RTC SDK + RTM / RTC SDK + Cloud Recording / none]
-Platform:         [platform / client stack]
+Platform:         [Web (default applied) / iOS / Android / Electron / other platform]
 Implementation:   [sample-aligned / minimal-custom / unspecified]
-Backend:          [backend language / not needed]
+Backend:          [Python (default applied) / Go / Java / Node.js / other backend / not needed]
 ASR:              [fengming (default applied) / tencent / microsoft / xfyun / xfyun_bigmodel / xfyun_dialect]
 ASR Language:     [zh-CN (default applied) / en-US (default applied) / ja-JP / ko-KR / ...]
 LLM:              [aliyun / bytedance / deepseek (default applied) / tencent]
@@ -265,6 +269,8 @@ TTS:              [bytedance (default applied) / minimax / tencent / microsoft /
 | Field | Default | Notes (ZH) | Notes (EN) |
 |-------|---------|------------|------------|
 | Supporting product | `RTC SDK` | ConvoAI 默认需要 RTC SDK 作为客户端配套，除非用户已明确是纯服务端讨论 | ConvoAI normally needs RTC SDK as the client-side companion unless the user is discussing a server-only topic |
+| Platform | `Web` | 推荐默认值；如果用户省略该可选题，则按 `default applied` 记录 | Recommended default; if the user skips this optional question, record it as `default applied` |
+| Backend | `Python` | 推荐默认值；如果用户省略该可选题，则按 `default applied` 记录 | Recommended default; if the user skips this optional question, record it as `default applied` |
 | ASR vendor | `fengming` | 推荐默认值；如果用户省略该可选题，则按 `default applied` 记录 | Recommended default; if the user skips this optional question, record it as `default applied` |
 | ASR language | `zh-CN` / `en-US` | 推荐默认值；英文场景优先 `en-US`，其他场景优先 `zh-CN`；省略时按默认记录 | Recommended default; prefer `en-US` for clearly English use cases, otherwise `zh-CN`; apply it when omitted |
 | LLM vendor | `deepseek` | 推荐默认值；如果用户省略该可选题，则按 `default applied` 记录 | Recommended default; if the user skips this optional question, record it as `default applied` |

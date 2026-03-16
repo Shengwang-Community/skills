@@ -138,14 +138,14 @@
 
 - 用户输入: "接入 ConvoAI，用 deepseek，Python 开发"
 - 期望行为: 只针对剩余缺失项发出一条集中式问题
-- 判定标准: 未逐个问 Q1/Q2/Q3，而是在同一条消息里继续展示尚未确认但有默认值的问题，并把它们标成可选、把必填项标清楚，并要求稀疏的一行数字回复
+- 判定标准: 未逐个问 Q1/Q2/Q3，而是在同一条消息里继续展示尚未确认但有默认值的问题，并把 platform、backend 和 provider 默认项都标成可选，并要求稀疏的一行数字回复
 - 结果: ___
 
 ### I-04: 信息较少时给出完整清单
 
 - 用户输入: "用 Python 接入 ConvoAI"
 - 期望行为: 一次性给出 ConvoAI 的缺失字段清单，包含 kickoff 和 provider 相关问题
-- 判定标准: 保持聚焦 platform、backend 和 provider 选择；仍列出尚未确认的 LLM、TTS、ASR、ASR 语言问题并标成可选，把 platform、backend 标成必填，并附带类似 `5A 6A` 的稀疏示例
+- 判定标准: 保持聚焦 platform、backend 和 provider 选择；仍列出尚未确认的 platform、backend、LLM、TTS、ASR、ASR 语言问题并标成可选，并附带类似 `5A 6A` 的稀疏示例
 - 结果: ___
 
 ### I-05: 一次回复后产出结构化 spec
@@ -159,7 +159,7 @@
 
 - 用户输入: "5A 6A"
 - 期望行为: 按当前提示里的编号正确解析，并归一化成 ConvoAI spec
-- 判定标准: 接受稀疏数字代码，未填写的可选题自动按默认值处理
+- 判定标准: 接受稀疏数字代码，未填写的可选题自动按默认值处理，包含 platform 和 backend
 - 结果: ___
 
 ### I-07: 选择 Other 时只追问该字段

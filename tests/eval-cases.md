@@ -138,14 +138,14 @@ For each case:
 
 - User Input: "Integrate ConvoAI, use deepseek, Python backend"
 - Expected Behavior: Ask only for the remaining missing fields in one consolidated message
-- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; still shows unresolved defaultable questions in the same prompt, marks them optional, keeps required ones explicit, and expects a sparse one-line numeric reply
+- Pass Criteria: Does not ask Q1/Q2/Q3 one by one; still shows unresolved defaultable questions in the same prompt, marks platform/backend/provider defaults as optional, and expects a sparse one-line numeric reply
 - Result: ___
 
 ### I-04: Full checklist when little is known
 
 - User Input: "Integrate ConvoAI in Python"
 - Expected Behavior: Produce one consolidated ConvoAI checklist covering the missing kickoff and provider fields
-- Pass Criteria: Stays focused on platform/backend/provider choices, still lists unresolved LLM/TTS/ASR/language questions as optional, keeps platform/backend required, and includes a sparse example such as `5A 6A`
+- Pass Criteria: Stays focused on platform/backend/provider choices, lists unresolved platform/backend/LLM/TTS/ASR/language questions as optional, and includes a sparse example such as `5A 6A`
 - Result: ___
 
 ### I-05: Structured spec after one reply
@@ -159,7 +159,7 @@ For each case:
 
 - User Input: "5A 6A"
 - Expected Behavior: Parse the numeric reply against the current prompt and normalize it into the ConvoAI spec
-- Pass Criteria: Accepts sparse numeric codes and applies defaults to omitted optional questions
+- Pass Criteria: Accepts sparse numeric codes and applies defaults to omitted optional questions, including platform and backend when omitted
 - Result: ___
 
 ### I-07: Other-option follow-up is narrow
