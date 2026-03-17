@@ -27,16 +27,23 @@ Do not treat the REST quick start or endpoint index as the default architecture 
 
 ## Auth
 
-ConvoAI REST API 支持两种鉴权方式（任选其一）：
+ConvoAI REST API 支持两种鉴权方式，推荐使用 RTC Token：
 
-1. **RTC Token**：使用声网对话式 AI 引擎项目的 RTC Token
+1. **RTC Token（推荐）**：使用声网对话式 AI 引擎项目的 RTC Token
    - 传参示例：`Authorization: agora token="007abcxxxxxxx123"`
    - 测试环境：从[声网控制台](https://console.shengwang.cn/)生成临时 Token（有效期 24 小时）
    - 生产环境：部署 [token-server](../token-server/README.md) 生成 Token
+   - 优势：只需要 `APP_ID` + `APP_CERTIFICATE`，与客户端 token 共用同一套凭证，无需额外配置 Customer Key/Secret
 
-2. **Basic Auth**：使用 `SHENGWANG_CUSTOMER_KEY` + `SHENGWANG_CUSTOMER_SECRET` 生成 Base64 编码
+2. **Basic Auth（备选）**：使用 `SHENGWANG_CUSTOMER_KEY` + `SHENGWANG_CUSTOMER_SECRET` 生成 Base64 编码
    - 传参示例：`Authorization: Basic NDI1OTQ3N2I4MzYy...YwZjA=`
    - 参考[实现 HTTP 安全认证](https://doc.shengwang.cn/doc/convoai/restful/user-guides/http-basic-auth)
+   - 仅在无法使用 RTC Token 时使用（例如纯服务端场景、无 App Certificate 等）
+
+鉴权方式选择规则：
+- 默认使用 RTC Token 方式，减少环境变量数量，与客户端 token 生成逻辑统一
+- 仅在用户明确要求 Basic Auth、或项目不具备 App Certificate 时才使用 Basic Auth
+- 使用 `agora-agent-server-sdk` 时，SDK 内部自动处理 token 鉴权，无需手动构造 Authorization header
 
 其他注意事项：
 - ConvoAI requires separate activation in [Shengwang Console](https://console.shengwang.cn/) — 403 without it
