@@ -29,6 +29,8 @@ bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/co
 bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/rtc/javascript/get-started/quick-start"
 ```
 
+For ConvoAI, do not start here by default. Inspect the matching sample repo, `agora-agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when possible first, then fetch REST docs only for missing schemas, vendor parameters, or unsupported operations.
+
 The script handles the query parameter internally via curl, which works in environments
 where web fetch tools cannot pass `?uri=...` query strings.
 
@@ -53,6 +55,7 @@ Fetch for:
 - Vendor configurations (TTS, ASR)
 - Error codes and meanings
 - Any content that may change with doc updates
+- ConvoAI REST references only after sample/SDK inspection leaves a gap
 
 Do NOT fetch for:
 - Generation rules (field types, naming conventions) — stable, in skill files

@@ -77,7 +77,7 @@ Priority order:
 - Use case
 - Main product, if unclear
 - Platform / client stack, if relevant
-- Implementation mode, when a matching ConvoAI sample repo exists
+- Implementation mode, when a matching ConvoAI sample repo exists and the user explicitly wants to opt out of the default sample-aligned path
 - Backend language, if relevant
 - One additional blocker only if it materially affects implementation
 
@@ -85,7 +85,7 @@ ConvoAI exception:
 - If ConvoAI is clearly the primary product, do not stretch kickoff across multiple turns
 - Route immediately to [convoai.md](convoai.md) and ask for all unresolved kickoff and ConvoAI provider fields in one checklist-style message
 - Include kickoff fields only if still missing, such as use case, platform, backend language, or implementation mode
-- Mention RTC SDK as the client-side companion when ConvoAI is the primary product
+- Mention that ConvoAI prefers the official sample path, `agora-agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when possible
 
 Short prompt examples:
 
@@ -99,8 +99,8 @@ Short prompt examples:
   - ZH: "目标平台是什么，比如 Web、iOS、Android？"
   - EN: "What platform are you targeting, such as Web, iOS, or Android?"
 - Implementation mode, when a matching ConvoAI sample repo exists:
-  - ZH: "你想基于官方 quickstart 结构，还是做一个最小化自定义实现？"
-  - EN: "Do you want this based on the official quickstart structure, or a minimal custom implementation?"
+  - ZH: "默认会按官方 quickstart / sample 结构走；如果你想改成最小化自定义实现，再告诉我。"
+  - EN: "I’ll default to the official quickstart/sample structure unless you specifically want a minimal custom implementation."
 - Backend language, when relevant:
   - ZH: "服务端准备用什么语言？"
   - EN: "What backend language are you using?"

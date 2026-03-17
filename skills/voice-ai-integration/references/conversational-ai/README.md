@@ -10,8 +10,20 @@ User Device ◄── audio ── RTC Channel ◄── ConvoAI Agent
 ```
 
 - Agent is server-side only — managed via REST API, no client SDK
-- Client uses RTC SDK (Web/Android/iOS) to join the channel
+- Client should prefer `agora-agent-client-toolkit` when it fits the target stack; otherwise use the RTC SDK directly to join the channel
 - `POST /join` makes the agent join the same RTC channel
+
+## Default Integration Path
+
+Use this order unless the user explicitly asks for something else:
+
+1. Follow the matching official ConvoAI sample repo and preserve its structure
+2. On the server side, prefer `agora-agent-server-sdk`
+3. On the client side, prefer `agora-agent-client-toolkit` when the target stack supports it; otherwise fall back to the RTC SDK directly
+4. Use fetched Shengwang docs to fill in missing product details
+5. Use raw REST directly only for unsupported operations, debugging, or explicit REST-first requests
+
+Do not treat the REST quick start or endpoint index as the default architecture for a new ConvoAI integration when a matching sample or official SDK path already exists.
 
 ## Auth
 
@@ -34,18 +46,6 @@ ConvoAI REST API 支持两种鉴权方式（任选其一）：
 - Do not ask about App Certificate during ConvoAI intake by default; confirm token handling later only if implementation is blocked or the user explicitly asks
 - Credentials → [general/credentials-and-auth.md](../general/credentials-and-auth.md)
 
-## Quick Start Docs
-
-Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.md)):
-
-| Language | Command |
-|----------|---------|
-| Python / JS / curl | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"` |
-| Go | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` |
-| Java | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"` |
-
-API endpoint index → [convoai-restapi.md](convoai-restapi.md)
-
 ## Sample Repos
 
 For reference projects and starter layouts, use [sample-repos.md](sample-repos.md).
@@ -57,9 +57,10 @@ Required workflow:
 - Clone the repo on demand with `git clone --depth 1 <repo-url>`
 - Inspect the current stack, folder map, key files, env template files, and API surface
 - Inspect the sample repo's actual env template files before coding, such as `.env.example`, `.env.local.example`, and similar sample-provided files
-- Prefer the official SDKs, agent libraries, and dependency patterns already used by the sample repo over building a direct REST integration from scratch
+- Prefer `agora-agent-server-sdk` on the server side and `agora-agent-client-toolkit` on the client side when the sample repo or target stack supports them, instead of building a direct REST integration from scratch
 - Keep the implementation aligned with the sample repo's architecture, env var names discovered from those template files, dependency choices, and API shape
 - Use Shengwang doc fetching only for missing API or product details that the sample repo does not cover
+- Keep raw REST calls narrowly scoped to capabilities that are not covered by the chosen SDK or sample architecture
 
 Implementation modes:
 - `sample-aligned` is the default mode whenever a matching sample repo exists
@@ -69,7 +70,7 @@ Alignment rules:
 - Preserve the sample repo's env var names from the inspected env template files unless the user explicitly asks to rename or normalize them
 - Preserve the sample repo's folder structure and backend/frontend boundaries unless the user explicitly asks for a redesign
 - Preserve the sample repo's dependency choices and API shape by default; only swap what is necessary for the user's confirmed provider choices
-- Prefer official SDK and agent-library integrations over handwritten REST clients when they cover the required behavior
+- Prefer `agora-agent-server-sdk` for server integration and `agora-agent-client-toolkit` for client integration when they cover the required behavior
 - Use direct REST only for unsupported capability gaps, debugging, or when the user explicitly asks for raw REST
 - Do not invent env names from memory or from this skill's static docs when the sample repo provides template files
 
@@ -80,13 +81,27 @@ Diff budget rule:
 
 Before editing code, state:
 - which sample repo is being followed
-- which SDK or agent-library path is being followed, or why direct REST is required
+- whether `agora-agent-server-sdk` and `agora-agent-client-toolkit` are being followed, or why a different SDK path or direct REST is required
 - which env template files were inspected
 - what exact differences will be introduced
 
 REST docs are still the low-level reference for request/response schemas and unsupported operations, but they are not the default starting point when the sample repo or official libraries already cover the needed flow.
 
+When the user asks how to integrate ConvoAI in general, recommend the sample path plus `agora-agent-server-sdk` on the server and `agora-agent-client-toolkit` on the client when possible. Only propose a from-scratch REST build when the user explicitly asks for it or when the required capability is not covered by the sample and official libraries.
+
 Keep repo URLs in `sample-repos.md` only so future URL changes stay centralized.
+
+## Quick Start Docs
+
+Fetch docs using the doc fetching script (see [doc-fetching.md](../doc-fetching.md)) only after checking the sample repo and official SDK path first:
+
+| Language | Command |
+|----------|---------|
+| Python / JS / curl | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start"` |
+| Go | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` |
+| Java | `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-java"` |
+
+API endpoint index → [convoai-restapi.md](convoai-restapi.md)
 
 ## Generation Rules
 
