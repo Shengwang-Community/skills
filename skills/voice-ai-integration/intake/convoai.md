@@ -38,9 +38,14 @@ Defaults policy:
 
 Blocking rule:
 - Any selected `Other` value must be clarified in a narrow follow-up
-- Platform / Backend / LLM / TTS / ASR / ASR language are optional when shown with defaults
+- Platform and Backend are optional when shown with defaults
+- **LLM, TTS, ASR vendor, and ASR language are MANDATORY confirmation fields** — they MUST be shown to the user and the agent MUST wait for the user's explicit reply before proceeding to implementation, even if defaults exist. The user may choose the default, but the agent cannot assume it on their behalf.
 
-For defaultable fields, omission counts as explicit confirmation to use the default.
+Confirmation gate:
+- The consolidated intake message MUST always be sent to the user when any of the mandatory confirmation fields (LLM, TTS, ASR vendor, ASR language) have not been explicitly answered by the user.
+- Do NOT skip the intake message. Do NOT silently apply defaults for these fields.
+- For defaultable fields that are NOT mandatory confirmation fields (Platform, Backend), omission counts as explicit confirmation to use the default.
+- For mandatory confirmation fields, omission in the user's reply to the intake message counts as explicit confirmation to use the default — but the intake message itself must have been shown first.
 
 Ask the full unresolved-fields checklist first. Skip any question the user already answered during main intake
 or in the user's initial request.
