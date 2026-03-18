@@ -85,7 +85,7 @@ ConvoAI exception:
 - If ConvoAI is clearly the primary product, do not stretch kickoff across multiple turns
 - Route immediately to [convoai.md](convoai.md) and ask for all unresolved kickoff and ConvoAI provider fields in one checklist-style message
 - Include kickoff fields only if still missing, such as use case, platform, backend language, or implementation mode
-- Mention that ConvoAI prefers the official sample path, `agora-agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when possible
+- Mention that ConvoAI prefers the official sample path, `agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when possible
 
 Short prompt examples:
 
