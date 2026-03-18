@@ -31,4 +31,4 @@ Usage workflow:
 
 | Sample | Repo URL | Default Stack | Backend Entrypoint | Frontend Entrypoint | Use When |
 |--------|----------|---------------|--------------------|---------------------|----------|
-| ConvoAI web quickstart | https://gitee.com/agoraio-community/conversational-ai-quickstart | Monorepo with Bun scripts, `web-client` on Next.js 16 + React 19 + TypeScript, and `server-python` on FastAPI/Python | `server-python/src/server.py` | `web-client/app/page.tsx` | The user wants a ConvoAI web app structure reference, starter layout, or frontend/backend shape that stays close to the official quickstart |
+| ConvoAI web quickstart | https://gitee.com/agoraio-community/conversational-ai-quickstart | Monorepo with Bun scripts, `web` on Next.js 16 + React 19 + TypeScript, and `server` on FastAPI/Python | `server/src/server.py` | `web/app/page.tsx` | The user wants a ConvoAI web app structure reference, starter layout, or frontend/backend shape that stays close to the official quickstart |

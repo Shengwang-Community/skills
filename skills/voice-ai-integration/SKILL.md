@@ -49,7 +49,7 @@ ConvoAI has a special intake mode:
 - Ask for all unresolved kickoff fields plus unresolved ConvoAI provider/config fields in one message
 - Show numbered choices for each unresolved field and ask for a one-line numeric reply
 - Do not repeat fields the user already answered
-- For ConvoAI implementation, prefer the official sample repo, `agora-agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when the target stack supports it, over building directly from the REST spec
+- For ConvoAI implementation, prefer the official sample repo, `agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when the target stack supports it, over building directly from the REST spec
 - Treat raw REST as a fallback only for unsupported operations, debugging, or when the user explicitly asks for a REST-first implementation
 
 For ConvoAI, the user must still explicitly answer or confirm any unresolved `Other` follow-up value before implementation.
@@ -87,7 +87,7 @@ Do this only after Step 2, when the local references are insufficient for the re
 
 Research order:
 1. Local references in this skill
-2. For ConvoAI, inspect the matching sample repo, `agora-agent-server-sdk`, and `agora-agent-client-toolkit` path before using REST docs as a design source
+2. For ConvoAI, inspect the matching sample repo, `agent-server-sdk`, and `agora-agent-client-toolkit` path before using REST docs as a design source
 3. Fetched docs via the doc-fetching workflow
 4. Fallback web search only if needed after doc fetching
 
