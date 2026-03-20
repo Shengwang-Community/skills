@@ -69,6 +69,17 @@ Required workflow:
 - Use Shengwang doc fetching only for missing API or product details that the sample repo does not cover
 - Keep raw REST calls narrowly scoped to capabilities that are not covered by the chosen SDK or sample architecture
 
+Multi-platform repo handling:
+- If the matched sample repo is a multi-platform monorepo (indicated by "Multi-platform" in Default Stack):
+  1. Clone the repo to a temporary path (e.g. `/tmp/convoai-native-full`)
+  2. Read the repo's `AGENTS.md` to discover the directory layout and per-platform entrypoints
+  3. Based on the user's confirmed platform, locate the corresponding subdirectory
+  4. Copy only that subdirectory to a clean temporary path (e.g. `/tmp/convoai-native-android`), then delete the full clone
+  5. Inspect only the extracted subdirectory's structure, env templates, dependencies, and entrypoints
+  6. Generate the user's project based on the extracted code
+- The repo's `AGENTS.md` is the source of truth for which directory maps to which platform
+- If the repo's `AGENTS.md` does not list the requested platform, fall back to Shengwang doc fetching and `minimal-custom` mode
+
 Implementation modes:
 - `sample-aligned` is the default mode whenever a matching sample repo exists
 - `minimal-custom` may only be used if the user explicitly asks for a minimal demo or says not to follow the sample repo
