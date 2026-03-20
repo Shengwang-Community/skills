@@ -30,7 +30,7 @@ Use a friendly but explicit follow-up flow:
 
 Defaults policy:
 - Platform recommended default: `Web`
-- Backend recommended default: `Python`
+- Backend recommended default: `Python` (skip this field entirely for native platforms: iOS, Android, Flutter, Windows, macOS)
 - ASR vendor recommended default: `fengming`
 - ASR language recommended default: `en-US` for clearly English scenarios, otherwise `zh-CN`
 - LLM recommended default: `deepseek`
@@ -98,6 +98,7 @@ Suggested shape:
 补充说明：
 - ConvoAI 默认优先走官方 sample；服务端优先用 `agent-server-sdk`
 - 客户端优先用 `agora-agent-client-toolkit`，如果目标栈不适配再直接用 RTC SDK 入会
+- Native 平台（iOS / Android / Flutter / Windows / macOS）走多平台 sample repo，客户端直接调 ConvoAI REST API，不需要 `agent-server-sdk` 和 `agora-agent-client-toolkit`，也不需要配套服务端
 - 可选题如果不写，就自动用默认值
 - 你回一行就行，例如：2B 4A；没写出来的可选题会自动用默认
 - 如果你的目标不是 Web，而是 iOS / Android / Electron，也一起按编号回复
@@ -114,6 +115,7 @@ I still need these details before I continue:
 Notes:
 - ConvoAI should usually follow the official sample path, use `agent-server-sdk` on the server side, and use `agora-agent-client-toolkit` on the client side when possible instead of building from the REST spec from scratch
 - If the client toolkit is not a fit for the target stack, the client should still join with the RTC SDK directly
+- Native platforms (iOS / Android / Flutter / Windows / macOS) use the multi-platform sample repo, call the ConvoAI REST API directly from the client, and do not need `agent-server-sdk`, `agora-agent-client-toolkit`, or a separate server
 - If you omit an optional question, I will apply its default automatically
 - Reply in one line, for example: `2B 4A`; omitted optional numbers will use defaults
 - If your target is not Web, but iOS / Android / Electron, include that choice by number as well
@@ -217,6 +219,7 @@ Include this question whenever platform is still missing.
 ### Backend Question
 
 Include this question whenever backend language is still missing.
+Skip this question entirely if the user's confirmed platform is a native platform (iOS, Android, Flutter, Windows, macOS) — native ConvoAI apps are self-contained and call the REST API directly, no separate server needed. Record backend as "不涉及" / "not needed" in the spec.
 
 **ZH:**
 > "服务端准备用什么语言？（可选，留空=默认 Python）"
@@ -293,6 +296,7 @@ The product module will inspect the matching sample repo first, prefer `agent-se
 Key routing hints:
 - If a matching sample repo exists → inspect `sample-repos.md` first and keep `sample-aligned` as the default implementation mode
 - If the sample repo or target stack supports `agent-server-sdk` and `agora-agent-client-toolkit` → keep those as the default server/client libraries
+- For native platforms (iOS, Android, Flutter, Windows, macOS) → route to the multi-platform native client sample repo, no server needed, client calls ConvoAI REST API directly
 - If the sample repo does not answer a required API or vendor detail → fetch the missing REST docs for the confirmed backend language
 - If the user explicitly asks for raw REST or the capability is unsupported by the sample/SDK path → use the REST quick start and endpoint docs directly
 - If fetch fails → use Generation Rules + fallback URL
