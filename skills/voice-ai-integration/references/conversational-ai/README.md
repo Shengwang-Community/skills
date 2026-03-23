@@ -69,6 +69,20 @@ Required workflow:
 - Use Shengwang doc fetching only for missing API or product details that the sample repo does not cover
 - Keep raw REST calls narrowly scoped to capabilities that are not covered by the chosen SDK or sample architecture
 
+Multi-platform repo handling:
+- If the matched sample repo is a multi-platform monorepo (indicated by "Multi-platform" in Default Stack):
+  1. Clone the repo to a temporary path (e.g. `/tmp/convoai-native-full`)
+  2. Read the repo's `AGENTS.md` to discover the directory layout and per-platform entrypoints
+  3. Based on the user's confirmed platform, locate the corresponding subdirectory
+  4. Copy only that subdirectory to a clean temporary path (e.g. `/tmp/convoai-native-ios`), then delete the full clone
+  5. Inspect the extracted subdirectory's complete demo code (architecture, env templates, API calls, dependencies) — same as the Web workflow
+  6. Locate the empty project template folder inside the extracted subdirectory (path specified in the repo's `AGENTS.md`)
+  7. If the user's workspace already contains a project with build/project files for the target platform, skip the template copy and write business code directly into the user's existing project. Otherwise, copy the empty project template to the user's project as the starting point
+  8. Referencing the complete demo code, write business code on top of the empty template — keep project/build files untouched, only write/modify the business code files indicated by the repo's `AGENTS.md`
+  9. Apply the user's confirmed provider choices with a minimal diff, same as the Web workflow
+- The repo's `AGENTS.md` is the source of truth for which directory maps to which platform, where the empty template is, and which files are business code vs project files
+- If the repo's `AGENTS.md` does not list the requested platform, fall back to Shengwang doc fetching and `minimal-custom` mode
+
 Implementation modes:
 - `sample-aligned` is the default mode whenever a matching sample repo exists
 - `minimal-custom` may only be used if the user explicitly asks for a minimal demo or says not to follow the sample repo
