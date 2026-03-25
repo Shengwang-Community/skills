@@ -192,6 +192,7 @@ providers:
 - Follow architecture rules in [README.md](README.md)
 - Use [sample-repos.md](sample-repos.md) for sample inspection and clone
 - Use [generation-rules.md](generation-rules.md) for code generation constraints
+- Use [providers.md](providers.md) for vendor-specific required params when generating `/join` payloads
 - Use `convoai-restapi/index.mdx` only for missing low-level API details
 
 ### Backend not covered by sample repo

@@ -75,6 +75,7 @@ README.md (classify mode)
 |------|---------|
 | [quickstart.md](quickstart.md) | Quickstart onboarding flow |
 | [advanced.md](advanced.md) | Features / debugging / ops for existing projects |
+| [providers.md](providers.md) | Required params per ASR / LLM / TTS vendor |
 | [sample-repos.md](sample-repos.md) | Sample repo registry and alignment rules |
 | [generation-rules.md](generation-rules.md) | Stable code generation constraints |
 | [common-errors.md](common-errors.md) | Error diagnosis |
