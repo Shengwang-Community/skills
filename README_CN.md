@@ -14,7 +14,6 @@ AI coding agent 的声网平台集成技能包。帮助 agent 更准确地完成
 | [cloud-recording](skills/voice-ai-integration/references/cloud-recording/README.md) | Cloud Recording | 服务端录制 RTC 会话 |
 | [token-server](skills/voice-ai-integration/references/token-server/README.md) | Token Server | 服务端 Token 生成（AccessToken2） |
 | [general](skills/voice-ai-integration/references/general/credentials-and-auth.md) | 通用 | 凭证管理、REST 认证模式 |
-| [intake](skills/voice-ai-integration/intake/README.md) | 路由 | 需求分析 → 产品推荐 → 路由到具体模块 |
 
 ## 快速开始
 
@@ -63,7 +62,7 @@ bash skills/voice-ai-integration/scripts/fetch-docs.sh
 
 直接向 agent 描述你的需求，skills 会自动触发：
 
-- "我想做一个 AI 语音客服" → intake 分析 → ConvoAI + RTC 集成
+- "我想做一个 AI 语音客服" → ConvoAI + RTC 集成
 - "用 Go 生成一个 RTC token" → Token Server 模块
 - "Web 端怎么实现视频通话" → RTC SDK 模块
 - "下载 ConvoAI Go SDK" → Resource Downloader
@@ -76,17 +75,14 @@ bash skills/voice-ai-integration/scripts/fetch-docs.sh
    ▼
 skills/voice-ai-integration/SKILL.md (入口)
    │
-   ├─ 模糊请求 → intake (需求分析 → 产品推荐)
-   │                 │
-   │                 ▼
-   │            产品模块 (代码生成)
+   ├─ 明确请求 → 直接路由到产品模块
    │
-   └─ 明确请求 → 直接路由到产品模块
+   └─ 模糊请求 → 问一个澄清问题，然后路由
 ```
 
-入口 (`skills/voice-ai-integration/SKILL.md`) 判断请求是否足够明确：
+入口 (`skills/voice-ai-integration/SKILL.md`) 将请求匹配到产品模块：
 - 明确的 → 直接路由到对应产品模块
-- 模糊的 → 先走 intake 收集需求，再路由
+- 模糊的 → 问一个澄清问题，然后路由
 
 每个产品模块遵循统一工作流：确认凭证 → 获取最新文档 → 生成代码 → 验证。
 
@@ -106,7 +102,6 @@ shengwang-skills/
 └── skills/
     └── voice-ai-integration/     # Skill 本体（agentskills.io 标准）
         ├── SKILL.md               # 入口和路由（唯一的 SKILL.md）
-        ├── intake/                # 需求分析与产品路由
         └── references/            # 所有产品模块和共享知识
             ├── doc-fetching.md        # 文档获取指南
             ├── docs.txt               # 本地文档索引

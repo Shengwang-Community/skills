@@ -12,40 +12,40 @@
 
 ---
 
-## 一、路由准确性（Root Router → Intake / Product Module）
+## 一、路由准确性（SKILL.md → 产品模块）
 
-### R-01: 模糊请求必须走 intake
+### R-01: 模糊请求触发澄清后路由
 
 - 用户输入: "我想做一个 AI 客服"
-- 期望行为: 进入 intake 流程，分析需求，推荐 ConvoAI + RTC SDK
-- 判定标准: 模型未直接生成代码，而是先询问细节或输出需求分析
+- 期望行为: 通过 SKILL.md 路由辅助表推断 ConvoAI + RTC SDK，或问一个澄清问题
+- 判定标准: 模型未直接生成代码，而是先询问细节或输出路由摘要
 - 结果: ___
 
-### R-02: 产品名不等于跳过 intake
+### R-02: 产品名不等于跳过 ConvoAI 内部 intake
 
 - 用户输入: "帮我接入 ConvoAI"
-- 期望行为: 进入 ConvoAI intake，并在一条消息里收集所有缺失的阻塞信息
+- 期望行为: 路由到 ConvoAI 模块，进入 ConvoAI quickstart-intake，并在一条消息里收集所有缺失的阻塞信息
 - 判定标准: 模型未直接生成 /join 代码，而是先给出缺失问题及对应选项/默认值
 - 结果: ___
 
-### R-03: 具体操作跳过 intake
+### R-03: 具体操作直接路由
 
 - 用户输入: "帮我停掉 agent_abc12345"
 - 期望行为: 直接路由到 ConvoAI 模块，生成 /leave 调用
-- 判定标准: 模型未走 intake 流程，直接执行操作
+- 判定标准: 模型直接路由，未问澄清问题
 - 结果: ___
 
-### R-04: 错误查询跳过 intake
+### R-04: 错误查询直接路由
 
 - 用户输入: "ConvoAI 返回 403 是什么意思"
 - 期望行为: 直接路由到 convoai/common-errors.md
 - 判定标准: 模型给出 403 的三种原因和修复方法
 - 结果: ___
 
-### R-05: 多产品请求走 intake
+### R-05: 多产品请求触发路由澄清
 
 - 用户输入: "我想做视频通话加 AI 助手"
-- 期望行为: 进入 intake，识别 RTC + ConvoAI 组合
+- 期望行为: 通过 SKILL.md 常见组合表识别 RTC + ConvoAI 组合
 - 判定标准: 模型输出包含多产品的需求分析，并在 ConvoAI 为主时提醒客户端仍需要 RTC SDK
 - 结果: ___
 
@@ -53,7 +53,7 @@
 
 - 用户输入: "用 Go 生成一个 RTC token"
 - 期望行为: 直接路由到 token-server
-- 判定标准: 模型生成 Go token 代码，未走 intake
+- 判定标准: 模型生成 Go token 代码，未问澄清问题
 - 结果: ___
 
 ### R-07: RTC 请求路由到 RTC 模块
@@ -76,7 +76,7 @@
 
 ### C-01: agent_rtc_uid 类型正确
 
-- 用户输入: (通过 intake 后) "用 Python 创建一个 ConvoAI agent"
+- 用户输入: (通过 ConvoAI quickstart-intake 后) "用 Python 创建一个 ConvoAI agent"
 - 期望行为: 生成的代码中 `agent_rtc_uid` 为 string `"0"`
 - 判定标准: 不是 int `0`
 - 结果: ___
@@ -118,7 +118,7 @@
 
 ---
 
-## 三、Intake 需求分析质量
+## 三、ConvoAI Quickstart Intake 质量
 
 ### I-01: 正确识别产品组合
 
@@ -134,7 +134,7 @@
 - 判定标准: 明确告知用户客户端需要 RTC SDK
 - 结果: ___
 
-### I-03: 部分已知信息时仍聚焦当前 intake
+### I-03: 部分已知信息时仍聚焦当前 quickstart intake
 
 - 用户输入: "接入 ConvoAI，用 deepseek，Python 开发"
 - 期望行为: 只针对剩余缺失项发出一条集中式问题
@@ -152,7 +152,7 @@
 
 - 用户输入: "做一个 Web AI 语音助手，Python 服务端，其他用默认"
 - 期望行为: 直接归一化成 ConvoAI 结构化 spec 并继续
-- 判定标准: 输出的结构化 spec 只包含 intake 范围内的字段，且省略的可选项按默认值记录
+- 判定标准: 输出的结构化 spec 只包含 quickstart-intake 范围内的字段，且省略的可选项按默认值记录
 - 结果: ___
 
 ### I-06: 数字回复可正确解析
@@ -169,10 +169,11 @@
 - 判定标准: 不会把已确认字段重新打开
 - 结果: ___
 
-### I-08: 额外的后续配置说明不应打断 intake
+### I-08: 额外的后续配置说明不应打断 quickstart intake
 
 - 用户输入: "1A 2E 3G 4C 5A 6A 7A，后面的配置我自己处理"
-- 期望行为: intake 仍聚焦产品选项，忽略额外的非 intake 说明
+- 期望行为: quickstart intake 仍聚焦产品选项，忽略额外的非 intake 说明
+- 判定标准: 不会额外引入新的非 quickstart 提问
 - 判定标准: 不会额外引入新的非 intake 提问
 - 结果: ___
 

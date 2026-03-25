@@ -14,7 +14,6 @@ Reusable skills for AI coding agents building with the [Shengwang](https://sheng
 | [cloud-recording](skills/voice-ai-integration/references/cloud-recording/README.md) | Cloud Recording | Server-side recording of RTC sessions |
 | [token-server](skills/voice-ai-integration/references/token-server/README.md) | Token Server | Server-side token generation (AccessToken2) |
 | [general](skills/voice-ai-integration/references/general/credentials-and-auth.md) | General | Credential management, REST auth patterns |
-| [intake](skills/voice-ai-integration/intake/README.md) | Routing | Needs analysis → product recommendation → route to product module |
 
 ## Quick Start
 
@@ -62,7 +61,7 @@ This saves the doc index to `skills/voice-ai-integration/references/docs.txt`. S
 
 Describe your needs to the agent — skills trigger automatically:
 
-- "I want to build an AI voice assistant" → intake analysis → ConvoAI + RTC integration
+- "I want to build an AI voice assistant" → ConvoAI + RTC integration
 - "Generate an RTC token in Go" → Token Server module
 - "How to implement video calls on Web" → RTC SDK module
 - "Download the ConvoAI Go SDK" → Resource Downloader
@@ -75,17 +74,14 @@ User Request
    ▼
 skills/voice-ai-integration/SKILL.md (entry point)
    │
-   ├─ Vague request → intake (needs analysis → product recommendation)
-   │                      │
-   │                      ▼
-   │                 Product module (code generation)
+   ├─ Clear request → Route directly to product module
    │
-   └─ Clear request → Route directly to product module
+   └─ Vague request → Ask one clarifying question, then route
 ```
 
-The entry point (`skills/voice-ai-integration/SKILL.md`) determines whether the request is specific enough:
+The entry point (`skills/voice-ai-integration/SKILL.md`) matches the request to a product module:
 - Clear and actionable → route directly to the matching product module
-- Vague or missing details → run intake to collect requirements first, then route
+- Vague or multi-product → ask one clarifying question, then route
 
 Each product module follows a consistent workflow: confirm credentials → fetch latest docs → generate code → validate.
 
@@ -104,7 +100,6 @@ shengwang-skills/
 └── skills/
     └── voice-ai-integration/     # The skill (agentskills.io standard)
         ├── SKILL.md               # Entry point and router (only SKILL.md)
-        ├── intake/                # Needs analysis and product routing
         └── references/            # All product modules and shared knowledge
             ├── doc-fetching.md        # Doc fetching guide
             ├── docs.txt               # Local doc index

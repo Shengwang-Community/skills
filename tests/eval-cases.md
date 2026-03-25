@@ -12,40 +12,40 @@ For each case:
 
 ---
 
-## 1. Routing Accuracy (Root Router → Intake / Product Module)
+## 1. Routing Accuracy (SKILL.md → Product Module)
 
-### R-01: Vague request must go through intake
+### R-01: Vague request triggers clarification before routing
 
 - User Input: "I want to build an AI customer service bot"
-- Expected Behavior: Enter intake flow, analyze needs, recommend ConvoAI + RTC SDK
-- Pass Criteria: Model does not generate code directly; asks for details or outputs needs analysis first
+- Expected Behavior: Use SKILL.md routing aids to infer ConvoAI + RTC SDK, or ask one clarifying question
+- Pass Criteria: Model does not generate code directly; asks for details or outputs routing recap first
 - Result: ___
 
-### R-02: Product name alone does not skip intake
+### R-02: Product name alone does not skip ConvoAI internal intake
 
 - User Input: "Help me integrate ConvoAI"
-- Expected Behavior: Enter ConvoAI intake and ask for all missing blocking fields in one consolidated message
+- Expected Behavior: Route to ConvoAI module, enter ConvoAI quickstart-intake and ask for all missing blocking fields in one consolidated message
 - Pass Criteria: Model does not generate /join code directly; it shows the missing questions plus available options/defaults in one reply
 - Result: ___
 
-### R-03: Specific operation skips intake
+### R-03: Specific operation routes directly
 
 - User Input: "Stop agent agent_abc12345"
 - Expected Behavior: Route directly to ConvoAI module, generate /leave call
-- Pass Criteria: Model does not go through intake flow; executes operation directly
+- Pass Criteria: Model routes directly without asking clarifying questions
 - Result: ___
 
-### R-04: Error query skips intake
+### R-04: Error query routes directly
 
 - User Input: "ConvoAI returned 403, what does it mean"
 - Expected Behavior: Route directly to convoai/common-errors.md
 - Pass Criteria: Model provides the three causes of 403 and their fixes
 - Result: ___
 
-### R-05: Multi-product request goes through intake
+### R-05: Multi-product request triggers routing clarification
 
 - User Input: "I want video calling plus an AI assistant"
-- Expected Behavior: Enter intake, identify RTC + ConvoAI combination
+- Expected Behavior: Identify RTC + ConvoAI combination using SKILL.md common combinations table
 - Pass Criteria: Model outputs a multi-product needs analysis and, if ConvoAI is primary, reminds the user that the client still needs RTC SDK
 - Result: ___
 
@@ -53,7 +53,7 @@ For each case:
 
 - User Input: "Generate an RTC token in Go"
 - Expected Behavior: Route directly to token-server
-- Pass Criteria: Model generates Go token code without going through intake
+- Pass Criteria: Model generates Go token code without asking clarifying questions
 - Result: ___
 
 ### R-07: RTC request routes to RTC module
@@ -76,7 +76,7 @@ For each case:
 
 ### C-01: agent_rtc_uid type is correct
 
-- User Input: (after intake) "Create a ConvoAI agent in Python"
+- User Input: (after ConvoAI quickstart-intake) "Create a ConvoAI agent in Python"
 - Expected Behavior: Generated code has `agent_rtc_uid` as string `"0"`
 - Pass Criteria: Not int `0`
 - Result: ___
@@ -118,7 +118,7 @@ For each case:
 
 ---
 
-## 3. Intake Needs Analysis Quality
+## 3. ConvoAI Quickstart Intake Quality
 
 ### I-01: Correct product combination identification
 
@@ -152,7 +152,7 @@ For each case:
 
 - User Input: "ConvoAI for a Web voice assistant, Python backend, use defaults"
 - Expected Behavior: Normalize the answer into a single ConvoAI spec and continue
-- Pass Criteria: Outputs the structured spec with only intake-scoped fields, and omitted optional fields become `default applied`
+- Pass Criteria: Outputs the structured spec with only quickstart-intake-scoped fields, and omitted optional fields become `default applied`
 - Result: ___
 
 ### I-06: Numeric reply parses correctly
@@ -169,11 +169,11 @@ For each case:
 - Pass Criteria: Does not reopen already-resolved fields
 - Result: ___
 
-### I-08: Out-of-scope setup statement does not derail intake
+### I-08: Out-of-scope setup statement does not derail quickstart intake
 
 - User Input: "1A 2E 3G 4C 5A 6A 7A, and I'll handle setup later"
-- Expected Behavior: Keep the intake focused on product choices and ignore extra out-of-scope statements
-- Pass Criteria: Does not introduce any new non-intake question as part of intake
+- Expected Behavior: Keep the quickstart intake focused on product choices and ignore extra out-of-scope statements
+- Pass Criteria: Does not introduce any new non-quickstart question as part of the intake
 - Result: ___
 
 ---

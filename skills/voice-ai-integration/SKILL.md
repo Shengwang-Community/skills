@@ -18,13 +18,6 @@ metadata:
       - doc.shengwang.cn
       - doc-mcp.shengwang.cn
       - gitee.com
-    required_env:
-      - SHENGWANG_APP_ID
-      - SHENGWANG_APP_CERTIFICATE
-    conditional_env:
-      - RTC_TOKEN
-      - provider-specific API keys
-      - provider-specific service identifiers
 ---
 
 # Shengwang Integration
@@ -33,100 +26,124 @@ metadata:
 
 ### Step 0: Ensure doc index exists (MANDATORY)
 
-> **⚠️ This step is NON-NEGOTIABLE. Execute it BEFORE any routing, intake, or code generation.**
+> **⚠️ This step is NON-NEGOTIABLE. Execute it BEFORE any routing or code generation.**
 
-Check if `references/docs.txt` exists. If not (or if this is a fresh project), download it immediately:
+Check if `references/docs.txt` exists. If not, download it immediately:
 ```bash
 bash skills/voice-ai-integration/scripts/fetch-docs.sh
 ```
-This file is the documentation index — all doc lookups depend on it.
-Do NOT proceed to Step 1 until this file exists or the download has been attempted.
+Do NOT proceed until this file exists or the download has been attempted.
 If download fails, proceed with local reference docs and fallback URLs.
 
-### Step 1: Analyze the user's need and choose the product module
+### Step 1: Route to the correct product module
 
-Use [intake](intake/README.md) only for lightweight needs analysis and product routing.
-Ask only for details the user has not already provided.
+Match the user's request to a product module using the route table. If the match
+is clear, route directly — do not ask extra questions.
 
-Collect only the details needed to determine:
-- the user's use case / target solution
-- the primary Shengwang product
-- any supporting Shengwang products
-- one remaining routing blocker, if the product is still unclear
+#### Route Table
 
-Use a conversational flow:
-- Infer obvious context from the user's request when it is safe to do so
-- Ask only for missing details that change product routing
-- Do not ask product-specific configuration questions in the root router
-- Stop asking as soon as the correct product module is clear
-
-ConvoAI has a dedicated product module:
-- If ConvoAI is clearly the primary product, route to [references/conversational-ai/README.md](references/conversational-ai/README.md)
-- The ConvoAI module handles its own internal routing through `request-modes.md` and the appropriate sub-flow
-- Do not duplicate ConvoAI-specific quickstart, advanced-feature, or debugging logic in the root router
-
-If the product mapping is already clear, do not ask extra questions.
-Produce a lightweight routing recap, then continue automatically unless one routing blocker is still missing.
-
-### Step 2: Start with local references
-
-Use the kickoff summary plus the route table below to select the correct local reference module.
-If the available information is sufficient, begin implementation using the existing local docs under
-`references/`.
-
-| Purpose | Route to |
+| User intent | Route to |
 |-------------|----------|
-| New request, vague, or missing details | [intake](intake/README.md) |
 | Credentials, AppID, REST auth | [general](references/general/credentials-and-auth.md) |
-| Download SDK, sample project, Token Builder, GitHub repo | Route to the relevant product module |
-| Generate Token, token server, AccessToken2, RTC/RTM auth | [token-server](references/token-server/README.md) |
-| ConvoAI voice agent work | [conversational-ai](references/conversational-ai/README.md) for module entry, internal routing, and SDK/sample-first guidance |
+| Generate Token, token server, AccessToken2 | [token-server](references/token-server/README.md) |
+| ConvoAI voice agent work | [conversational-ai](references/conversational-ai/README.md) |
 | RTC SDK integration | [rtc](references/rtc/README.md) |
 | RTM messaging / signaling | [rtm](references/rtm/README.md) |
 | Cloud Recording | [cloud-recording](references/cloud-recording/README.md) |
+| Download SDK, sample project, GitHub repo | Route to the relevant product module above |
 
-If Step 2 provides enough information for implementation, proceed.
-If essential information is still missing or the local references are not enough, continue to Step 3.
+#### Product Recognition Aid
 
-### Step 3: Research with doc fetching
+When the user describes a use case without naming a product, use this to infer the match:
 
-Use [references/doc-fetching.md](references/doc-fetching.md) to fetch more comprehensive documentation.
-Do this only after Step 2, when the local references are insufficient for the requested implementation.
+| Product | What it does | Typical user says |
+|---------|-------------|-------------------|
+| ConvoAI | AI voice agent (ASR→LLM→TTS over RTC) | "AI语音", "voice bot", "对话式AI", "AI agent", "AI 客服" |
+| RTC SDK | Real-time audio/video between humans | "视频通话", "直播", "video call", "live streaming" |
+| RTM | Real-time messaging / signaling | "聊天", "消息", "chat", "signaling" |
+| Cloud Recording | Record RTC sessions server-side | "录制", "recording", "存档", "回看" |
+| Token generation | Generate RTC / RTM tokens | "token", "鉴权", "token server" |
 
-Research order:
-1. Local references in this skill
-2. For ConvoAI, inspect the matching sample repo, `agent-server-sdk`, and `agora-agent-client-toolkit` path before using REST docs as a design source
-3. Fetched docs via the doc-fetching workflow
-4. Fallback web search only if needed after doc fetching
+#### Common Combinations
 
-Once Step 3 provides enough information, proceed with implementation.
+| Use case | Products needed |
+|----------|----------------|
+| AI voice assistant | ConvoAI (primary) + RTC SDK (client) |
+| AI voice assistant + chat history | ConvoAI + RTC SDK + RTM |
+| 1v1 / group video call | RTC SDK |
+| Video call + chat | RTC SDK + RTM |
+| Live streaming with recording | RTC SDK + Cloud Recording |
+| Record AI conversations | ConvoAI + RTC SDK + Cloud Recording |
+| Chat / messaging only | RTM |
+
+#### Routing Rules
+
+- Infer obvious context — do not ask if the answer is already clear
+- Do not ask product-specific configuration questions (providers, SDK versions, project structure) at this level; let the product module handle those
+- If the product is clear but the request mode is ambiguous (quickstart vs debugging vs feature), let the product module decide internally
+- If multiple products are needed, route to the primary product first, then address supporting products in order
+- ConvoAI has the most detailed internal routing (`request-modes.md` → sub-flows); always delegate ConvoAI-specific decisions to its module
+
+#### When the product is still unclear
+
+If the route table and recognition aid above are not enough to determine the product:
+
+1. Ask only for the missing detail that would change the routing decision
+2. Ask at most one question at a time
+3. Prefer natural wording over an interview script
+4. Once the product is clear, produce a short routing recap and continue:
+
+**ZH:**
+```text
+已了解的信息
+─────────────────────────────
+场景：          [use case]
+主要产品：      [primary product]
+配套产品：      [supporting products / 无]
+─────────────────────────────
+```
+
+**EN:**
+```text
+What I have so far
+─────────────────────────────
+Use case:       [use case]
+Primary:        [primary product]
+Supporting:     [supporting products / none]
+─────────────────────────────
+```
+
+Do not stop for a separate confirmation step — continue to the product module automatically.
+
+### Step 2: Let the product module drive implementation
+
+Each product module follows its own workflow. Do not duplicate implementation logic here.
+
+Common pattern across modules:
+1. Use local reference docs in `references/` first
+2. Fetch remote docs via [doc-fetching.md](references/doc-fetching.md) only when local references are insufficient
+3. For ConvoAI, inspect the matching sample repo and official SDKs before using REST docs as a design source
+4. Fallback to web search only after doc fetching has been attempted
 
 ## Runtime Requirements
 
-This skill expects the following runtime basics:
 - `bash` and `curl` for local doc-fetch helper scripts
 - `git` for sample-repo inspection when the sample-aligned path is chosen
-- Network access to `doc.shengwang.cn`, `doc-mcp.shengwang.cn`, and `gitee.com` when using doc fetch or sample inspection
+- Network access to `doc.shengwang.cn`, `doc-mcp.shengwang.cn`, and `gitee.com`
 
-Core quickstart prerequisites:
-- `SHENGWANG_APP_ID`
-- `SHENGWANG_APP_CERTIFICATE`
-- ConvoAI service activation in Shengwang Console
-
-Some flows also require conditional credentials such as provider API keys or service identifiers.
-Those should always come from environment variables or user-provided secure input, never from hardcoded values.
+Credential and service-activation requirements vary by product — see each product module and [general/credentials-and-auth.md](references/general/credentials-and-auth.md) for details. Never hardcode credentials.
 
 ## Safety & Consent Rules
 
-- Do not clone external repos into the user's main workspace by default. Prefer a temporary path for inspection first.
-- Do not modify an existing user project until the user has explicitly asked for code generation or integration work.
-- Do not write secrets into project files unless the user explicitly asks for that behavior. Prefer env vars and example placeholders.
-- Before performing network fetches or external repo inspection, state what will be downloaded or cloned.
-- If a required runtime dependency or credential is missing, stop and explain the blocker instead of improvising around it.
+- Do not clone external repos into the user's main workspace by default — prefer a temporary path
+- Do not modify an existing user project until the user explicitly asks for code generation
+- Do not write secrets into project files — prefer env vars and example placeholders
+- Before performing network fetches or repo clones, state what will be downloaded
+- If a required dependency or credential is missing, stop and explain the blocker
 
 ## Download Rules
 
-- Use `git clone --depth 1 <url>` with an HTTPS repo URL by default — GitHub/Gitee URLs must be repo root only (no branch/subdirectory paths)
+- Use `git clone --depth 1 <url>` with HTTPS repo root URLs only
 - On any download failure: report the error, provide the URL for manual download, never silently skip
 
 ## Links

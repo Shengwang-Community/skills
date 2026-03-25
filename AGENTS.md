@@ -11,8 +11,8 @@ following the [Agent Skills](https://agentskills.io) open standard.
 
 1. Download doc index (see above) — this MUST happen before anything else
 2. Start from [skills/voice-ai-integration/SKILL.md](skills/voice-ai-integration/SKILL.md) — it is the root entry point
-3. The root skill decides whether to run intake (needs analysis) or route directly to a sub-module
-4. Each sub-module has a `README.md` with its workflow: confirm credentials → fetch docs → generate code → validate
+3. SKILL.md routes the request to the correct product module (or asks one clarifying question if the product is unclear)
+4. Each product module has a `README.md` with its workflow: confirm credentials → fetch docs → generate code → validate
 
 ## Repository Structure
 
@@ -20,7 +20,6 @@ following the [Agent Skills](https://agentskills.io) open standard.
 skills/
 └── voice-ai-integration/         # The skill (start here)
     ├── SKILL.md                   # Entry point and router (only SKILL.md in the repo)
-    ├── intake/                    # Needs analysis → product routing
     └── references/                # All product modules and shared knowledge
         ├── doc-fetching.md            # Doc fetching guide
         ├── general/               # Credentials, REST auth (shared)
