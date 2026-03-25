@@ -2,82 +2,85 @@
 
 Real-time AI voice agent. User speaks into an RTC channel, agent responds via ASR → LLM → TTS pipeline.
 
-## How It Works
-
 ```
 User Device ── audio ──► RTC Channel ──► ConvoAI Agent (ASR → LLM → TTS)
 User Device ◄── audio ── RTC Channel ◄── ConvoAI Agent
 ```
 
 - Agent is server-side only — managed via REST API, no client SDK
-- Client should prefer `agora-agent-client-toolkit` when it fits the target stack; otherwise use the RTC SDK directly to join the channel
+- Client prefers `agora-agent-client-toolkit` when it fits; otherwise RTC SDK directly
 - `POST /join` makes the agent join the same RTC channel
 
-## Start Here
+## Routing: Classify the Request
 
-Always start ConvoAI work by classifying the request mode with
-[request-modes.md](request-modes.md).
+The key question: does the user have a **working ConvoAI baseline**?
+- Working baseline = ConvoAI code that can run, or user explicitly says they have a working project
+- Only RTC code, or sample repo checked out but never proven ConvoAI → **not** a working baseline
 
-- `quickstart` and `integration` without a proven working baseline → start with
-  [quickstart-intake.md](quickstart-intake.md), which now contains the full quickstart flow:
-  product intro → technical path → credential checkpoint → provider choices
-- `advanced-feature`, `debugging`, and `ops-hardening` → use
-  [advanced-feature-routing.md](advanced-feature-routing.md)
+| Mode | When | Route to |
+|------|------|----------|
+| `quickstart` | Starting from scratch, first demo, no working baseline yet | [quickstart.md](quickstart.md) |
+| `integration` | Has an app/repo, but ConvoAI path not yet proven end-to-end | [quickstart.md](quickstart.md) |
+| `advanced-feature` | Working baseline confirmed, wants incremental capability | [advanced.md](advanced.md) |
+| `debugging` | Error codes, Agent FAILED, broken behavior, logs | [advanced.md](advanced.md) |
+| `ops-hardening` | Production auth, scaling, retries, quota, monitoring | [advanced.md](advanced.md) |
 
-## Flow Map
+### Detection hints
+
+- Quickstart signals: "从零开始", "最小 demo", "第一次接 ConvoAI", "按官方 sample 来"
+- Integration signals: existing RTC app adding ConvoAI, sample-aligned into existing codebase
+- Advanced signals: add MCP/tools, history, interrupt, template variables, switch provider on working flow
+- Debug signals: HTTP 400/403/409/422/503, Agent FAILED, "why is this not working"
+- Ops signals: auth strategy, quota, retry policy, monitoring, cost
+
+### Routing rules
+
+- Classify internally and proceed — do not output a classification message to the user
+- If ambiguous, default to `quickstart` (safer path)
+- `quickstart` and `integration` go through the full quickstart flow
+- `advanced-feature` / `debugging` / `ops-hardening` skip the full quickstart
+- `advanced-feature` and `debugging` may still trigger a partial preflight for the exact part being changed
+- Do not force users with a working baseline back through quickstart
+- Do not skip quickstart for users still blocked on foundational prerequisites
+
+### Flow map
 
 ```text
-request-modes.md
-  ├─ quickstart / integration → quickstart-intake.md
-  │    ├─ product intro
-  │    ├─ technical path
-  │    ├─ project readiness
-  │    ├─ provider confirmation
+README.md (classify mode)
+  ├─ quickstart / integration → quickstart.md
+  │    ├─ technical path → project readiness → provider confirmation
   │    └─ sample-repos.md → code generation
-  └─ advanced / debugging / ops → advanced-feature-routing.md
+  └─ advanced / debugging / ops → advanced.md
        ├─ common-errors.md
-       └─ convoai-restapi/index.mdx or endpoint docs
+       └─ convoai-restapi/ endpoint docs
 ```
 
 ## Architecture Defaults
 
-Use this order unless the user explicitly asks for something else:
+1. Prefer official sample repo (`sample-aligned`) when it matches the user's stack
+2. Server side: prefer `agent-server-sdk`
+3. Client side: prefer `agora-agent-client-toolkit`; fall back to RTC SDK
+4. Fetch Shengwang docs only after sample/SDK inspection leaves a gap
+5. Use raw REST only for unsupported operations, debugging, or explicit REST-first requests
 
-1. If a matching official ConvoAI sample repo exists, offer the sample-aligned path first and inspect that repo after the user accepts the default technical path or explicitly asks for sample-aligned implementation
-2. Preserve the sample repo structure and keep `sample-aligned` as the default path unless the user explicitly asks for `minimal-custom`
-3. On the server side, prefer `agent-server-sdk`
-4. On the client side, prefer `agora-agent-client-toolkit` when the target stack supports it; otherwise fall back to the RTC SDK directly
-5. Use fetched Shengwang docs to fill in missing product details after the sample path has been inspected
-6. Use raw REST directly only for unsupported operations, debugging, or explicit REST-first requests
+## Auth
 
-Do not treat the REST quick start or endpoint index as the default architecture for a new ConvoAI integration when a matching sample or official SDK path already exists.
+- Quickstart requires: `App ID` + `App Certificate` + ConvoAI service activation
+- Fixed auth path: RTC Token
+- The `token` field in `/join` is for the RTC channel, not REST auth
+- Details → [credentials-and-auth.md](../general/credentials-and-auth.md) · [token-server](../token-server/README.md)
 
-## Auth Snapshot
+## Reference Files
 
-- ConvoAI quickstart assumes a Shengwang project with `App ID`, `App Certificate`, and ConvoAI service activation already in place
-- Quickstart uses RTC Token as the fixed auth path
-- The `token` field in `/join` is for the RTC channel, not for REST auth
-- Detailed credential rules → [../general/credentials-and-auth.md](../general/credentials-and-auth.md)
-- Token generation → [../token-server/README.md](../token-server/README.md)
-
-## Entry Navigation
-
-- Request mode routing → [request-modes.md](request-modes.md)
-- ConvoAI question-driven quickstart flow → [quickstart-intake.md](quickstart-intake.md)
-- Existing-project features / debugging / ops → [advanced-feature-routing.md](advanced-feature-routing.md)
-- Sample repos and sample workflow → [sample-repos.md](sample-repos.md)
-- Stable generation constraints → [generation-rules.md](generation-rules.md)
-- REST endpoint index → [convoai-restapi/index.mdx](convoai-restapi/index.mdx)
-- Common diagnosis → [common-errors.md](common-errors.md)
-- Doc fetching guide → [../doc-fetching.md](../doc-fetching.md)
-
-## Backend Doc Mapping
-
-When the user wants a server language that the demo does not cover, use these official quickstart docs:
-- `Go` → `docs://default/convoai/restful/get-started/quick-start-go`
-- `Java` → `docs://default/convoai/restful/get-started/quick-start-java`
-
-Treat those cases as a hybrid path: sample repo for overall structure when useful, official language quickstart for backend details.
+| File | Purpose |
+|------|---------|
+| [quickstart.md](quickstart.md) | Quickstart onboarding flow |
+| [advanced.md](advanced.md) | Features / debugging / ops for existing projects |
+| [sample-repos.md](sample-repos.md) | Sample repo registry and alignment rules |
+| [generation-rules.md](generation-rules.md) | Stable code generation constraints |
+| [common-errors.md](common-errors.md) | Error diagnosis |
+| [convoai-restapi/index.mdx](convoai-restapi/index.mdx) | REST endpoint index |
+| [../doc-fetching.md](../doc-fetching.md) | Doc fetching guide |
 
 ## Docs Fallback
 

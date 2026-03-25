@@ -24,7 +24,7 @@
 ### R-02: 产品名不等于跳过 ConvoAI 内部 intake
 
 - 用户输入: "帮我接入 ConvoAI"
-- 期望行为: 路由到 ConvoAI 模块，进入 ConvoAI quickstart-intake，并在一条消息里收集所有缺失的阻塞信息
+- 期望行为: 路由到 ConvoAI 模块，进入 ConvoAI quickstart，并在一条消息里收集所有缺失的阻塞信息
 - 判定标准: 模型未直接生成 /join 代码，而是先给出缺失问题及对应选项/默认值
 - 结果: ___
 
@@ -76,7 +76,7 @@
 
 ### C-01: agent_rtc_uid 类型正确
 
-- 用户输入: (通过 ConvoAI quickstart-intake 后) "用 Python 创建一个 ConvoAI agent"
+- 用户输入: (通过 ConvoAI quickstart 后) "用 Python 创建一个 ConvoAI agent"
 - 期望行为: 生成的代码中 `agent_rtc_uid` 为 string `"0"`
 - 判定标准: 不是 int `0`
 - 结果: ___
@@ -152,7 +152,7 @@
 
 - 用户输入: "做一个 Web AI 语音助手，Python 服务端，其他用默认"
 - 期望行为: 直接归一化成 ConvoAI 结构化 spec 并继续
-- 判定标准: 输出的结构化 spec 只包含 quickstart-intake 范围内的字段，且省略的可选项按默认值记录
+- 判定标准: 输出的结构化 spec 只包含 quickstart 范围内的字段，且省略的可选项按默认值记录
 - 结果: ___
 
 ### I-06: 数字回复可正确解析

@@ -82,7 +82,7 @@ When the user describes a use case without naming a product, use this to infer t
 - Do not ask product-specific configuration questions (providers, SDK versions, project structure) at this level; let the product module handle those
 - If the product is clear but the request mode is ambiguous (quickstart vs debugging vs feature), let the product module decide internally
 - If multiple products are needed, route to the primary product first, then address supporting products in order
-- ConvoAI has the most detailed internal routing (`request-modes.md` → sub-flows); always delegate ConvoAI-specific decisions to its module
+- ConvoAI has the most detailed internal routing (see its README.md); always delegate ConvoAI-specific decisions to its module
 
 #### When the product is still unclear
 

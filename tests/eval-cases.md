@@ -24,7 +24,7 @@ For each case:
 ### R-02: Product name alone does not skip ConvoAI internal intake
 
 - User Input: "Help me integrate ConvoAI"
-- Expected Behavior: Route to ConvoAI module, enter ConvoAI quickstart-intake and ask for all missing blocking fields in one consolidated message
+- Expected Behavior: Route to ConvoAI module, enter ConvoAI quickstart and ask for all missing blocking fields in one consolidated message
 - Pass Criteria: Model does not generate /join code directly; it shows the missing questions plus available options/defaults in one reply
 - Result: ___
 
@@ -76,7 +76,7 @@ For each case:
 
 ### C-01: agent_rtc_uid type is correct
 
-- User Input: (after ConvoAI quickstart-intake) "Create a ConvoAI agent in Python"
+- User Input: (after ConvoAI quickstart) "Create a ConvoAI agent in Python"
 - Expected Behavior: Generated code has `agent_rtc_uid` as string `"0"`
 - Pass Criteria: Not int `0`
 - Result: ___
@@ -152,7 +152,7 @@ For each case:
 
 - User Input: "ConvoAI for a Web voice assistant, Python backend, use defaults"
 - Expected Behavior: Normalize the answer into a single ConvoAI spec and continue
-- Pass Criteria: Outputs the structured spec with only quickstart-intake-scoped fields, and omitted optional fields become `default applied`
+- Pass Criteria: Outputs the structured spec with only quickstart-scoped fields, and omitted optional fields become `default applied`
 - Result: ___
 
 ### I-06: Numeric reply parses correctly
