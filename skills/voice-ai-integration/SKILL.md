@@ -9,15 +9,6 @@ license: MIT
 metadata:
   author: shengwang
   version: "1.0.0"
-  runtime:
-    required_binaries:
-      - bash
-      - curl
-      - git
-    network_hosts:
-      - doc.shengwang.cn
-      - doc-mcp.shengwang.cn
-      - gitee.com
 ---
 
 # Shengwang Integration
@@ -26,13 +17,14 @@ metadata:
 
 ### Step 0: Ensure doc index exists (MANDATORY)
 
-> **⚠️ This step is NON-NEGOTIABLE. Execute it BEFORE any routing or code generation.**
+> **⚠️ Execute this BEFORE any routing or code generation.**
 
-Check if `references/docs.txt` exists. If not, download it immediately:
+Check if `references/docs.txt` already exists. If it does, skip this step entirely.
+If it does not exist, download it:
 ```bash
 bash skills/voice-ai-integration/scripts/fetch-docs.sh
 ```
-Do NOT proceed until this file exists or the download has been attempted.
+This downloads a static doc index from `doc.shengwang.cn` — no user data is sent.
 If download fails, proceed with local reference docs and fallback URLs.
 
 ### Step 1: Route to the correct product module
@@ -129,6 +121,11 @@ Common pattern across modules:
 - `bash` and `curl` for local doc-fetch helper scripts
 - `git` for sample-repo inspection when the sample-aligned path is chosen
 - Network access to `doc.shengwang.cn`, `doc-mcp.shengwang.cn`, and `gitee.com`
+
+Network behavior:
+- `fetch-docs.sh` downloads a static file from `doc.shengwang.cn/llms.txt` — no user data is sent
+- `fetch-doc-content.sh` fetches a single doc page by URI from `doc-mcp.shengwang.cn` — only the doc URI is sent, no user context
+- `git clone` is used only for sample repo inspection from `gitee.com` — only the repo URL is sent
 
 Credential and service-activation requirements vary by product — see each product module and [general/credentials-and-auth.md](references/general/credentials-and-auth.md) for details. Never hardcode credentials.
 
