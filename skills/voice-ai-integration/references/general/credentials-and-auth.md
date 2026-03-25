@@ -38,48 +38,43 @@ Some products require extra activation in Console beyond having credentials:
 
 ## REST API Authentication
 
-Shengwang REST APIs support two authentication methods (choose one):
+Shengwang REST APIs support two authentication methods (choose one).
 
-### Option 1: RTC Token (supported by ConvoAI and other products)
+> **An RTC Token serves two purposes in Shengwang:**
+> 1. **REST API auth** — placed in the HTTP `Authorization` header to authenticate API calls (e.g. ConvoAI `/join`). This is Option 1 below.
+> 2. **Channel join auth** — placed in the SDK's `joinChannel` call or in a REST body field like `token` in `/join`, to let a client or agent enter an RTC channel.
+>
+> Both uses can share the same RTC Token. The difference is the layer: HTTP-level auth vs media-level auth.
+> Token generation is the same for both — see [token-server](../token-server/README.md).
 
-Use an RTC Token from your Shengwang project for authentication:
+### Option 1: RTC Token
 
 ```
 Authorization: agora token="007abcxxxxxxx123"
 ```
 
-**curl example:**
 ```bash
 curl -H "Authorization: agora token=\"$RTC_TOKEN\"" \
      -H "Content-Type: application/json" \
      https://api.agora.io/...
 ```
 
-How to obtain a token:
-- Testing: Generate a temporary token (valid for 24 hours) from [Shengwang Console](https://console.shengwang.cn/)
-- Production: Deploy a [token-server](../token-server/README.md) to generate tokens
+For how to generate the token value, see [token-server](../token-server/README.md).
 
 ### Option 2: Basic Auth
 
 ```
-Authorization: Basic base64("{Shengwang_CUSTOMER_KEY}:{Shengwang_CUSTOMER_SECRET}")
+Authorization: Basic base64("{SHENGWANG_CUSTOMER_KEY}:{SHENGWANG_CUSTOMER_SECRET}")
 ```
 
-**curl example:**
 ```bash
-AUTH=$(echo -n "$Shengwang_CUSTOMER_KEY:$Shengwang_CUSTOMER_SECRET" | base64)
+AUTH=$(echo -n "$SHENGWANG_CUSTOMER_KEY:$SHENGWANG_CUSTOMER_SECRET" | base64)
 curl -H "Authorization: Basic $AUTH" \
      -H "Content-Type: application/json" \
      https://api.agora.io/...
 ```
 
-> **Note:** Not all products support Token authentication. Cloud Recording and some other products only support Basic Auth. Refer to each product module's documentation for details.
-
-For language-specific auth patterns (Go, Java, Python, Node.js), fetch the quick start docs for each product (see URLs in product module READMEs).
-
-## RTC / RTM Token
-
-Token generation is separate from REST auth. See [token-server](../token-server/README.md).
+> Not all products support Token auth. Cloud Recording only supports Basic Auth. Check each product module's docs.
 
 ## Docs
 

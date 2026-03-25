@@ -67,7 +67,6 @@ README.md (classify mode)
 
 - Quickstart requires: `App ID` + `App Certificate` + ConvoAI service activation
 - Fixed auth path: RTC Token
-- The `token` field in `/join` is for the RTC channel, not REST auth
 - Details → [credentials-and-auth.md](../general/credentials-and-auth.md) · [token-server](../token-server/README.md)
 
 ## Reference Files

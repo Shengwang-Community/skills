@@ -122,8 +122,7 @@ Each product module follows its own workflow. Do not duplicate implementation lo
 Common pattern across modules:
 1. Use local reference docs in `references/` first
 2. Fetch remote docs via [doc-fetching.md](references/doc-fetching.md) only when local references are insufficient
-3. For ConvoAI, inspect the matching sample repo and official SDKs before using REST docs as a design source
-4. Fallback to web search only after doc fetching has been attempted
+3. Fallback to web search only after doc fetching has been attempted
 
 ## Runtime Requirements
 

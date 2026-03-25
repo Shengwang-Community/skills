@@ -31,9 +31,3 @@ Stable constraints that do NOT change with API updates. Always apply when genera
 - `503/504`: exponential backoff, max 3 retries
 - Always parse `detail` and `reason` from error responses
 - Full diagnosis → [common-errors.md](common-errors.md)
-
-## Related References
-
-- ConvoAI module entry → [README.md](README.md)
-- REST endpoint index → [convoai-restapi/index.mdx](convoai-restapi/index.mdx)
-- Common diagnosis → [common-errors.md](common-errors.md)
