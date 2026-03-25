@@ -9,6 +9,22 @@ license: MIT
 metadata:
   author: shengwang
   version: "1.0.0"
+  runtime:
+    required_binaries:
+      - bash
+      - curl
+      - git
+    network_hosts:
+      - doc.shengwang.cn
+      - doc-mcp.shengwang.cn
+      - gitee.com
+    required_env:
+      - SHENGWANG_APP_ID
+      - SHENGWANG_APP_CERTIFICATE
+    conditional_env:
+      - RTC_TOKEN
+      - provider-specific API keys
+      - provider-specific service identifiers
 ---
 
 # Shengwang Integration
@@ -84,6 +100,29 @@ Research order:
 4. Fallback web search only if needed after doc fetching
 
 Once Step 3 provides enough information, proceed with implementation.
+
+## Runtime Requirements
+
+This skill expects the following runtime basics:
+- `bash` and `curl` for local doc-fetch helper scripts
+- `git` for sample-repo inspection when the sample-aligned path is chosen
+- Network access to `doc.shengwang.cn`, `doc-mcp.shengwang.cn`, and `gitee.com` when using doc fetch or sample inspection
+
+Core quickstart prerequisites:
+- `SHENGWANG_APP_ID`
+- `SHENGWANG_APP_CERTIFICATE`
+- ConvoAI service activation in Shengwang Console
+
+Some flows also require conditional credentials such as provider API keys or service identifiers.
+Those should always come from environment variables or user-provided secure input, never from hardcoded values.
+
+## Safety & Consent Rules
+
+- Do not clone external repos into the user's main workspace by default. Prefer a temporary path for inspection first.
+- Do not modify an existing user project until the user has explicitly asked for code generation or integration work.
+- Do not write secrets into project files unless the user explicitly asks for that behavior. Prefer env vars and example placeholders.
+- Before performing network fetches or external repo inspection, state what will be downloaded or cloned.
+- If a required runtime dependency or credential is missing, stop and explain the blocker instead of improvising around it.
 
 ## Download Rules
 

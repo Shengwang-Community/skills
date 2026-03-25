@@ -71,6 +71,14 @@ Do not treat the REST quick start or endpoint index as the default architecture 
 - Common diagnosis → [common-errors.md](common-errors.md)
 - Doc fetching guide → [../doc-fetching.md](../doc-fetching.md)
 
+## Backend Doc Mapping
+
+When the user wants a server language that the demo does not cover, use these official quickstart docs:
+- `Go` → `docs://default/convoai/restful/get-started/quick-start-go`
+- `Java` → `docs://default/convoai/restful/get-started/quick-start-java`
+
+Treat those cases as a hybrid path: sample repo for overall structure when useful, official language quickstart for backend details.
+
 ## Docs Fallback
 
 If fetch fails: https://doc.shengwang.cn/doc/convoai/restful/get-started/quick-start

@@ -497,4 +497,16 @@ After the structured spec is ready:
 - Follow the architecture rules in [README.md](README.md)
 - Use [sample-repos.md](sample-repos.md) for sample inspection and clone workflow
 - Use [generation-rules.md](generation-rules.md) for stable generation constraints
+- Use the backend-language mapping below when the demo does not cover the chosen server language
 - Use `convoai-restapi/index.mdx` or endpoint docs only for missing low-level API details
+
+### Backend Language → Official Quickstart
+
+| Backend | Primary official doc |
+|---------|----------------------|
+| `Go` | `docs://default/convoai/restful/get-started/quick-start-go` |
+| `Java` | `docs://default/convoai/restful/get-started/quick-start-java` |
+
+When the chosen backend is not covered by the sample repo, treat the flow as:
+- frontend / architecture reference from the sample repo when useful
+- backend implementation details from the mapped official quickstart doc above

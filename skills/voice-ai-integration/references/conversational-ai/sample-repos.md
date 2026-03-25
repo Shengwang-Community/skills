@@ -23,13 +23,14 @@ repository for ConvoAI integration work.
 
 ## Usage Workflow
 1. Pick the row that matches the user's platform or implementation goal.
-2. If a listed sample matches the quickstart or integration request, first let the user accept the default technical path (or explicitly ask for sample-aligned implementation), then clone that repo on demand with `git clone --depth 1 <repo-url>`, and prefer the HTTPS URL by default.
+2. If a listed sample matches the quickstart or integration request, first let the user accept the default technical path (or explicitly ask for sample-aligned implementation), then clone that repo on demand into a temporary inspection path with `git clone --depth 1 <repo-url>`, and prefer the HTTPS URL by default.
 3. Inspect the repo to confirm its current stack, folder map, entrypoints, env template files, and API surface.
 4. Use the cloned repo's actual env template files as the source of truth for env naming.
 5. Preserve the dependency and project pattern already present in the sample repo rather than inventing a fresh starter structure.
 6. If the repo does not answer the question, fetch Shengwang docs for the missing API or product details.
 7. Keep the implementation structurally close to the sample unless the user explicitly requests `minimal-custom`.
 8. If the matching sample repo cannot be inspected in the current environment, stop and report that blocker instead of silently inventing a fresh starter structure.
+9. Only copy or adapt code into the user's actual project after the user has explicitly asked for implementation in that workspace.
 
 ## Registry
 
