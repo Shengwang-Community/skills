@@ -4,6 +4,7 @@
 # Editor
 .vscode/
 .idea/
+.kiro/
 
 # Local testing
 *.local.md
