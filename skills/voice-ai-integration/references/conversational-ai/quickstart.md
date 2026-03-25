@@ -55,21 +55,39 @@ First-success baseline: `aliyun` + `bytedance` + `fengming`
 
 If a named provider is outside the list (e.g. `openai`, `azure openai`, `kimi`, `google`), it is not supported by the ConvoAI platform — not just this quickstart path. Tell the user clearly that ConvoAI currently only supports the vendors listed above, and ask them to pick a supported alternative.
 
-## Confirmation Gate
+## State Machine
 
-Ask one decision group at a time in this order:
+The quickstart is a blocking state machine. Each state must be resolved before advancing. While in any unresolved state, the ONLY allowed action is to send the corresponding prompt and wait for the user's reply.
 
-1. Technical path unresolved + official sample fits → compact technical-path prompt, stop.
-2. User named unsupported provider → compact unsupported-provider prompt, stop.
-3. Project readiness unclear (`App ID`, `App Certificate`, ConvoAI activation) → compact credential prompt, stop.
-4. Provider fields unresolved (LLM, TTS, ASR, ASR language) → compact default-provider prompt, stop.
-5. User asks to customize or rejects defaults → expand full provider checklist.
+| State | Allowed | Forbidden | Next prompt | Advance when |
+|-------|---------|-----------|-------------|--------------|
+| `intro` | Send product intro from README.md | Everything else | Product intro text | Intro delivered |
+| `project_readiness` | Ask credential prompt | Clone, code, sample inspection, framework names | Compact credential prompt | User confirms ready or gets guidance |
+| `unsupported_provider` | Ask unsupported-provider prompt | Clone, code, sample inspection | Compact unsupported-provider prompt | User picks supported alternative (skip if no unsupported provider named) |
+| `tech_path` | Ask technical-path prompt | Clone, code, sample inspection, framework names | Compact technical-path prompt | User picks A or B |
+| `providers` | Ask default-provider or full checklist | Clone, code, sample inspection | Compact default-provider prompt or full checklist | All provider fields resolved |
+| `complete` | Emit structured spec, proceed to After Collection | — | — | — |
 
-Rules:
-- Confirming the default baseline = confirmation for all mandatory provider fields
-- Omitting optional fields (Platform, Backend) = accept default
-- For the default-provider prompt, silence does not count — user must explicitly choose
-- Do not show two option blocks in the same turn
+### Pre-action self-check
+
+Before every tool call or message, verify:
+1. What is the current state?
+2. Is the intended action in the "Allowed" column for that state?
+3. If not → do not perform it. Send the "Next prompt" instead.
+
+### Failure branches
+
+- If sample clone fails later (after `complete`) → report the blocker and wait for user choice. Do NOT silently fall back to `minimal-custom`.
+- If network / permission is denied → report and wait. Do NOT improvise an alternative path.
+- If the user's reply does not resolve the current gate → ask a narrow repair follow-up for the unresolved field only.
+
+### Examples
+
+Bad: route to quickstart → immediately clone the sample repo → ask provider questions later
+Bad: route to quickstart → propose a Next.js + FastAPI project structure → then ask about credentials
+Bad: user says "build a Web app" → first reply includes implementation plan or sample repo details
+Good: user says "build a Web app" → first reply is product intro + credential prompt, nothing else
+Good: route to quickstart → product intro → credential prompt → wait → technical path prompt → wait → provider prompt → wait → all resolved → now proceed to After Collection
 
 ## Prompt Templates
 

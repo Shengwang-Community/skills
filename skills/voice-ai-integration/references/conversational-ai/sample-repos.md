@@ -1,5 +1,7 @@
 # ConvoAI Sample Repos
 
+> **Prerequisite:** For `quickstart` and `integration` modes, do not use this file until ALL quickstart gates in [quickstart.md](quickstart.md) are resolved and the structured spec is complete. Sample inspection happens only in the "After Collection" phase.
+
 Use this registry when the user needs a sample app, a reference project structure, or a known
 repository for ConvoAI integration work.
 

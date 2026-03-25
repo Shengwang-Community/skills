@@ -29,6 +29,8 @@ If download fails, proceed with local reference docs and fallback URLs.
 
 ### Step 1: Route to the correct product module
 
+> **Progressive disclosure rule:** Only read the file that the current step points to. Do not scan the `references/` directory or pre-read files that have not been linked from the current step. Each product module's README.md will tell you which files to read next and when. If a file is not referenced by the document you are currently reading, do not open it.
+
 Match the user's request to a product module using the route table. If the match
 is clear, route directly — do not ask extra questions.
 

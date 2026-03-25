@@ -37,31 +37,10 @@ The key question: does the user have a **working ConvoAI baseline**?
 
 - Classify internally and proceed — do not output a classification message to the user
 - If ambiguous, default to `quickstart` (safer path)
-- `quickstart` and `integration` go through the full quickstart flow
-- `advanced-feature` / `debugging` / `ops-hardening` skip the full quickstart
-- `advanced-feature` and `debugging` may still trigger a partial preflight for the exact part being changed
+- `quickstart` and `integration` enter the **locked quickstart state machine** in [quickstart.md](quickstart.md). While quickstart gates are unresolved, the agent may ONLY read this file and quickstart.md — no other ConvoAI files.
+- `advanced-feature` / `debugging` / `ops-hardening` skip the quickstart and go directly to [advanced.md](advanced.md), which may read any file in this directory.
 - Do not force users with a working baseline back through quickstart
 - Do not skip quickstart for users still blocked on foundational prerequisites
-
-### Flow map
-
-```text
-README.md (classify mode)
-  ├─ quickstart / integration → quickstart.md
-  │    ├─ technical path → project readiness → provider confirmation
-  │    └─ sample-repos.md → code generation
-  └─ advanced / debugging / ops → advanced.md
-       ├─ common-errors.md
-       └─ convoai-restapi/ endpoint docs
-```
-
-## Architecture Defaults
-
-1. Prefer official sample repo (`sample-aligned`) when it matches the user's stack
-2. Server side: prefer `agent-server-sdk`
-3. Client side: prefer `agora-agent-client-toolkit`; fall back to RTC SDK
-4. Fetch Shengwang docs only after sample/SDK inspection leaves a gap
-5. Use raw REST only for unsupported operations, debugging, or explicit REST-first requests
 
 ## Auth
 
@@ -71,16 +50,33 @@ README.md (classify mode)
 
 ## Reference Files
 
+Files are split into two phases. During quickstart, only Phase 1 files may be read.
+
+### Phase 1: Routing and quickstart (always readable)
+
 | File | Purpose |
 |------|---------|
-| [quickstart.md](quickstart.md) | Quickstart onboarding flow |
-| [advanced.md](advanced.md) | Features / debugging / ops for existing projects |
+| [quickstart.md](quickstart.md) | Quickstart state machine |
+| [advanced.md](advanced.md) | Features / debugging / ops (skip quickstart) |
+| [common-errors.md](common-errors.md) | Error diagnosis |
+
+### Phase 2: Implementation (only after quickstart gates are resolved OR mode is advanced/debugging/ops)
+
+| File | Purpose |
+|------|---------|
 | [providers.md](providers.md) | Required params per ASR / LLM / TTS vendor |
 | [sample-repos.md](sample-repos.md) | Sample repo registry and alignment rules |
 | [generation-rules.md](generation-rules.md) | Stable code generation constraints |
-| [common-errors.md](common-errors.md) | Error diagnosis |
 | [convoai-restapi/index.mdx](convoai-restapi/index.mdx) | REST endpoint index |
 | [../doc-fetching.md](../doc-fetching.md) | Doc fetching guide |
+
+### Architecture defaults (Phase 2 only)
+
+1. Prefer official sample repo (`sample-aligned`) when it matches the user's stack
+2. Server side: prefer `agent-server-sdk`
+3. Client side: prefer `agora-agent-client-toolkit`; fall back to RTC SDK
+4. Fetch Shengwang docs only after sample/SDK inspection leaves a gap
+5. Use raw REST only for unsupported operations, debugging, or explicit REST-first requests
 
 ## Docs Fallback
 
