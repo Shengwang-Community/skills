@@ -9,6 +9,22 @@ license: MIT
 metadata:
   author: shengwang
   version: "1.0.0"
+  runtime:
+    required_binaries:
+      - bash
+      - curl
+      - git
+    network_hosts:
+      - doc.shengwang.cn
+      - doc-mcp.shengwang.cn
+      - gitee.com
+    required_env:
+      - SHENGWANG_APP_ID
+      - SHENGWANG_APP_CERTIFICATE
+    conditional_env:
+      - RTC_TOKEN
+      - provider-specific API keys
+      - provider-specific service identifiers
 ---
 
 # Shengwang Integration
@@ -27,38 +43,30 @@ This file is the documentation index — all doc lookups depend on it.
 Do NOT proceed to Step 1 until this file exists or the download has been attempted.
 If download fails, proceed with local reference docs and fallback URLs.
 
-### Step 1: Collect kickoff information
+### Step 1: Analyze the user's need and choose the product module
 
-Use [intake](intake/README.md) to collect kickoff information.
+Use [intake](intake/README.md) only for lightweight needs analysis and product routing.
 Ask only for details the user has not already provided.
 
-Collect only the details needed to remove implementation blockers:
-- User's use case / target solution
-- Main Shengwang product
-- Platform or client stack
-- Backend language if relevant
-- Any key technical details already known that affect routing or implementation
+Collect only the details needed to determine:
+- the user's use case / target solution
+- the primary Shengwang product
+- any supporting Shengwang products
+- one remaining routing blocker, if the product is still unclear
 
 Use a conversational flow:
 - Infer obvious context from the user's request when it is safe to do so
-- Ask only for missing details that block routing or implementation
-- Stop asking as soon as there is enough information to continue
+- Ask only for missing details that change product routing
+- Do not ask product-specific configuration questions in the root router
+- Stop asking as soon as the correct product module is clear
 
-ConvoAI has a special intake mode:
-- If ConvoAI is clearly the primary product, switch to the consolidated ConvoAI intake in [intake/convoai.md](intake/convoai.md)
-- Ask for all unresolved kickoff fields plus unresolved ConvoAI provider/config fields in one message
-- Show numbered choices for each unresolved field and ask for a one-line numeric reply
-- Do not repeat fields the user already answered
-- For ConvoAI implementation, prefer the official sample repo, `agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when the target stack supports it, over building directly from the REST spec
-- Treat raw REST as a fallback only for unsupported operations, debugging, or when the user explicitly asks for a REST-first implementation
+ConvoAI has a dedicated product module:
+- If ConvoAI is clearly the primary product, route to [references/conversational-ai/README.md](references/conversational-ai/README.md)
+- The ConvoAI module handles its own internal routing through `request-modes.md` and the appropriate sub-flow
+- Do not duplicate ConvoAI-specific quickstart, advanced-feature, or debugging logic in the root router
 
-For ConvoAI, the user must still explicitly answer or confirm any unresolved `Other` follow-up value before implementation.
-
-For unresolved ConvoAI fields with defaults, keep them visible and treat omission as an explicit default confirmation. This includes `Platform = Web` and `Backend = Python`.
-If the first consolidated reply is incomplete, ask only a narrow follow-up for the unresolved mandatory blocker.
-
-If the user already gave enough information, do not repeat questions.
-Produce a lightweight kickoff recap, then continue automatically unless a required detail is still missing.
+If the product mapping is already clear, do not ask extra questions.
+Produce a lightweight routing recap, then continue automatically unless one routing blocker is still missing.
 
 ### Step 2: Start with local references
 
@@ -72,7 +80,7 @@ If the available information is sufficient, begin implementation using the exist
 | Credentials, AppID, REST auth | [general](references/general/credentials-and-auth.md) |
 | Download SDK, sample project, Token Builder, GitHub repo | Route to the relevant product module |
 | Generate Token, token server, AccessToken2, RTC/RTM auth | [token-server](references/token-server/README.md) |
-| ConvoAI operation (with details already known) | [conversational-ai](references/conversational-ai/README.md) for SDK/sample-first guidance; use REST docs only as fallback reference |
+| ConvoAI voice agent work | [conversational-ai](references/conversational-ai/README.md) for module entry, internal routing, and SDK/sample-first guidance |
 | RTC SDK integration | [rtc](references/rtc/README.md) |
 | RTM messaging / signaling | [rtm](references/rtm/README.md) |
 | Cloud Recording | [cloud-recording](references/cloud-recording/README.md) |
@@ -93,9 +101,32 @@ Research order:
 
 Once Step 3 provides enough information, proceed with implementation.
 
+## Runtime Requirements
+
+This skill expects the following runtime basics:
+- `bash` and `curl` for local doc-fetch helper scripts
+- `git` for sample-repo inspection when the sample-aligned path is chosen
+- Network access to `doc.shengwang.cn`, `doc-mcp.shengwang.cn`, and `gitee.com` when using doc fetch or sample inspection
+
+Core quickstart prerequisites:
+- `SHENGWANG_APP_ID`
+- `SHENGWANG_APP_CERTIFICATE`
+- ConvoAI service activation in Shengwang Console
+
+Some flows also require conditional credentials such as provider API keys or service identifiers.
+Those should always come from environment variables or user-provided secure input, never from hardcoded values.
+
+## Safety & Consent Rules
+
+- Do not clone external repos into the user's main workspace by default. Prefer a temporary path for inspection first.
+- Do not modify an existing user project until the user has explicitly asked for code generation or integration work.
+- Do not write secrets into project files unless the user explicitly asks for that behavior. Prefer env vars and example placeholders.
+- Before performing network fetches or external repo inspection, state what will be downloaded or cloned.
+- If a required runtime dependency or credential is missing, stop and explain the blocker instead of improvising around it.
+
 ## Download Rules
 
-- Use `git clone --depth 1 <url>` — GitHub URLs must be repo root only (no branch/subdirectory paths)
+- Use `git clone --depth 1 <url>` with an HTTPS repo URL by default — GitHub/Gitee URLs must be repo root only (no branch/subdirectory paths)
 - On any download failure: report the error, provide the URL for manual download, never silently skip
 
 ## Links

@@ -114,7 +114,7 @@ Agent is RUNNING but not responding to user speech:
 ## Additional Error Lookup
 
 For errors not covered here, fetch the relevant endpoint doc URL from
-[convoai-restapi.md](convoai-restapi.md) for response schemas, or search
+[convoai-restapi/index.mdx](convoai-restapi/index.mdx) for response schemas, or search
 `references/docs.txt` for broader doc lookup:
 
 ```

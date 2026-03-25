@@ -1,46 +1,43 @@
-# Shengwang Intake — Kickoff Information Collection
+# Shengwang Intake — Needs Analysis & Product Routing
 
-First entry point for requests that still need a small amount of information
-before implementation can begin.
+First entry point for requests that still need lightweight product routing before
+implementation begins.
 
 > **Note:** Step 0 doc-index setup is defined in [SKILL.md](../SKILL.md).
-> If you are here, Step 0 has already been handled and the root router needs
-> a lightweight kickoff summary before moving into implementation research.
+> If you are here, Step 0 has already been handled and the root router now needs
+> only enough information to decide which Shengwang product module should take over.
 
 ---
 
 ## Goal
 
-Collect only the minimum missing information needed to proceed.
-Do not run a broad discovery interview. Do not ask the user to confirm a full
-solution design before continuing.
+Use this intake to do **needs analysis and product routing**, not product-specific
+solution design.
 
-Ask only for unanswered details that materially affect routing or implementation:
-- Use case / target solution
-- Main Shengwang product
-- Platform or client stack
-- Backend language if relevant
-- Any key details already known that affect the next step
+The top-level intake should answer only these questions:
+- What is the user trying to build?
+- Which Shengwang product is primary?
+- Which supporting products are likely needed?
+- Is there one remaining blocker that is still required to choose the right module?
 
-Once those details are gathered, produce a short kickoff summary and continue
-to Step 2 automatically unless a required field is still missing.
+Do **not** use this layer to collect provider choices, auth strategy, SDK details,
+project structure, vendor configuration, or other product-internal implementation
+choices unless one of those details is the only remaining routing blocker.
 
-When ConvoAI is clearly the primary product, replace turn-by-turn kickoff with
-the consolidated ConvoAI intake in [convoai.md](convoai.md). In that mode, the
-assistant should gather unresolved kickoff fields and unresolved ConvoAI provider
-choices in one message, then convert the reply into the structured spec.
+If the primary product is already obvious from the user's request, do not ask extra
+questions here — route directly to the product module.
 
 ## Interaction Style
 
-The intake should stay concise and targeted.
+The intake should stay concise and routing-focused.
 
 - Prefer natural wording over an interview script
-- Ask only for missing information
-- For non-ConvoAI flows, ask in priority order and stop early once there is enough information
-- For ConvoAI-primary flows, send one consolidated checklist covering unresolved fields, including kickoff fields and optional-default provider fields
-- Do not ask "nice to have" questions during kickoff
+- Ask only for missing information that changes product routing
+- Ask at most one routing blocker at a time when the product is still unclear
+- Do not ask product-specific configuration questions at the top level
+- Do not propose project structures, implementation plans, or framework choices here
 - If a detail is obvious from the user's message, infer it instead of asking again
-- After each answer, decide whether to continue or route onward
+- As soon as the product mapping is clear, route onward
 
 ## Product Routing Aid
 
@@ -52,6 +49,8 @@ Use this only to map the user's use case to the likely product set.
 | RTM | Real-time messaging / signaling | "聊天", "消息", "chat", "signaling", "notification" |
 | ConvoAI | AI voice agent (ASR→LLM→TTS over RTC) | "AI语音", "voice bot", "对话式AI", "AI agent" |
 | Cloud Recording | Record RTC sessions server-side | "录制", "recording", "存档" |
+| Token generation | Generate RTC / RTM tokens | "token", "鉴权", "token server" |
+| Credentials / Auth | Console credentials, REST auth, service activation | "App ID", "Customer Key", "REST auth", "开通服务" |
 
 ### Common combinations
 
@@ -67,56 +66,33 @@ Use this only to map the user's use case to the likely product set.
 
 ## Intake Flow
 
-### Step 1: Ask only for missing kickoff details
+### Step 1: Determine product routing
 
 Start from the user's existing message. Do not repeat information they already gave.
 
-Use the shortest set of prompts needed to fill the gaps.
-
 Priority order:
-- Use case
-- Main product, if unclear
-- Platform / client stack, if relevant
-- Implementation mode, when a matching ConvoAI sample repo exists and the user explicitly wants to opt out of the default sample-aligned path
-- Backend language, if relevant
-- One additional blocker only if it materially affects implementation
+- Use case / target solution
+- Primary product, if still unclear
+- Supporting product, if the use case clearly requires one
+- One routing blocker only if it is still needed to choose the right module
 
-ConvoAI exception:
-- If ConvoAI is clearly the primary product, do not stretch kickoff across multiple turns
-- Route immediately to [convoai.md](convoai.md) and ask for all unresolved kickoff and ConvoAI provider fields in one checklist-style message
-- Include kickoff fields only if still missing, such as use case, platform, backend language, or implementation mode
-- Mention that ConvoAI prefers the official sample path, `agent-server-sdk` on the server side, and `agora-agent-client-toolkit` on the client side when possible
+ConvoAI handoff:
+- If ConvoAI is clearly the primary product, route directly to [conversational-ai](../references/conversational-ai/README.md)
+- Do not expand ConvoAI-specific quickstart, provider, auth, or sample questions here
+- Let the ConvoAI module handle `request-modes.md` and its internal sub-flows
 
 Short prompt examples:
-
 - Use case:
   - ZH: "你想做什么场景？"
   - EN: "What are you trying to build?"
-- Main product:
+- Primary product:
   - ZH: "你主要想用 RTC、RTM、ConvoAI，还是录制？如果不确定我可以帮你判断。"
   - EN: "Are you mainly using RTC, RTM, ConvoAI, or recording? If you're not sure, I can infer it."
-- Platform / client stack:
-  - ZH: "目标平台是什么，比如 Web、iOS、Android？"
-  - EN: "What platform are you targeting, such as Web, iOS, or Android?"
-- Implementation mode, when a matching ConvoAI sample repo exists:
-  - ZH: "默认会按官方 quickstart / sample 结构走；如果你想改成最小化自定义实现，再告诉我。"
-  - EN: "I’ll default to the official quickstart/sample structure unless you specifically want a minimal custom implementation."
-- Backend language, when relevant:
-  - ZH: "服务端准备用什么语言？"
-  - EN: "What backend language are you using?"
+- Supporting product:
+  - ZH: "除了主链路外，还需要聊天、录制，或者 token 服务吗？"
+  - EN: "Besides the main flow, do you also need chat, recording, or a token service?"
 
-Ask follow-up only when a missing detail affects routing or implementation.
-
-### Step 2: Determine product mapping
-
-From the user's answers, determine:
-- Primary product
-- Supporting products, if required
-- Any remaining gaps that block implementation
-
-Use the routing aid above to infer combinations.
-
-### Step 3: Produce kickoff summary
+### Step 2: Produce routing summary
 
 Present a short progress recap in the user's language:
 
@@ -127,9 +103,7 @@ Present a short progress recap in the user's language:
 场景：          [use case]
 主要产品：      [primary product]
 配套产品：      [supporting products / 无]
-平台：          [platform / client stack]
-服务端语言：    [backend language / 不涉及]
-下一步：        [go to implementation research / ask one blocker]
+下一步：        [route to the product module / ask one routing blocker]
 ─────────────────────────────
 ```
 
@@ -140,35 +114,27 @@ What I have so far
 Use case:       [use case]
 Primary:        [primary product]
 Supporting:     [supporting products / none]
-Platform:       [platform / client stack]
-Backend:        [backend language / not needed]
-Next:           [go to implementation research / ask one blocker]
+Next:           [route to the product module / ask one routing blocker]
 ─────────────────────────────
 ```
 
 Do not stop for a separate confirmation step.
 
-- If no required detail is missing -> continue automatically to Step 2 in the root workflow.
-- If a required detail is still missing -> ask only for that blocker, then continue.
+- If the product mapping is clear -> continue automatically to the product module
+- If one routing blocker is still missing -> ask only for that blocker, then continue
 
-For ConvoAI-primary flows, the kickoff summary may be merged into the ConvoAI
-spec output if that is clearer than producing two separate recaps.
+### Step 3: Route onward
 
-### Step 4: Route onward
+For each identified product, route to its product module:
 
-For each identified product, route to its detail collection:
+| Product | Product module |
+|---------|---------------|
+| ConvoAI | [conversational-ai](../references/conversational-ai/README.md) |
+| RTC SDK | [rtc](../references/rtc/README.md) |
+| RTM | [rtm](../references/rtm/README.md) |
+| Cloud Recording | [cloud-recording](../references/cloud-recording/README.md) |
+| Credentials / Auth | [general](../references/general/credentials-and-auth.md) |
+| Token generation | [token-server](../references/token-server/README.md) |
 
-| Product | Detail intake | Product module |
-|---------|--------------|---------------|
-| ConvoAI | [intake/convoai.md](convoai.md) | [conversational-ai](../references/conversational-ai/README.md) |
-| RTC SDK | — | [rtc](../references/rtc/README.md) |
-| RTM | — | [rtm](../references/rtm/README.md) |
-| Cloud Recording | — | [cloud-recording](../references/cloud-recording/README.md) |
-| Credentials / Auth | — | [general](../references/general/credentials-and-auth.md) |
-| Token generation | — | [token-server](../references/token-server/README.md) |
-
-> Products without a detail intake (marked "—") go directly to the product module.
-> The module itself should only collect product-specific missing details.
-
-When multiple products are needed, run the primary product's intake first,
+When multiple products are needed, route to the primary product first,
 then address supporting products in order.
