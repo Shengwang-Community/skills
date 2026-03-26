@@ -116,18 +116,18 @@ For each case:
 - Pass Criteria: Fetches content by running `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
 - Result: ___
 
-### C-07: Existing pipeline ID reads env and removes provider-only config
+### C-07: Existing pipeline ID keeps the sample config style and removes provider-only config
 
 - User Input: (after the pipeline-ID path resolves) "Implement the selected sample with my existing pipeline ID"
-- Expected Behavior: Reuse the matching sample structure, read the pipeline ID from env, and remove stale `ASR` / `LLM` / `TTS` config when pipeline mode replaces the old request path
-- Pass Criteria: Generated code/config reads a pipeline ID from env and does not keep unused provider-only config in the replaced flow
+- Expected Behavior: Reuse the matching sample structure, keep the sample's config style for `SHENGWANG_PIPELINE_ID`, and remove stale `ASR` / `LLM` / `TTS` config when pipeline mode replaces the old request path
+- Pass Criteria: Generated code/config reads `SHENGWANG_PIPELINE_ID` using the sample's config style and does not keep unused provider-only config in the replaced flow
 - Result: ___
 
-### C-08: Pipeline request code matches the provided curl shape
+### C-08: Pipeline request code matches the fixed request shape
 
 - User Input: (after the pipeline-ID path resolves) "Generate the request code for my selected platform"
-- Expected Behavior: Generate platform-specific request code that preserves the curl's `POST /projects/{appId}/join/` shape, `Authorization: agora token=...` header form, and JSON body fields `name`, `pipeline_id`, `properties.agent_rtc_uid`, `properties.channel`, `properties.remote_rtc_uids`, and `properties.token`
-- Pass Criteria: The generated request code uses the curl's shape, reads `pipeline_id` from env, sets `name = channel`, generates separate RTC tokens for the header and `properties.token` via the sample's existing token rules, and does not hardcode literal token values from the curl
+- Expected Behavior: Generate platform-specific request code that preserves the fixed pipeline request shape: `POST /projects/{appId}/join/`, `Authorization: agora token=...`, and JSON body fields `name`, `pipeline_id`, `properties.agent_rtc_uid`, `properties.channel`, `properties.remote_rtc_uids`, and `properties.token`
+- Pass Criteria: The generated request code uses the fixed request shape, reads `pipeline_id` from the sample's config style, sets `name = channel`, generates separate RTC tokens for the header and `properties.token` via the sample's existing token rules, and does not hardcode literal token values from the request example
 - Result: ___
 
 ### C-09: Pipeline response parsing and Web proxy behavior are preserved
@@ -141,7 +141,7 @@ For each case:
 
 - User Input: (after the pipeline-ID path resolves and the user selects Android) "Implement the Android pipeline path"
 - Expected Behavior: Reuse the native sample subdirectory, replace only the provider-based request/config path, keep the existing token-generation path, and preserve the rest of the sample structure
-- Pass Criteria: The generated Android flow keeps the sample app structure intact, inspects config/request/token files before UI files, adds `SHENGWANG_PIPELINE_ID`, uses separate RTC tokens for header and agent, removes stale provider config, and parses `agent_id`, `create_ts`, and `status`
+- Pass Criteria: The generated Android flow keeps the sample app structure intact, inspects config/request/token files before UI files, adds `SHENGWANG_PIPELINE_ID` through the sample's existing config path, uses separate RTC tokens for header and agent, removes stale provider config, and parses `agent_id`, `create_ts`, and `status`
 - Result: ___
 
 ### C-11: Normal implementation does not ask the user to paste pipeline ID or curl
@@ -155,7 +155,14 @@ For each case:
 
 - User Input: (after the pipeline-ID path resolves) "Implement the selected pipeline path"
 - Expected Behavior: Keep the selected sample's config style, remove stale provider config, and add `SHENGWANG_PIPELINE_ID` as a placeholder without inventing a new config system
-- Pass Criteria: The generated platform config stays close to the sample's style, does not add unnecessary config-loading layers, and does not treat config key names as literal runtime values
+- Pass Criteria: The generated platform config stays close to the sample's style, does not add unnecessary config-loading layers, does not treat config key names as literal runtime values, and does not introduce extra computed properties or helper wrappers just to read `SHENGWANG_PIPELINE_ID` unless the sample already used them
+- Result: ___
+
+### C-13: Code generation stops before dependency installation
+
+- User Input: (after the pipeline-ID path resolves) "Implement the iOS pipeline path"
+- Expected Behavior: Finish code generation and file edits, then tell the user to run `pod install` themselves if needed, instead of executing it automatically
+- Pass Criteria: The model does not run dependency installation commands such as `pod install`, `bun install`, or `pip install` unless the user explicitly asked for them
 - Result: ___
 
 ---
@@ -218,18 +225,18 @@ For each case:
 - Pass Criteria: Does not introduce any new non-quickstart question as part of the intake
 - Result: ___
 
-### I-09: Pipeline-ID checkpoint appears before provider questions
+### I-09: Default-provider prompt includes the Pipeline ID option
 
 - User Input: After the prerequisite prompt, the user replies "A"
-- Expected Behavior: Ask whether the user already has a pipeline ID before any default-provider question
-- Pass Criteria: The next turn is the pipeline-ID prompt, and it does not include the default-provider prompt in the same message
+- Expected Behavior: Show the default-provider prompt with three options: defaults / custom providers / Pipeline ID
+- Pass Criteria: The next turn is the default-provider prompt, it includes the `C` option for Shengwang Pipeline ID, and the Studio URL is shown with that option
 - Result: ___
 
-### I-10: Existing pipeline ID exits the default provider path
+### I-10: Choosing the Pipeline option exits the provider path
 
-- User Input: After the pipeline-ID prompt, the user replies "B"
-- Expected Behavior: Stop the current default-provider path and ask which sample platform should be implemented
-- Pass Criteria: The next turn is the sample-platform prompt, and the model does not show the default-provider prompt or the detailed provider checklist after the user says they already have a pipeline ID
+- User Input: After the default-provider prompt, the user replies "C"
+- Expected Behavior: Stop the provider path and, only if platform is still unknown, ask a platform-only checklist using the same style as the Detailed Provider Checklist
+- Pass Criteria: After the user picks `C`, the model does not show the full provider checklist; it continues into the pipeline path and only asks for platform if still unresolved
 - Result: ___
 
 ---

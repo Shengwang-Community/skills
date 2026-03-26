@@ -116,18 +116,18 @@
 - 判定标准: 通过运行 `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` 获取内容
 - 结果: ___
 
-### C-07: 已有 pipeline ID 时走 env + 清理旧 provider 配置
+### C-07: 已有 pipeline ID 时保持 sample 配置风格并清理旧 provider 配置
 
 - 用户输入: （走完 pipeline-id 分支后）"按我现有的 pipeline ID 实现当前示例"
-- 期望行为: 复用匹配的平台 sample 结构，从环境变量读取 pipeline ID，并在 pipeline 路径替换旧请求后清理无用的 `ASR` / `LLM` / `TTS` 配置
-- 判定标准: 生成的代码或配置从 env 读取 pipeline ID，且被替换的流程里不再保留无用的 provider-only 配置
+- 期望行为: 复用匹配的平台 sample 结构，保持 sample 原本的 `SHENGWANG_PIPELINE_ID` 配置风格，并在 pipeline 路径替换旧请求后清理无用的 `ASR` / `LLM` / `TTS` 配置
+- 判定标准: 生成的代码或配置按 sample 原有配置风格读取 `SHENGWANG_PIPELINE_ID`，且被替换的流程里不再保留无用的 provider-only 配置
 - 结果: ___
 
-### C-08: 根据提供的 curl 生成同形状的 pipeline 请求代码
+### C-08: 按固定请求形状生成 pipeline 请求代码
 
 - 用户输入: （走完 pipeline-id 分支后）"为我当前的平台生成请求代码"
-- 期望行为: 生成的平台请求代码保留 curl 的 `POST /projects/{appId}/join/` 形状、`Authorization: agora token=...` 头格式，以及 `name`、`pipeline_id`、`properties.agent_rtc_uid`、`properties.channel`、`properties.remote_rtc_uids`、`properties.token` 这些 JSON 字段
-- 判定标准: 生成的请求代码遵循 curl 的结构，从 env 读取 `pipeline_id`，令 `name = channel`，沿用 sample 现有 token 生成规则为 header 和 `properties.token` 分别生成 RTC token，且不会把 curl 中的字面 token 值硬编码进源码
+- 期望行为: 生成的平台请求代码遵循固定的 pipeline 请求形状：`POST /projects/{appId}/join/`、`Authorization: agora token=...`，以及 `name`、`pipeline_id`、`properties.agent_rtc_uid`、`properties.channel`、`properties.remote_rtc_uids`、`properties.token` 这些 JSON 字段
+- 判定标准: 生成的请求代码遵循固定请求形状，按 sample 原有配置风格读取 `pipeline_id`，令 `name = channel`，沿用 sample 现有 token 生成规则为 header 和 `properties.token` 分别生成 RTC token，且不会把请求示例中的字面 token 值硬编码进源码
 - 结果: ___
 
 ### C-09: 保留 pipeline 响应解析和 Web 薄代理
@@ -141,7 +141,7 @@
 
 - 用户输入: （走完 pipeline-id 分支并选择 Android 后）"实现 Android 的 pipeline 路径"
 - 期望行为: 复用 native sample 对应子目录，只替换 provider 请求/配置路径，沿用现有 token 生成路径，并保留 sample 的其余结构
-- 判定标准: 生成的 Android 流程保留 sample 应用结构，先检查 config/request/token 文件再碰 UI，新增 `SHENGWANG_PIPELINE_ID`，为 header 和 agent 分别生成 RTC token，清理旧 provider 配置，并解析 `agent_id`、`create_ts`、`status`
+- 判定标准: 生成的 Android 流程保留 sample 应用结构，先检查 config/request/token 文件再碰 UI，通过 sample 原有配置链路新增 `SHENGWANG_PIPELINE_ID`，为 header 和 agent 分别生成 RTC token，清理旧 provider 配置，并解析 `agent_id`、`create_ts`、`status`
 - 结果: ___
 
 ### C-11: 正常实现流程不应要求用户再贴 pipeline ID 或 curl
@@ -155,7 +155,14 @@
 
 - 用户输入: （走完 pipeline-id 分支后）"实现当前平台的 pipeline 路径"
 - 期望行为: 保持所选 sample 的配置风格，清理旧 provider 配置，新增 `SHENGWANG_PIPELINE_ID` 占位，不额外发明新的配置体系
-- 判定标准: 生成的平台配置保持贴近 sample 的风格，不会增加没有必要的配置读取层，也不会把配置 key 名称本身当成运行时值
+- 判定标准: 生成的平台配置保持贴近 sample 的风格，不会增加没有必要的配置读取层，也不会把配置 key 名称本身当成运行时值；不会仅为了读取 `SHENGWANG_PIPELINE_ID` 额外发明 computed property 或 helper 包装层，除非 sample 本身就是这么做的
+- 结果: ___
+
+### C-13: 代码生成应在依赖安装前结束
+
+- 用户输入: （走完 pipeline-id 分支后）"实现 iOS 的 pipeline 路径"
+- 期望行为: 完成代码生成和文件修改后就结束，只提示用户如有需要请自行运行 `pod install`，而不是自动执行
+- 判定标准: 模型不会自动运行 `pod install`、`bun install`、`pip install` 等依赖安装命令，除非用户明确要求
 - 结果: ___
 
 ---
@@ -219,18 +226,18 @@
 - 判定标准: 不会额外引入新的非 intake 提问
 - 结果: ___
 
-### I-09: provider 问题前必须先经过 pipeline-id 检查点
+### I-09: 默认 provider 提示中应包含 Pipeline 选项
 
 - 用户输入: 在前置条件问题后，用户回复 "A"
-- 期望行为: 在任何默认 provider 提问之前，先确认用户是否已有 pipeline ID
-- 判定标准: 下一轮是 pipeline-id 提问，且同一条消息里不会夹带默认 provider 提问
+- 期望行为: 展示默认 provider 提示，并包含“默认三段式 / 自定义厂商 / Pipeline ID”三种选择
+- 判定标准: 下一轮是默认 provider 提示，且其中包含 `C. 使用声网 Pipeline ID`，并带有 Studio 地址
 - 结果: ___
 
-### I-10: 用户已有 pipeline ID 时跳出默认 provider 路径
+### I-10: 选择 Pipeline 选项后应跳出 provider 路径
 
-- 用户输入: 在 pipeline-id 提问后，用户回复 "B"
-- 期望行为: 停止当前默认 provider 路径，并继续追问要实现的示例平台
-- 判定标准: 用户说明自己已有 pipeline ID 后，下一轮应是示例平台选择，不会再继续给默认 provider 提示或完整 provider checklist
+- 用户输入: 在默认 provider 提示后，用户回复 "C"
+- 期望行为: 停止 provider 路径，并且只在平台仍未知时，用和 Detailed Provider Checklist 一致的风格继续追问平台
+- 判定标准: 用户选择 `C` 后，不会再进入完整 provider checklist；会继续走 pipeline 路径，并且只在平台未知时追问平台
 - 结果: ___
 
 ---
