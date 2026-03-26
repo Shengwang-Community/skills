@@ -116,6 +116,48 @@
 - 判定标准: 通过运行 `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"` 获取内容
 - 结果: ___
 
+### C-07: 已有 pipeline ID 时走 env + 清理旧 provider 配置
+
+- 用户输入: （走完 pipeline-id 分支后）"按我现有的 pipeline ID 实现当前示例"
+- 期望行为: 复用匹配的平台 sample 结构，从环境变量读取 pipeline ID，并在 pipeline 路径替换旧请求后清理无用的 `ASR` / `LLM` / `TTS` 配置
+- 判定标准: 生成的代码或配置从 env 读取 pipeline ID，且被替换的流程里不再保留无用的 provider-only 配置
+- 结果: ___
+
+### C-08: 根据提供的 curl 生成同形状的 pipeline 请求代码
+
+- 用户输入: （走完 pipeline-id 分支后）"为我当前的平台生成请求代码"
+- 期望行为: 生成的平台请求代码保留 curl 的 `POST /projects/{appId}/join/` 形状、`Authorization: agora token=...` 头格式，以及 `name`、`pipeline_id`、`properties.agent_rtc_uid`、`properties.channel`、`properties.remote_rtc_uids`、`properties.token` 这些 JSON 字段
+- 判定标准: 生成的请求代码遵循 curl 的结构，从 env 读取 `pipeline_id`，令 `name = channel`，沿用 sample 现有 token 生成规则为 header 和 `properties.token` 分别生成 RTC token，且不会把 curl 中的字面 token 值硬编码进源码
+- 结果: ___
+
+### C-09: 保留 pipeline 响应解析和 Web 薄代理
+
+- 用户输入: （走完 pipeline-id 分支后）"实现 Web 的 pipeline 路径"
+- 期望行为: Web 侧保留一个薄服务端代理，在代理里执行 pipeline join 请求，并解析成功响应中的 `agent_id`、`create_ts`、`status`
+- 判定标准: Web 路径不会把 pipeline join 请求中的 token 暴露到前端代码，会先从 sample 中定位当前服务端请求路径再修改，且生成的流程会保留这三个响应字段供后续使用
+- 结果: ___
+
+### C-10: Native 平台的 pipeline 改造应保持贴近 sample
+
+- 用户输入: （走完 pipeline-id 分支并选择 Android 后）"实现 Android 的 pipeline 路径"
+- 期望行为: 复用 native sample 对应子目录，只替换 provider 请求/配置路径，沿用现有 token 生成路径，并保留 sample 的其余结构
+- 判定标准: 生成的 Android 流程保留 sample 应用结构，先检查 config/request/token 文件再碰 UI，新增 `SHENGWANG_PIPELINE_ID`，为 header 和 agent 分别生成 RTC token，清理旧 provider 配置，并解析 `agent_id`、`create_ts`、`status`
+- 结果: ___
+
+### C-11: 正常实现流程不应要求用户再贴 pipeline ID 或 curl
+
+- 用户输入: （走完 pipeline-id 分支后）"实现 iOS 的 pipeline 路径"
+- 期望行为: 直接使用 skill 里固定的 pipeline 请求形状，新增 `SHENGWANG_PIPELINE_ID` 配置占位，并继续实现，不要求用户再贴 live 的 pipeline ID 值或 curl
+- 判定标准: 模型在正常生成代码过程中，不会再向用户索取实际 pipeline ID 值或 pipeline curl
+- 结果: ___
+
+### C-12: 各平台配置风格都应保持贴近 sample
+
+- 用户输入: （走完 pipeline-id 分支后）"实现当前平台的 pipeline 路径"
+- 期望行为: 保持所选 sample 的配置风格，清理旧 provider 配置，新增 `SHENGWANG_PIPELINE_ID` 占位，不额外发明新的配置体系
+- 判定标准: 生成的平台配置保持贴近 sample 的风格，不会增加没有必要的配置读取层，也不会把配置 key 名称本身当成运行时值
+- 结果: ___
+
 ---
 
 ## 三、ConvoAI Quickstart Intake 质量
@@ -175,6 +217,20 @@
 - 期望行为: quickstart intake 仍聚焦产品选项，忽略额外的非 intake 说明
 - 判定标准: 不会额外引入新的非 quickstart 提问
 - 判定标准: 不会额外引入新的非 intake 提问
+- 结果: ___
+
+### I-09: provider 问题前必须先经过 pipeline-id 检查点
+
+- 用户输入: 在前置条件问题后，用户回复 "A"
+- 期望行为: 在任何默认 provider 提问之前，先确认用户是否已有 pipeline ID
+- 判定标准: 下一轮是 pipeline-id 提问，且同一条消息里不会夹带默认 provider 提问
+- 结果: ___
+
+### I-10: 用户已有 pipeline ID 时跳出默认 provider 路径
+
+- 用户输入: 在 pipeline-id 提问后，用户回复 "B"
+- 期望行为: 停止当前默认 provider 路径，并继续追问要实现的示例平台
+- 判定标准: 用户说明自己已有 pipeline ID 后，下一轮应是示例平台选择，不会再继续给默认 provider 提示或完整 provider checklist
 - 结果: ___
 
 ---

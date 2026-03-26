@@ -14,7 +14,7 @@ repository for ConvoAI integration work.
 - Preserve sample env var names from the cloned repo's env template files unless the user explicitly asks to rename or normalize them.
 - Preserve the sample repo's folder structure, dependency choices, and API shape by default.
 - Preserve the key libraries and dependency pattern already present in the chosen sample repo unless the user explicitly asks for a different architecture.
-- Apply a tight diff budget: change only what is required for the user's confirmed provider choices and requested functionality.
+- Apply a tight diff budget: change only what is required for the user's confirmed provider choices, pipeline configuration, and requested functionality.
 - Before editing code, state which sample repo is being followed, which env template files were inspected, and list the exact planned differences.
 
 ## Maintenance Rules
@@ -33,6 +33,8 @@ repository for ConvoAI integration work.
 7. Keep the implementation structurally close to the sample unless the user explicitly requests `minimal-custom`.
 8. If the matching sample repo cannot be inspected in the current environment, stop and report that blocker instead of silently inventing a fresh starter structure.
 9. Only copy or adapt code into the user's actual project after the user has explicitly asked for implementation in that workspace.
+
+For the existing-pipeline path, keep the sample repo as the structural baseline, but follow [pipeline-integration.md](pipeline-integration.md) for which request/config sections must be removed or replaced.
 
 ## Registry
 

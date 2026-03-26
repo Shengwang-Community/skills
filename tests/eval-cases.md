@@ -116,6 +116,48 @@ For each case:
 - Pass Criteria: Fetches content by running `bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "docs://default/convoai/restful/get-started/quick-start-go"`
 - Result: ___
 
+### C-07: Existing pipeline ID reads env and removes provider-only config
+
+- User Input: (after the pipeline-ID path resolves) "Implement the selected sample with my existing pipeline ID"
+- Expected Behavior: Reuse the matching sample structure, read the pipeline ID from env, and remove stale `ASR` / `LLM` / `TTS` config when pipeline mode replaces the old request path
+- Pass Criteria: Generated code/config reads a pipeline ID from env and does not keep unused provider-only config in the replaced flow
+- Result: ___
+
+### C-08: Pipeline request code matches the provided curl shape
+
+- User Input: (after the pipeline-ID path resolves) "Generate the request code for my selected platform"
+- Expected Behavior: Generate platform-specific request code that preserves the curl's `POST /projects/{appId}/join/` shape, `Authorization: agora token=...` header form, and JSON body fields `name`, `pipeline_id`, `properties.agent_rtc_uid`, `properties.channel`, `properties.remote_rtc_uids`, and `properties.token`
+- Pass Criteria: The generated request code uses the curl's shape, reads `pipeline_id` from env, sets `name = channel`, generates separate RTC tokens for the header and `properties.token` via the sample's existing token rules, and does not hardcode literal token values from the curl
+- Result: ___
+
+### C-09: Pipeline response parsing and Web proxy behavior are preserved
+
+- User Input: (after the pipeline-ID path resolves) "Implement the Web pipeline path"
+- Expected Behavior: Keep a thin server proxy for Web, execute the pipeline join request there, and parse the success response fields `agent_id`, `create_ts`, and `status`
+- Pass Criteria: The Web path does not expose the pipeline join request tokens in frontend code, discovers the current server request path from the sample before editing it, and keeps the three response fields available after the request succeeds
+- Result: ___
+
+### C-10: Native pipeline adaptation stays close to the sample
+
+- User Input: (after the pipeline-ID path resolves and the user selects Android) "Implement the Android pipeline path"
+- Expected Behavior: Reuse the native sample subdirectory, replace only the provider-based request/config path, keep the existing token-generation path, and preserve the rest of the sample structure
+- Pass Criteria: The generated Android flow keeps the sample app structure intact, inspects config/request/token files before UI files, adds `SHENGWANG_PIPELINE_ID`, uses separate RTC tokens for header and agent, removes stale provider config, and parses `agent_id`, `create_ts`, and `status`
+- Result: ___
+
+### C-11: Normal implementation does not ask the user to paste pipeline ID or curl
+
+- User Input: (after the pipeline-ID path resolves) "Implement the iOS pipeline path"
+- Expected Behavior: Use the fixed pipeline request shape from the skill, add `SHENGWANG_PIPELINE_ID` as config placeholder, and continue implementation without asking the user to paste the live pipeline ID value or the curl again
+- Pass Criteria: The model does not ask for the actual pipeline ID value or the pipeline curl during normal code generation
+- Result: ___
+
+### C-12: Platform config stays close to the sample style
+
+- User Input: (after the pipeline-ID path resolves) "Implement the selected pipeline path"
+- Expected Behavior: Keep the selected sample's config style, remove stale provider config, and add `SHENGWANG_PIPELINE_ID` as a placeholder without inventing a new config system
+- Pass Criteria: The generated platform config stays close to the sample's style, does not add unnecessary config-loading layers, and does not treat config key names as literal runtime values
+- Result: ___
+
 ---
 
 ## 3. ConvoAI Quickstart Intake Quality
@@ -174,6 +216,20 @@ For each case:
 - User Input: "1A 2E 3G 4C 5A 6A 7A, and I'll handle setup later"
 - Expected Behavior: Keep the quickstart intake focused on product choices and ignore extra out-of-scope statements
 - Pass Criteria: Does not introduce any new non-quickstart question as part of the intake
+- Result: ___
+
+### I-09: Pipeline-ID checkpoint appears before provider questions
+
+- User Input: After the prerequisite prompt, the user replies "A"
+- Expected Behavior: Ask whether the user already has a pipeline ID before any default-provider question
+- Pass Criteria: The next turn is the pipeline-ID prompt, and it does not include the default-provider prompt in the same message
+- Result: ___
+
+### I-10: Existing pipeline ID exits the default provider path
+
+- User Input: After the pipeline-ID prompt, the user replies "B"
+- Expected Behavior: Stop the current default-provider path and ask which sample platform should be implemented
+- Pass Criteria: The next turn is the sample-platform prompt, and the model does not show the default-provider prompt or the detailed provider checklist after the user says they already have a pipeline ID
 - Result: ___
 
 ---

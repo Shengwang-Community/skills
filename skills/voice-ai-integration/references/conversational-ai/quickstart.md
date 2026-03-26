@@ -10,8 +10,10 @@ Follow this exact user-visible order — do not skip ahead:
 1. Product intro in plain language
 2. Technical-path confirmation
 3. Project-readiness checkpoint
-4. Provider confirmation
-5. Detailed provider checklist (only if customization needed)
+4. Pipeline-ID checkpoint
+5. Sample-platform selection (only when the user already has a pipeline ID)
+6. Provider confirmation (only when the user does not already have a pipeline ID)
+7. Detailed provider checklist (only if customization is needed and no pipeline ID is being reused)
 
 ## Product Intro
 
@@ -23,7 +25,7 @@ Detect from the user's most recent message: Chinese → ZH prompts, otherwise �
 
 ## Interaction Rules
 
-- One decision group per turn — do not combine technical-path, credential, and provider in the same message
+- One decision group per turn — do not combine technical-path, credential, pipeline-id, and provider in the same message
 - Skip anything the user already answered
 - Infer obvious context (e.g. user names Android → don't re-ask platform)
 - Do not propose project structures or framework names before the technical path is accepted
@@ -65,6 +67,8 @@ The quickstart is a blocking state machine. Each state must be resolved before a
 | `tech_path` | Ask technical-path prompt | Clone, code, sample inspection, framework names | Compact technical-path prompt | User picks A or B |
 | `unsupported_provider` | Ask unsupported-provider prompt | Clone, code, sample inspection | Compact unsupported-provider prompt | User picks supported alternative (skip if no unsupported provider named) |
 | `project_readiness` | Ask credential prompt | Clone, code, sample inspection, framework names | Compact credential prompt | User confirms ready or gets guidance |
+| `pipeline_id` | Ask pipeline-id prompt | Clone, code, sample inspection, provider questions | Compact pipeline-id prompt | User picks A or B. A → `providers`; B → `pipeline_platform` |
+| `pipeline_platform` | Ask sample-platform prompt | Clone, code, sample inspection, provider questions | Compact sample-platform prompt | User picks the sample platform to implement, then continue the pipeline-ID-specific flow |
 | `providers` | Ask default-provider or full checklist | Clone, code, sample inspection | Compact default-provider prompt or full checklist | All provider fields resolved |
 | `complete` | Emit structured spec, proceed to After Collection | — | — | — |
 
@@ -87,7 +91,7 @@ Bad: route to quickstart → immediately clone the sample repo → ask provider 
 Bad: route to quickstart → propose a Next.js + FastAPI project structure → then ask about credentials
 Bad: user says "build a Web app" → first reply includes implementation plan or sample repo details
 Good: user says "build a Web app" → first reply is product intro + technical-path prompt, nothing else
-Good: route to quickstart → product intro → technical-path prompt → wait → unsupported-provider prompt only if needed → credential prompt → wait → provider prompt → wait → all resolved → now proceed to After Collection
+Good: route to quickstart → product intro → technical-path prompt → wait → unsupported-provider prompt only if needed → credential prompt → wait → pipeline-id prompt → wait → if the user already has a pipeline ID, ask which sample platform to implement; otherwise continue to the provider prompt → wait → all resolved → now proceed to After Collection
 
 ## Prompt Templates
 
@@ -153,6 +157,56 @@ A. All ready
 B. Not yet — tell me where to find them
 ```
 
+### Pipeline ID
+
+**ZH:**
+```text
+继续前再确认一项：
+- 你现在是否已经有可用的 Pipeline ID？
+
+A. 还没有
+B. 我有 Pipeline ID
+```
+
+**EN:**
+```text
+One more check before we continue:
+- Do you already have an available pipeline ID?
+
+A. Not yet
+B. I have a pipeline ID
+```
+
+If the user picks `B`, do NOT ask the default-provider prompt. Hand off to the pipeline-ID-specific flow instead.
+
+### Pipeline Sample Platform
+
+**ZH:**
+```text
+请选择你需要实现的示例平台：
+
+A. Web
+B. iOS
+C. Android
+D. Flutter
+E. Windows
+F. macOS
+```
+
+**EN:**
+```text
+Which sample platform do you want to implement?
+
+A. Web
+B. iOS
+C. Android
+D. Flutter
+E. Windows
+F. macOS
+```
+
+This prompt is only used after the user confirms they already have a pipeline ID.
+
 ### Default Provider
 
 **ZH:**
@@ -214,6 +268,9 @@ project_readiness:
   app_id: [ready | missing | unknown]
   app_certificate: [ready | missing | unknown]
   convoai_activation: [ready | missing | unknown]
+pipeline:
+  existing_pipeline_id: [yes | no | unknown]
+  sample_platform: [Web | iOS | Android | Flutter | Windows | macOS | not needed | unknown]
 providers:
   asr: [fengming | tencent | microsoft | xfyun | xfyun_bigmodel | xfyun_dialect]
   asr_language: [zh-CN | en-US | other]
@@ -223,10 +280,11 @@ providers:
 
 ## After Collection
 
+- Use [pipeline-integration.md](pipeline-integration.md) when the user already has a pipeline ID and selected a sample platform
 - Follow architecture rules in [README.md](README.md)
 - Use [sample-repos.md](sample-repos.md) for sample inspection and clone
 - Use [generation-rules.md](generation-rules.md) for code generation constraints
-- Use [providers.md](providers.md) for vendor-specific required params when generating `/join` payloads
+- Use [providers.md](providers.md) for vendor-specific required params when generating provider-based `/join` payloads
 - Use `convoai-restapi/index.mdx` only for missing low-level API details
 
 ### Backend not covered by sample repo
