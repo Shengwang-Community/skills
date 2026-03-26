@@ -46,17 +46,20 @@ clawhub install voice-ai-integration
 clawhub update voice-ai-integration
 ```
 
-### 2. 下载文档索引（推荐）
+### 2. 使用内置索引
 
-下载文档索引，用于开发过程中获取最新 API 文档：
+skill 会随附预构建好的静态索引：
 
+- `skills/voice-ai-integration/references/doc-index/docs.index.md` — 按产品组织的文档目录，重点产品直接附 URI
+- `skills/voice-ai-integration/references/doc-index/shards/{product}.json` — 按产品分片的详细记录
+- `skills/voice-ai-integration/references/doc-index/shards/api-ref/{product}-{platform}.json` — SDK 类文档
+
+这些文件是 fallback lookup 工具。Agent 应先走被路由到的产品模块，只有当模块仍然需要外部文档定位时，才使用这些索引。
+
+刷新索引（仅维护者）：
 ```bash
-bash skills/voice-ai-integration/scripts/fetch-docs.sh
+bash scripts/fetch-docs.sh
 ```
-
-文档索引保存到 `skills/voice-ai-integration/references/docs.txt`。Skills 通过它查找并直接 HTTP 获取文档内容，无需额外的服务进程。
-
-> 没有文档索引也能用，skills 会降级到本地参考文档 + 外部文档链接。
 
 ### 3. 开始使用
 
@@ -96,15 +99,24 @@ shengwang-skills/
 ├── CLAUDE.md                  # → AGENTS.md
 ├── CONTRIBUTING.md            # 贡献规范
 ├── scripts/
+│   ├── fetch-docs.sh          # 下载 sitemap + 重建 doc-index
+│   ├── build-doc-index.py     # 从 sitemap 生成所有索引文件
+│   ├── ab-test-doc-index.py   # Token 匹配基准测试（56 cases）
+│   ├── llm-eval-doc-index.py  # LLM 端到端评测（72 cases）
 │   └── validate-skills.sh     # 链接和 frontmatter 校验
 ├── tests/
-│   └── eval-cases.md          # 评测用例
+│   ├── eval-cases.md          # 评测用例
+│   └── doc-index-benchmark.md # Doc-index 基准测试结果
 └── skills/
     └── voice-ai-integration/     # Skill 本体（agentskills.io 标准）
         ├── SKILL.md               # 入口和路由（唯一的 SKILL.md）
         └── references/            # 所有产品模块和共享知识
             ├── doc-fetching.md        # 文档获取指南
-            ├── docs.txt               # 本地文档索引
+            ├── doc-index/             # 预构建文档索引
+            │   ├── docs.index.md      # Agent 可读的产品目录
+            │   ├── docs.index.json    # 完整机器可读索引
+            │   ├── api-reference.json # SDK 类文档（独立）
+            │   └── shards/            # 按产品分片
             ├── general/               # 凭证、REST 认证
             ├── conversational-ai/     # ConvoAI
             ├── rtc/                   # RTC SDK
@@ -124,10 +136,19 @@ shengwang-skills/
 ## 本地验证
 
 ```bash
+# 验证 skill 结构和链接
 bash scripts/validate-skills.sh
-```
 
-检查 SKILL.md 的 frontmatter 格式和 markdown 链接有效性。
+# 跑 doc-index token 基准测试（不需要 API key）
+python3 scripts/ab-test-doc-index.py
+
+# 跑 doc-index LLM 端到端评测（需要 OPENAI_API_KEY）
+export OPENAI_API_KEY=sk-...
+python3 scripts/llm-eval-doc-index.py
+
+# 重建 doc-index（仅维护者）
+bash scripts/fetch-docs.sh
+```
 
 ## 贡献
 

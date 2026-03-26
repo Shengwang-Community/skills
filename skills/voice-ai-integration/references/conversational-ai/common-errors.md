@@ -114,10 +114,11 @@ Agent is RUNNING but not responding to user speech:
 ## Additional Error Lookup
 
 For errors not covered here, fetch the relevant endpoint doc URL from
-[convoai-restapi/index.mdx](convoai-restapi/index.mdx) for response schemas, or search
-`references/docs.txt` for broader doc lookup:
+[convoai-restapi/index.mdx](convoai-restapi/index.mdx) for response schemas, or use
+the doc-index to find the target URI:
 
 ```
-1. Search docs.txt for relevant doc URL
-2. Fetch the URL to get full doc content
+1. Check references/doc-index/docs.index.md for the conversational-ai section
+2. Find the URI for the relevant doc (e.g., response-code, api-limits)
+3. Fetch with: bash skills/voice-ai-integration/scripts/fetch-doc-content.sh "<URI>"
 ```

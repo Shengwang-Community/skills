@@ -15,18 +15,6 @@ metadata:
 
 ## Workflow
 
-### Step 0: Ensure doc index exists (MANDATORY)
-
-> **⚠️ Execute this BEFORE any routing or code generation.**
-
-Check if `references/docs.txt` already exists. If it does, skip this step entirely.
-If it does not exist, download it:
-```bash
-bash skills/voice-ai-integration/scripts/fetch-docs.sh
-```
-This downloads a static doc index from `doc.shengwang.cn` — no user data is sent.
-If download fails, proceed with local reference docs and fallback URLs.
-
 ### Step 1: Route to the correct product module
 
 > **Progressive disclosure rule:** Only read the file that the current step points to. Do not scan the `references/` directory or pre-read files that have not been linked from the current step. Each product module's README.md will tell you which files to read next and when. If a file is not referenced by the document you are currently reading, do not open it.
@@ -114,9 +102,10 @@ Do not stop for a separate confirmation step — continue to the product module 
 Each product module follows its own workflow. Do not duplicate implementation logic here.
 
 Common pattern across modules:
-1. Use local reference docs in `references/` first
-2. Fetch remote docs via [doc-fetching.md](references/doc-fetching.md) only when local references are insufficient
-3. Fallback to web search only after doc fetching has been attempted
+1. Use local product docs in `references/` first
+2. If the product module still needs external documentation lookup, use the bundled doc-index files under `references/doc-index/` to narrow the target
+3. Then use [doc-fetching.md](references/doc-fetching.md) to fetch the specific remote doc only when the local docs and doc-index still leave a gap
+4. Fallback to web search only after targeted remote doc fetching has been attempted
 
 ## Runtime Requirements
 
@@ -125,7 +114,7 @@ Common pattern across modules:
 - Network access to `doc.shengwang.cn`, `doc-mcp.shengwang.cn`, and `gitee.com`
 
 Network behavior:
-- `fetch-docs.sh` downloads a static file from `doc.shengwang.cn/llms.txt` — no user data is sent
+- `fetch-docs.sh` downloads the official docs sitemap from `doc.shengwang.cn/llms.txt` into a temporary maintainer-side location — no user data is sent
 - `fetch-doc-content.sh` fetches a single doc page by URI from `doc-mcp.shengwang.cn` — only the doc URI is sent, no user context
 - `git clone` is used only for sample repo inspection from `gitee.com` — only the repo URL is sent
 

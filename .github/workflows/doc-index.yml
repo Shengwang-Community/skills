@@ -1,0 +1,81 @@
+name: Doc Index
+
+on:
+  # Rebuild on push to main when build script or index changes
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build-doc-index.py'
+      - 'scripts/fetch-docs.sh'
+      - 'skills/voice-ai-integration/references/doc-index/**'
+  # Also run on PRs touching these files
+  pull_request:
+    paths:
+      - 'scripts/build-doc-index.py'
+      - 'scripts/fetch-docs.sh'
+      - 'scripts/ab-test-doc-index.py'
+      - 'scripts/llm-eval-doc-index.py'
+      - 'skills/voice-ai-integration/references/doc-index/**'
+  # Manual trigger for full rebuild + test
+  workflow_dispatch:
+    inputs:
+      run_llm_eval:
+        description: 'Run LLM evaluation (requires OPENAI_API_KEY secret)'
+        type: boolean
+        default: false
+
+jobs:
+  # Job 1: Rebuild index from fresh sitemap and verify it matches committed files
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download sitemap and rebuild
+        run: bash scripts/fetch-docs.sh
+
+      - name: Verify no uncommitted changes to index
+        run: |
+          if git diff --name-only | grep -q 'doc-index/'; then
+            echo "::error::doc-index files are out of date. Run 'bash scripts/fetch-docs.sh' and commit."
+            git diff --stat
+            exit 1
+          fi
+          echo "✓ doc-index files are up to date"
+
+  # Job 2: Run token-based benchmark (no API key needed)
+  token-benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run token-based benchmark
+        run: python3 scripts/ab-test-doc-index.py
+
+  # Job 3: LLM evaluation (optional, needs secret)
+  llm-eval:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'workflow_dispatch' && 
+      github.event.inputs.run_llm_eval == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run LLM evaluation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          pip install openai
+          python3 scripts/llm-eval-doc-index.py --model gpt-4o-mini
