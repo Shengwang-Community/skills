@@ -545,7 +545,6 @@ def main() -> None:
     payload = {
         "version": 3,
         "source": "maintainer-refreshed official docs sitemap",
-        "generated_at": now,
         "record_count": len(main_records),
         "api_class_count": len(api_class_records),
         "total_sitemap_count": len(all_records),
@@ -558,7 +557,6 @@ def main() -> None:
     api_payload = {
         "version": 3,
         "source": "maintainer-refreshed official docs sitemap (api-reference route)",
-        "generated_at": now,
         "record_count": len(api_class_records),
         "tree": api_ref_tree,
     }
