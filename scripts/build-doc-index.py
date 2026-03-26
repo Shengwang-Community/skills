@@ -331,6 +331,8 @@ def build_views(records: list[dict]) -> dict:
         lambda: {"operations": [], "supporting_refs": []}
     )
 
+    _sort_key = lambda e: (e.get("slug", ""), e.get("uri", ""))
+
     for rec in records:
         product = rec["product"]
         platform = rec["platform"] or "unknown"
@@ -347,13 +349,24 @@ def build_views(records: list[dict]) -> dict:
         elif kind == "api-ref":
             api_index[product]["supporting_refs"].append(entry | {"platform": platform})
 
+    # Sort all lists for deterministic output across platforms
+    for p in by_product:
+        for pl in by_product[p]:
+            for k in by_product[p][pl]:
+                by_product[p][pl][k].sort(key=_sort_key)
+    for task in by_task:
+        by_task[task].sort(key=lambda e: (e.get("product", ""), e.get("platform", ""), e.get("slug", "")))
+    for p in api_index:
+        api_index[p]["operations"].sort(key=_sort_key)
+        api_index[p]["supporting_refs"].sort(key=_sort_key)
+
     return {
         "by_product": {
-            p: {pl: dict(kinds) for pl, kinds in platforms.items()}
-            for p, platforms in by_product.items()
+            p: {pl: dict(kinds) for pl, kinds in sorted(platforms.items())}
+            for p, platforms in sorted(by_product.items())
         },
-        "by_task": dict(by_task),
-        "api_index": dict(api_index),
+        "by_task": {k: v for k, v in sorted(by_task.items())},
+        "api_index": {k: v for k, v in sorted(api_index.items())},
     }
 
 
