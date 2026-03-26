@@ -508,7 +508,7 @@ def write_shards(main_records: list[dict], api_class_records: list[dict]) -> tup
     for product, recs in sorted(by_product.items()):
         path = SHARD_DIR / f"{product}.json"
         path.write_text(
-            json.dumps(recs, ensure_ascii=False, separators=(",", ":")) + "\n",
+            json.dumps(recs, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n",
             encoding="utf-8",
         )
         main_counts[product] = len(recs)
@@ -523,7 +523,7 @@ def write_shards(main_records: list[dict], api_class_records: list[dict]) -> tup
         entries.sort(key=lambda e: e["slug"])
         path = API_SHARD_DIR / f"{key}.json"
         path.write_text(
-            json.dumps(entries, ensure_ascii=False, separators=(",", ":")) + "\n",
+            json.dumps(entries, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n",
             encoding="utf-8",
         )
         api_counts[key] = len(entries)
@@ -551,7 +551,7 @@ def main() -> None:
         "records": main_records,
         "views": views,
     }
-    OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     # --- API Reference JSON (compact tree) ---
     api_payload = {
@@ -560,7 +560,7 @@ def main() -> None:
         "record_count": len(api_class_records),
         "tree": api_ref_tree,
     }
-    OUT_API_JSON.write_text(json.dumps(api_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    OUT_API_JSON.write_text(json.dumps(api_payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     # --- Shards ---
     main_shard_counts, api_shard_counts = write_shards(main_records, api_class_records)
