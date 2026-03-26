@@ -62,9 +62,9 @@ The quickstart is a blocking state machine. Each state must be resolved before a
 | State | Allowed | Forbidden | Next prompt | Advance when |
 |-------|---------|-----------|-------------|--------------|
 | `intro` | Send product intro from README.md | Everything else | Product intro text | Intro delivered |
-| `project_readiness` | Ask credential prompt | Clone, code, sample inspection, framework names | Compact credential prompt | User confirms ready or gets guidance |
-| `unsupported_provider` | Ask unsupported-provider prompt | Clone, code, sample inspection | Compact unsupported-provider prompt | User picks supported alternative (skip if no unsupported provider named) |
 | `tech_path` | Ask technical-path prompt | Clone, code, sample inspection, framework names | Compact technical-path prompt | User picks A or B |
+| `unsupported_provider` | Ask unsupported-provider prompt | Clone, code, sample inspection | Compact unsupported-provider prompt | User picks supported alternative (skip if no unsupported provider named) |
+| `project_readiness` | Ask credential prompt | Clone, code, sample inspection, framework names | Compact credential prompt | User confirms ready or gets guidance |
 | `providers` | Ask default-provider or full checklist | Clone, code, sample inspection | Compact default-provider prompt or full checklist | All provider fields resolved |
 | `complete` | Emit structured spec, proceed to After Collection | — | — | — |
 
@@ -86,8 +86,8 @@ Before every tool call or message, verify:
 Bad: route to quickstart → immediately clone the sample repo → ask provider questions later
 Bad: route to quickstart → propose a Next.js + FastAPI project structure → then ask about credentials
 Bad: user says "build a Web app" → first reply includes implementation plan or sample repo details
-Good: user says "build a Web app" → first reply is product intro + credential prompt, nothing else
-Good: route to quickstart → product intro → credential prompt → wait → technical path prompt → wait → provider prompt → wait → all resolved → now proceed to After Collection
+Good: user says "build a Web app" → first reply is product intro + technical-path prompt, nothing else
+Good: route to quickstart → product intro → technical-path prompt → wait → unsupported-provider prompt only if needed → credential prompt → wait → provider prompt → wait → all resolved → now proceed to After Collection
 
 ## Prompt Templates
 

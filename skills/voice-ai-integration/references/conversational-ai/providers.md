@@ -63,9 +63,9 @@ Env vars: `TTS_MICROSOFT_KEY`, `TTS_MICROSOFT_REGION`
 | Field | Type | Required | Notes |
 |-------|------|----------|-------|
 | `key` | string | yes | MiniMax API key |
-| `model` | string | yes | e.g. `speech-01-turbo` |
+| `model` | string | yes | e.g. `speech-02-turbo` |
 | `voice_setting` | object | yes | `{voice_id, speed, vol, pitch, emotion}` |
-| `group_id` | string | no | MiniMax group ID |
+| `group_id` | string | yes | MiniMax group ID |
 | `audio_setting` | object | no | `{sample_rate}` |
 
 Env vars: `TTS_MINIMAX_KEY`, `TTS_MINIMAX_GROUP_ID`
