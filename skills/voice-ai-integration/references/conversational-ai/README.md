@@ -64,6 +64,7 @@ Files are split into two phases. During quickstart, only Phase 1 files may be re
 
 | File | Purpose |
 |------|---------|
+| [pipeline-integration.md](pipeline-integration.md) | Pipeline-based implementation path after platform selection |
 | [providers.md](providers.md) | Required params per ASR / LLM / TTS vendor |
 | [sample-repos.md](sample-repos.md) | Sample repo registry and alignment rules |
 | [generation-rules.md](generation-rules.md) | Stable code generation constraints |
@@ -77,6 +78,7 @@ Files are split into two phases. During quickstart, only Phase 1 files may be re
 3. Client side: prefer `agora-agent-client-toolkit`; fall back to RTC SDK
 4. Fetch Shengwang docs only after sample/SDK inspection leaves a gap
 5. Use raw REST only for unsupported operations, debugging, or explicit REST-first requests
+6. Existing-pipeline flow may still reuse the official sample repos, but replaces the default provider-based request/config path with the pipeline-based path defined in [pipeline-integration.md](pipeline-integration.md)
 
 ## Docs Fallback
 

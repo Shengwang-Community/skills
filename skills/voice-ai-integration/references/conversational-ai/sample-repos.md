@@ -14,7 +14,7 @@ repository for ConvoAI integration work.
 - Preserve sample env var names from the cloned repo's env template files unless the user explicitly asks to rename or normalize them.
 - Preserve the sample repo's folder structure, dependency choices, and API shape by default.
 - Preserve the key libraries and dependency pattern already present in the chosen sample repo unless the user explicitly asks for a different architecture.
-- Apply a tight diff budget: change only what is required for the user's confirmed provider choices and requested functionality.
+- Apply a tight diff budget: change only what is required for the user's confirmed provider choices, pipeline configuration, and requested functionality.
 - Before editing code, state which sample repo is being followed, which env template files were inspected, and list the exact planned differences.
 
 ## Maintenance Rules
@@ -34,9 +34,11 @@ repository for ConvoAI integration work.
 8. If the matching sample repo cannot be inspected in the current environment, stop and report that blocker instead of silently inventing a fresh starter structure.
 9. Only copy or adapt code into the user's actual project after the user has explicitly asked for implementation in that workspace.
 
+For the existing-pipeline path, keep the sample repo as the structural baseline, but follow [pipeline-integration.md](pipeline-integration.md) for which request/config sections must be removed or replaced.
+
 ## Registry
 
 | Sample | Repo URL | Default Stack | Backend Entrypoint | Frontend Entrypoint | Use When |
 |--------|----------|---------------|--------------------|---------------------|----------|
 | ConvoAI web quickstart | https://gitee.com/agoraio-community/conversational-ai-quickstart.git | Monorepo with Bun scripts, `web` on Next.js 16 + React 19 + TypeScript, and `server` on FastAPI/Python | `server/src/server.py` | `web/app/page.tsx` | The user wants a ConvoAI web app structure reference, starter layout, or frontend/backend shape that stays close to the official quickstart |
-| ConvoAI native client apps | https://gitee.com/agoraio-community/conversational-ai-quickstart-native.git | Multi-platform monorepo: iOS, Android, Flutter, Windows, macOS. Each platform lives in its own subdirectory. Repo contains an `AGENTS.md` describing the directory layout per platform. Self-contained — each platform app calls ConvoAI REST API directly, no separate server needed. | N/A (no server) | See repo `AGENTS.md` for per-platform entrypoints | The user wants a ConvoAI native client (non-Web): Android, iOS, Flutter, Windows, or macOS. Clone this repo, read its `AGENTS.md` to locate the target platform directory, then inspect and align only that subdirectory. |
+| ConvoAI native client apps | https://gitee.com/agoraio-community/conversational-ai-quickstart-native.git | Multi-platform monorepo: iOS, Android, Windows, macOS. Each platform lives in its own subdirectory. Repo contains an `AGENTS.md` describing the directory layout per platform. Self-contained — each platform app calls ConvoAI REST API directly, no separate server needed. | N/A (no server) | See repo `AGENTS.md` for per-platform entrypoints | The user wants a ConvoAI native client (non-Web): Android, iOS, Windows, or macOS. Clone this repo, read its `AGENTS.md` to locate the target platform directory, then inspect and align only that subdirectory. |
