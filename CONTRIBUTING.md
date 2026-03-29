@@ -36,6 +36,8 @@ Changes should improve routing accuracy, execution quality, and maintainability.
 - [ ] No orphaned files left behind.
 - [ ] No hardcoded credentials.
 - [ ] `scripts/validate-skills.sh` passes locally.
+- [ ] If `scripts/build-doc-index.py` was changed: run `bash scripts/fetch-docs.sh` and commit updated index files.
+- [ ] If doc-index test cases were changed: run `python3 scripts/ab-test-doc-index.py` to verify.
 
 ## Local Validation
 

@@ -12,4 +12,15 @@
 # Doc index (downloaded at runtime, not committed)
 skills/voice-ai-integration/references/docs.txt
 
-# To update the doc index, run: bash skills/voice-ai-integration/scripts/fetch-docs.sh
+# A/B test baselines (keep locally, don't commit)
+skills/voice-ai-integration/references/doc-index/docs.index.v*.json
+skills/voice-ai-integration/references/doc-index/docs.index.v*.md
+skills/voice-ai-integration/references/doc-index/docs.index.baseline.json
+
+# Sitemap cache
+scripts/.cache/
+
+# Python venv
+scripts/.venv/
+
+# To update the doc index, run: bash scripts/fetch-docs.sh

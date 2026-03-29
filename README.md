@@ -45,17 +45,20 @@ clawhub install voice-ai-integration
 clawhub update voice-ai-integration
 ```
 
-### 2. Download Doc Index (Recommended)
+### 2. Use the bundled doc indexes
 
-Download the documentation index for fetching latest API docs during development:
+The skill ships with prebuilt doc indexes:
 
+- `skills/voice-ai-integration/references/doc-index/docs.index.md` — product catalog with URIs for focus products
+- `skills/voice-ai-integration/references/doc-index/shards/{product}.json` — per-product records for selective loading
+- `skills/voice-ai-integration/references/doc-index/shards/api-ref/{product}-{platform}.json` — SDK class docs
+
+These are fallback lookup aids. Agents should start from the routed product module first, then use these indexes only when that module still needs external documentation lookup.
+
+To refresh the indexes (maintainer only):
 ```bash
-bash skills/voice-ai-integration/scripts/fetch-docs.sh
+bash scripts/fetch-docs.sh
 ```
-
-This saves the doc index to `skills/voice-ai-integration/references/docs.txt`. Skills use it to look up and fetch documentation directly via HTTP — no external server process needed.
-
-> Skills work without the doc index too — they fall back to local reference docs and external doc links.
 
 ### 3. Start Using
 
@@ -94,15 +97,24 @@ shengwang-skills/
 ├── CLAUDE.md                  # → AGENTS.md
 ├── CONTRIBUTING.md            # Contribution guidelines
 ├── scripts/
+│   ├── fetch-docs.sh          # Download sitemap + rebuild doc-index
+│   ├── build-doc-index.py     # Generate all index files from sitemap
+│   ├── ab-test-doc-index.py   # Token-based benchmark (56 cases)
+│   ├── llm-eval-doc-index.py  # LLM end-to-end eval (72 cases)
 │   └── validate-skills.sh     # Link and frontmatter validation
 ├── tests/
-│   └── eval-cases.md          # Evaluation test cases
+│   ├── eval-cases.md          # Evaluation test cases
+│   └── doc-index-benchmark.md # Doc-index benchmark results
 └── skills/
     └── voice-ai-integration/     # The skill (agentskills.io standard)
         ├── SKILL.md               # Entry point and router (only SKILL.md)
         └── references/            # All product modules and shared knowledge
             ├── doc-fetching.md        # Doc fetching guide
-            ├── docs.txt               # Local doc index
+            ├── doc-index/             # Prebuilt doc indexes
+            │   ├── docs.index.md      # Agent-readable product catalog
+            │   ├── docs.index.json    # Full machine-readable index
+            │   ├── api-reference.json # SDK class docs (separate)
+            │   └── shards/            # Per-product shards
             ├── general/               # Credentials, REST auth
             ├── conversational-ai/     # ConvoAI
             ├── rtc/                   # RTC SDK
@@ -122,10 +134,19 @@ shengwang-skills/
 ## Validation
 
 ```bash
+# Validate skill structure and links
 bash scripts/validate-skills.sh
-```
 
-Checks all SKILL.md frontmatter format and markdown link validity.
+# Run doc-index token benchmark (no API key needed)
+python3 scripts/ab-test-doc-index.py
+
+# Run doc-index LLM evaluation (needs OPENAI_API_KEY)
+export OPENAI_API_KEY=sk-...
+python3 scripts/llm-eval-doc-index.py
+
+# Rebuild doc-index from fresh sitemap (maintainer only)
+bash scripts/fetch-docs.sh
+```
 
 ## Contributing
 
